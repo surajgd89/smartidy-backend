@@ -1,17 +1,17 @@
 import './Create.scss'
 export default function Create() {
    return (
-      <div>
+      <div className='create-form'>
          <form>
-            <table cellPadding={5} cellSpacing={0} border={1}>
+            <table>
 
                <tr>
-                  <th colSpan="2">Individual</th>
+                  <th colSpan="2">Individual Information</th>
                </tr>
 
 
                <tr>
-                  <td>Name</td>
+                  <td width="200">Name</td>
                   <td><input type="text" name='name' /></td>
                </tr>
                <tr>
@@ -20,10 +20,14 @@ export default function Create() {
                </tr>
                <tr>
                   <td>Profile Picture</td>
-                  <td><input type="file" name='profilePic' /></td>
+                  <td>
+                     <input type="file" name='profilePic' />
+                     <button type='button'>Upload</button>
+                     <button type='button'>Remove</button>
+                  </td>
                </tr>
                <tr>
-                  <td>Mobile</td>
+                  <td>Call</td>
                   <td><input type="tel" name='call' /></td>
                </tr>
                <tr>
@@ -35,36 +39,38 @@ export default function Create() {
                   <td><input type="tel" name='sms' /></td>
                </tr>
                <tr>
-                  <td>Chat Application</td>
+                  <td>Chat</td>
                   <td>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>Value</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
                            <td>
-                              WhatsApp No.
+                              <select name="title">
+                                 <option value="whatsapp">WhatsApp No</option>
+                                 <option value="telegram">Telegram ID</option>
+                              </select>
                            </td>
                            <td>
-                              <input type='tel' name="whatsapp" />
+                              <input type='text' name="value" />
+                           </td>
+                           <td>
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
-                        <tr>
-                           <td>
-                              Telegram ID
-                           </td>
-                           <td>
-                              <input type='text' name="telegram" />
-                           </td>
-                        </tr>
+
                      </table>
 
                   </td>
                </tr>
 
+
                <tr>
-                  <th colSpan="2">Business</th>
+                  <th colSpan="2">Business Information</th>
                </tr>
 
 
@@ -75,14 +81,18 @@ export default function Create() {
                </tr>
                <tr>
                   <td>Business Logo</td>
-                  <td><input type="file" name='logo' /></td>
+                  <td>
+                     <input type="file" name='logo' />
+                     <button type='button'>Upload</button>
+                     <button type='button'>Remove</button>
+                  </td>
                </tr>
                <tr>
                   <td>Established Date</td>
                   <td><input type="date" name='estDate' /></td>
                </tr>
                <tr>
-                  <td>Mobile</td>
+                  <td>Call</td>
                   <td><input type="tel" name='call' /></td>
                </tr>
 
@@ -96,7 +106,7 @@ export default function Create() {
                   <td><input type="tel" name='sms' /></td>
                </tr>
                <tr>
-                  <td>Desgnation</td>
+                  <td>Designation</td>
                   <td><input type="text" name='designation' /></td>
                </tr>
                <tr>
@@ -116,7 +126,7 @@ export default function Create() {
                   <td><textarea name="address" rows="3"></textarea></td>
                </tr>
                <tr>
-                  <td>Map URL</td>
+                  <td>Map</td>
                   <td><input type="url" name='mapUrl' /></td>
                </tr>
                <tr>
@@ -132,21 +142,20 @@ export default function Create() {
                   <td>About Business</td>
                   <td>
 
-                     <table cellPadding={5} cellSpacing={0} border={1} width="100%">
+                     <table >
                         <tr>
-                           <th>Paragraph 1</th>
+                           <th>Paragraph</th>
+                           <th>Action</th>
+                        </tr>
+                        <tr>
                            <td><textarea name="about1" rows="3"></textarea></td>
+                           <td>
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
+                           </td>
                         </tr>
 
-                        <tr>
-                           <th>Paragraph 2</th>
-                           <td><textarea name="about2" rows="3"></textarea></td>
-                        </tr>
 
-                        <tr>
-                           <th>Paragraph 3</th>
-                           <td><textarea name="about3" rows="3"></textarea></td>
-                        </tr>
 
 
                      </table>
@@ -156,58 +165,48 @@ export default function Create() {
                <tr>
                   <td>Services</td>
                   <td>
-                     <table cellPadding={5} cellSpacing={0} border={1} width="100%">
+                     <table >
                         <tr>
-                           <th>Service 1</th>
-                           <td><input type="text" name='services1' /> </td>
+                           <th>Name</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
-                           <th>Service 2</th>
-                           <td><input type="text" name='services2' /> </td>
+
+                           <td><input type="text" name='service1' /> </td>
+                           <td>
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
+                           </td>
                         </tr>
-                        <tr>
-                           <th>Service 3</th>
-                           <td><input type="text" name='services3' /> </td>
-                        </tr>
-                        <tr>
-                           <th>Service 4</th>
-                           <td><input type="text" name='services4' /> </td>
-                        </tr>
-                        <tr>
-                           <th>Service 5</th>
-                           <td><input type="text" name='services5' /> </td>
-                        </tr>
-                        <tr>
-                           <th>Service 6</th>
-                           <td><input type="text" name='services6' /> </td>
-                        </tr>
+
                      </table>
                   </td>
                </tr>
                <tr>
-                  <td>Chat Application</td>
+                  <td>Chat</td>
                   <td>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>Value</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
                            <td>
-                              WhatsApp No.
+                              <select name="title">
+                                 <option value="whatsapp">WhatsApp No</option>
+                                 <option value="telegram">Telegram ID</option>
+                              </select>
                            </td>
                            <td>
-                              <input type='tel' name="whatsapp" />
+                              <input type='text' name="value" />
+                           </td>
+                           <td>
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
-                        <tr>
-                           <td>
-                              Telegram ID
-                           </td>
-                           <td>
-                              <input type='text' name="telegram" />
-                           </td>
-                        </tr>
+
                      </table>
 
                   </td>
@@ -216,11 +215,13 @@ export default function Create() {
                <tr>
                   <td>Gallery</td>
                   <td>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>Upload Image</th>
+                           <th>Action</th>
                         </tr>
+
                         <tr>
                            <td>
                               <input type='text' name="title" placeholder='Enter Image Title 1' />
@@ -228,52 +229,13 @@ export default function Create() {
                            <td>
                               <input type='file' name="src" />
                            </td>
-                        </tr>
-
-                        <tr>
                            <td>
-                              <input type='text' name="title" placeholder='Enter Image Title 2' />
-                           </td>
-                           <td>
-                              <input type='file' name="src" />
+                              <button type='button'>Upload</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Image Title 3' />
-                           </td>
-                           <td>
-                              <input type='file' name="src" />
-                           </td>
-                        </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Image Title 4' />
-                           </td>
-                           <td>
-                              <input type='file' name="src" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Image Title 5' />
-                           </td>
-                           <td>
-                              <input type='file' name="src" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Image Title 6' />
-                           </td>
-                           <td>
-                              <input type='file' name="src" />
-                           </td>
-                        </tr>
 
                      </table>
 
@@ -283,10 +245,11 @@ export default function Create() {
                <tr>
                   <td>Videos</td>
                   <td>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>Enter URL</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
                            <td>
@@ -295,52 +258,12 @@ export default function Create() {
                            <td>
                               <input type='url' name="url" />
                            </td>
-                        </tr>
-
-                        <tr>
                            <td>
-                              <input type='text' name="title" placeholder='Enter Video Title 2' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Video Title 3' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Video Title 4' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Video Title 5' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter Video Title 6' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
 
 
 
@@ -364,7 +287,7 @@ export default function Create() {
                         <input type="radio" id='no_bankAccount' name='bankAccount' value="no" />
                         <span> No </span>
                      </label>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
 
                         <tr>
                            <td>Name</td>
@@ -411,17 +334,31 @@ export default function Create() {
                         <input type="radio" id='no_efiles' name='efiles' value="no" />
                         <span> No </span>
                      </label>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+
+                     <table >
+                        <tr>
+                           <th>File Name</th>
+                           <th>Upload File</th>
+                           <th>Action</th>
+                        </tr>
+
                         <tr>
                            <td>
-                              <form>
-                                 <input type='text' name="title" />
-                                 <input type='file' name="src" />
-                                 <input type='submit' value="Add" />
-                              </form>
+                              <input type='text' name="title" />
+                           </td>
+                           <td>
+                              <input type='file' name="src" />
+                           </td>
+                           <td>
+                              <button type='button'>Upload</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
+
+
+
                      </table>
+
                   </td>
                </tr>
 
@@ -438,46 +375,25 @@ export default function Create() {
                         <input type="radio" id='no_links' name='links' value="no" />
                         <span> No </span>
                      </label>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>Enter URL</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
                            <td>
-                              <input type='text' name="title" placeholder='Enter URL 1' />
+                              <input type='text' name="title" />
                            </td>
                            <td>
                               <input type='url' name="url" />
+                           </td>
+                           <td>
+                              <button type='button'>Add</button>
+                              <button type='button'>Remove</button>
                            </td>
                         </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter URL 2' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter URL 3' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" placeholder='Enter URL 4' />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
 
                      </table>
 
@@ -496,12 +412,12 @@ export default function Create() {
                         <input type="radio" id='no_workingDayHrs' name='workingDayHrs' />
                         <span> No </span>
                      </label>
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Closed</th>
                            <th>Day</th>
-                           <th>Open</th>
-                           <th>Close</th>
+                           <th>Open At</th>
+                           <th>Close At</th>
 
                         </tr>
                         <tr>
@@ -613,73 +529,35 @@ export default function Create() {
                         <span> No </span>
                      </label>
 
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <th>Title</th>
                            <th>url</th>
+                           <th>Action</th>
                         </tr>
                         <tr>
                            <td>
-                              <input type='text' name="title" value="Facebook" readonly={true} />
+                              <select name="title">
+                                 <option value="Facebook">Facebook</option>
+                                 <option value="Twitter">Twitter</option>
+                                 <option value="LinkedIn">LinkedIn</option>
+                                 <option value="Telegram">Telegram</option>
+                                 <option value="Instagram">Instagram</option>
+                                 <option value="Youtube">Youtube</option>
+                                 <option value="Catalogue">Catalogue</option>
+                              </select>
+
                            </td>
                            <td>
                               <input type='url' name="url" />
+                           </td>
+                           <td>
+                              <button type="button">Add</button>
+                              <button type="button">Remove</button>
                            </td>
                         </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="Twitter" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
 
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="LinkedIn" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="Telegram" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="Instagram" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="Youtube" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
-
-                        <tr>
-                           <td>
-                              <input type='text' name="title" value="Catalogue" readonly={true} />
-                           </td>
-                           <td>
-                              <input type='url' name="url" />
-                           </td>
-                        </tr>
 
                      </table>
 
@@ -688,11 +566,11 @@ export default function Create() {
                </tr>
 
                <tr>
-                  <th colSpan="2">Configuration</th>
+                  <th colSpan="2">SmartIDy Configuration</th>
                </tr>
 
                <tr>
-                  <td>smartIdyURL</td>
+                  <td>SmartIDyURL</td>
                   <td><input type="text" name='smartIdyURL' /></td>
                </tr>
 
@@ -712,11 +590,12 @@ export default function Create() {
                   <td>
                      <label htmlFor="business">
                         <input type="radio" id='business' name='IsBusinessProfile' />
-                        <span>Business</span>
+                        <span> Business </span>
                      </label>
+                     &nbsp;&nbsp;
                      <label htmlFor="individual">
                         <input type="radio" id='Individual' name='IsBusinessProfile' />
-                        <span>Individual</span>
+                        <span> Individual </span>
                      </label>
                   </td>
                </tr>
@@ -726,11 +605,12 @@ export default function Create() {
                   <td>
                      <label htmlFor="circle">
                         <input type="radio" id='circle' name='IsPicTypeCircle' />
-                        <span>Circle</span>
+                        <span> Circle </span>
                      </label>
+                     &nbsp;&nbsp;
                      <label htmlFor="square">
                         <input type="radio" id='square' name='IsPicTypeCircle' />
-                        <span>Square</span>
+                        <span> Square </span>
                      </label>
                   </td>
                </tr>
@@ -740,7 +620,7 @@ export default function Create() {
                   <td>
 
 
-                     <table cellPadding={5} cellSpacing={0} border={1}>
+                     <table >
                         <tr>
                            <td>
                               Primary Color
@@ -763,7 +643,13 @@ export default function Create() {
                   </td>
                </tr>
 
-
+               <tr>
+                  <td colSpan="2">
+                     <button type="submit">Save</button>
+                     <button type="reset">Cancel</button>
+                     <button type="submit">Publish</button>
+                  </td>
+               </tr>
 
 
             </table>
