@@ -4,6 +4,13 @@
         @content;
     }
 }
+
+@mixin tablet {
+    @media (max-width: 991.98px) {
+        @content;
+    }
+}
+
 :root {
     --font: 'Poppins';
     --fw-thin: 100;
@@ -79,32 +86,8 @@ body {
     font-size: 14px;
     color: var(--secondary);
     position: relative;
-    background-color: #303030;
     opacity: 1;
     line-height: 1.5;
-    background-image: linear-gradient(
-            #3b3b3b 1.2000000000000002px,
-            transparent 1.2000000000000002px
-        ),
-        linear-gradient(
-            90deg,
-            #3b3b3b 1.2000000000000002px,
-            transparent 1.2000000000000002px
-        ),
-        linear-gradient(
-            #3b3b3b 0.6000000000000001px,
-            transparent 0.6000000000000001px
-        ),
-        linear-gradient(
-            90deg,
-            #3b3b3b 0.6000000000000001px,
-            #303030 0.6000000000000001px
-        );
-    background-size: 30px 30px, 30px 30px, 6px 6px, 6px 6px;
-    background-position: -1.2000000000000002px -1.2000000000000002px,
-        -1.2000000000000002px -1.2000000000000002px,
-        -0.6000000000000001px -0.6000000000000001px,
-        -0.6000000000000001px -0.6000000000000001px;
 }
 
 h1,
