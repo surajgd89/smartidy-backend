@@ -1,330 +1,40 @@
-@mixin mobile {
-    @media (max-width: 575.98px) {
-        @content;
-    }
-}
-
-@mixin tablet {
-    @media (max-width: 991.98px) {
-        @content;
-    }
-}
-
-.welcome-sec {
-    padding-top: 70px;
-    padding-bottom: 70px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #411f85;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 50vh;
-
-    @include tablet {
-        padding-top: 30px;
-        padding-bottom: 30px;
+.live-listing {
+    .link-row {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 20px;
     }
 
-    .head-logo {
-        margin-bottom: 30px;
+    .portfolio-lnk {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 4px;
+        padding: 15px 20px;
+        background: var(--territory-light);
+        text-decoration: none;
+        transition: all 0.5s ease;
 
-        @media (max-width: 480px) {
-            margin-bottom: 20px;
-            img {
-                max-width: 250px;
+        i {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .business-name {
+            font-size: 18px;
+            color: var(--secondary);
+            mark {
+                background: transparent;
+                color: var(--primary);
             }
         }
-    }
-
-    .head-desc {
-        color: rgba(255, 255, 255, 0.5);
-        margin-bottom: 20px;
-        max-width: 1000px;
-        text-align: center;
-        font-size: 16px;
-
-        @include tablet {
-            max-width: 650px;
-        }
-
-        @include mobile {
+        .individual-name {
             font-size: 14px;
-        }
-    }
-}
-
-.portfolio-lnks-sec {
-    padding-top: 70px;
-    padding-bottom: 70px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #fff;
-
-    @include tablet {
-        padding-top: 30px;
-        padding-bottom: 30px;
-    }
-
-    @include mobile {
-        padding-bottom: 20px;
-    }
-
-    .portfolio-container {
-        max-width: 1100px;
-        margin: 0 auto;
-
-        .sec-heading {
-            font-size: 30px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .badge-count {
-                font-size: 16px;
-                background: #222;
-                padding: 5px 10px;
-                min-width: 40px;
-                border-radius: 6px;
-                color: #fff;
-                position: relative;
-                margin-left: 15px;
-                display: inline-flex;
-                justify-content: center;
-
-                &::before {
-                    content: '';
-                    width: 0;
-                    height: 0;
-                    border: 6px solid transparent;
-                    border-right-color: #222222;
-                    position: absolute;
-                    left: -12px;
-                    top: 0;
-                    bottom: 0;
-                    margin: auto;
-                }
-            }
-
-            @include mobile {
-                font-size: 25px;
-            }
-        }
-
-        .search-section {
-            display: flex;
-            flex-direction: column;
-            max-width: 600px;
-            margin: 0 auto;
-            margin-bottom: 20px;
-
-            input {
-                border: 1px solid #ddd;
-                outline: 0;
-                padding: 15px 20px;
-                border-radius: 6px;
-                font-size: 16px;
-                font-weight: 500;
-                text-align: center;
-                min-height: 60px;
-
-                &:focus {
-                    border: 1px solid #ff6434;
-                }
-
-                @include tablet {
-                    font-size: 14px;
-                    padding: 10px 25px;
-                    min-height: 50px;
-                }
-            }
-
-            .result-message {
-                color: red;
-                text-align: center;
-                font-size: 12px;
-                margin-top: 8px;
-                font-weight: 500;
-            }
-        }
-
-        .sec-links {
-            .link-row {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                margin: -10px;
-                .link-col {
-                    flex: 1 1 50%;
-                    max-width: 50%;
-                    padding: 10px;
-
-                    @include tablet {
-                        flex: 1 1 100%;
-                        max-width: 100%;
-                    }
-                }
-            }
-
-            .portfolio-lnk {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                border-radius: 6px;
-                padding: 15px 20px;
-                background: #f3f1f7;
-                font-weight: 600;
-                text-decoration: none;
-                transition: all 0.5s ease;
-
-                i {
-                    font-size: 18px;
-                    margin-bottom: 8px;
-                    color: rgba(0, 0, 0, 0.4);
-                }
-
-                .business-name {
-                    font-size: 18px;
-                    color: rgba(0, 0, 0, 0.8);
-                    text-transform: uppercase;
-
-                    mark {
-                        background: transparent;
-                        color: #ff6434;
-                    }
-                }
-                .individual-name {
-                    font-size: 14px;
-                    color: rgba(0, 0, 0, 0.4);
-                    text-transform: uppercase;
-
-                    mark {
-                        background: transparent;
-                        color: #ff6434;
-                    }
-                }
-
-                &:hover,
-                &:focus {
-                    outline: 0;
-                    background: #ece5ff;
-                }
-
-                @include tablet {
-                    i {
-                        font-size: 16px;
-                    }
-
-                    .business-name {
-                        font-size: 18px;
-                    }
-                    .individual-name {
-                        font-size: 14px;
-                    }
-                }
-
-                @include mobile {
-                    padding: 10px 15px;
-                    .business-name {
-                        font-size: 16px;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.footer-sec {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    padding-left: 20px;
-    padding-right: 20px;
-    background: #222;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-
-    @include tablet {
-        padding-top: 30px;
-        padding-bottom: 30px;
-    }
-
-    .footer-hd {
-        font-size: 30px;
-        font-weight: 500;
-        color: #fff;
-        text-align: center;
-
-        @include mobile {
-            font-size: 25px;
-        }
-    }
-
-    .contact-info {
-        font-size: 16px;
-        color: #fff;
-        margin-top: 10px;
-        margin-bottom: 20px;
-        text-align: center;
-
-        @include mobile {
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        a {
-            color: #fff;
-            text-decoration: none;
-
-            &:hover {
-                color: #ff6434;
-            }
-        }
-    }
-
-    .social-info {
-        text-align: center;
-
-        .soc-lnk {
-            display: inline-block;
-            text-decoration: none;
-            background-repeat: no-repeat;
-            margin: 0 5px;
-            height: 42px;
-            width: 42px;
-            transition: all 0.5s ease;
-            outline: 0;
-
-            &:hover,
-            &:focus {
-                outline: 0;
-            }
-
-            &.facebook {
-                background: url('../../assets/images/facebook.png');
-            }
-
-            &.twitter {
-                background: url('../../assets/images/twitter.png');
-            }
-
-            &.instagram {
-                background: url('../../assets/images/instagram.png');
-            }
-
-            &.whatsapp {
-                background: url('../../assets/images/whatsapp.png');
-            }
-
-            @include tablet {
-                margin: 0 4px;
+            color: var(--secondary-light);
+            mark {
+                background: transparent;
+                color: var(--primary);
             }
         }
     }

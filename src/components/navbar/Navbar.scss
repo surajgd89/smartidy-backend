@@ -1,0 +1,25 @@
+.navbar {
+    text-align: center;
+
+    .welcome-txt {
+        padding: 20px;
+        font-size: 22px;
+    }
+
+    .nav-links {
+        background: #f3f1f7;
+        a {
+            display: inline-block;
+            padding: 15px 20px;
+            color: var(--secondary);
+
+            &:hover {
+                color: var(--primary);
+            }
+
+            &.active {
+                color: var(--primary);
+            }
+        }
+    }
+}

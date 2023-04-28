@@ -1,15 +1,4 @@
 @import './assets/fonts/font-awesome/css/all.css';
-@mixin mobile {
-    @media (max-width: 575.98px) {
-        @content;
-    }
-}
-
-@mixin tablet {
-    @media (max-width: 991.98px) {
-        @content;
-    }
-}
 
 :root {
     --font: 'Poppins';
@@ -24,19 +13,16 @@
     --fw-black: 900;
 
     //Colors
-
+    --primary: #ff6434;
+    --territory: #411f85;
+    --territory-light: #f3f1f7;
     --secondary: #212121;
     --secondary-light: #737373;
-
     --border: #d0d4da;
     --link: #065fd4;
 
     //Border-Radius
     --radius: 6px;
-
-    @include mobile {
-        --radius: 4px;
-    }
 
     //Social
     --email-color: #cc4d42;
@@ -79,60 +65,4 @@
 *::before,
 *::after {
     box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font);
-    font-size: 14px;
-    color: var(--secondary);
-    position: relative;
-    opacity: 1;
-    line-height: 1.5;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: var(--fw-regular);
-}
-
-strong {
-    font-weight: var(--fw-medium);
-}
-
-a {
-    outline: 0;
-    border: 0;
-    text-decoration: none;
-}
-
-button {
-    outline: 0;
-
-    &:focus {
-        outline: 0;
-    }
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type='number'] {
-    -moz-appearance: textfield;
-}
-
-.text-right {
-    text-align: right;
-}
-
-.text-center {
-    text-align: center;
 }
