@@ -27,644 +27,568 @@ function Create() {
    };
 
    return (
-      <div>
-         <h2>Create SmartIDy</h2>
-         <div>
-            <form onSubmit={handleSubmit}>
-               <h3>Individual Information</h3>
-               <table>
-                  <tr>
-                     <td >Name</td>
-                     <td>
-                        <input type="text" name='name' onChange={handleNameChange} />
-                        {errors.name && <div className="error">{errors.name}</div>}
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Experties</td>
-                     <td><input type="text" name='experties' /></td>
-                  </tr>
-                  <tr>
-                     <td>Profile Picture</td>
-                     <td>
-                        <input type="file" name='profilePic' />
-                        <button type='button'>Upload</button>
-                        <button type='button'>Remove</button>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Call</td>
-                     <td><input type="tel" name='call' /></td>
-                  </tr>
-                  <tr>
-                     <td>Email</td>
-                     <td><input type="email" name='email' /></td>
-                  </tr>
-                  <tr>
-                     <td>SMS</td>
-                     <td><input type="tel" name='sms' /></td>
-                  </tr>
-                  <tr>
-                     <td>Chat</td>
-                     <td>
-                        <table >
-                           <tr>
-                              <th>Title</th>
-                              <th>Value</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <select name="title">
-                                    <option value="whatsapp">WhatsApp No</option>
-                                    <option value="telegram">Telegram ID</option>
-                                 </select>
-                              </td>
-                              <td>
-                                 <input type='text' name="value" />
-                              </td>
-                              <td>
-                                 <button type='button'>Add</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
+      <div className='form-section'>
+         <h2 className='form-header'>Create SmartIDy</h2>
+         <div className='form-body'>
 
-                        </table>
+            <div className="panel">
+               <div className="panel-header">Individual Information</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Name</label>
+                           <input type="text" name='name' className='form-control' onChange={handleNameChange} />
+                           {errors.name && <div className="control-error">{errors.name}</div>}
+                        </div>
+                     </div>
 
-                     </td>
-                  </tr>
-               </table>
-               <h3>Business Information</h3>
-               <table>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Experties</label>
+                           <input type="text" name='experties' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Profile Picture</label>
+                           <input type="file" name='profilePic' className='form-control' />
 
-                  <tr>
-                     <td>Name</td>
-                     <td><input type="text" name='name' /></td>
-                  </tr>
-                  <tr>
-                     <td>Business Logo</td>
-                     <td>
-                        <input type="file" name='logo' />
-                        <button type='button'>Upload</button>
-                        <button type='button'>Remove</button>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Established Date</td>
-                     <td><input type="date" name='estDate' /></td>
-                  </tr>
-                  <tr>
-                     <td>Call</td>
-                     <td><input type="tel" name='call' /></td>
-                  </tr>
-                  <tr>
-                     <td>Email</td>
-                     <td><input type="email" name='email' /></td>
-                  </tr>
-                  <tr>
-                     <td>SMS</td>
-                     <td><input type="tel" name='sms' /></td>
-                  </tr>
-                  <tr>
-                     <td>Designation</td>
-                     <td><input type="text" name='designation' /></td>
-                  </tr>
-                  <tr>
-                     <td>GSTIN</td>
-                     <td>
-                        <label htmlFor="yes_gstin">
-                           <input type="radio" id='yes_gstin' name='gstin' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_gstin">
-                           <input type="radio" id='no_gstin' name='gstin' value="no" />
-                           <span> No </span>
-                        </label>
-                        <input type="text" name='gstin' />
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>MSME</td>
-                     <td>
-                        <label htmlFor="yes_msme">
-                           <input type="radio" id='yes_msme' name='msme' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_msme">
-                           <input type="radio" id='no_msme' name='msme' value="no" />
-                           <span> No </span>
-                        </label>
-                        <input type="text" name='msme' /></td>
-                  </tr>
-                  <tr>
-                     <td>FSSAI</td>
-                     <td>
-                        <label htmlFor="yes_fssai">
-                           <input type="radio" id='yes_fssai' name='fssai' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_fssai">
-                           <input type="radio" id='no_fssai' name='fssai' value="no" />
-                           <span> No </span>
-                        </label>
-                        <input type="text" name='fssai' />
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Address</td>
-                     <td><textarea name="address" rows="3"></textarea></td>
-                  </tr>
-                  <tr>
-                     <td>Map</td>
-                     <td><input type="url" name='mapUrl' /></td>
-                  </tr>
-                  <tr>
-                     <td>Website</td>
-                     <td><input type="url" name='mapUrl' /></td>
-                  </tr>
-                  <tr>
-                     <td>UPI ID</td>
-                     <td>
-                        <label htmlFor="yes_upiId">
-                           <input type="radio" id='yes_upiId' name='upiId' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_upiId">
-                           <input type="radio" id='no_upiId' name='upiId' value="no" />
-                           <span> No </span>
-                        </label>
-                        <input type="text" name='upiId' />
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>About Business</td>
-                     <td>
-                        <textarea name="about" rows="3"></textarea>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Services</td>
-                     <td>
-                        <label htmlFor="yes_services">
-                           <input type="radio" id='yes_services' name='services' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_services">
-                           <input type="radio" id='no_services' name='services' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table >
-                           <tr>
-                              <th>Name</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td><input type="text" name='service1' /> </td>
-                              <td>
-                                 <button type='button'>Add</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Chat</td>
-                     <td>
-                        <table >
-                           <tr>
-                              <th>Title</th>
-                              <th>Value</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <select name="title">
-                                    <option value="whatsapp">WhatsApp No</option>
-                                    <option value="telegram">Telegram ID</option>
-                                 </select>
-                              </td>
-                              <td>
-                                 <input type='text' name="value" />
-                              </td>
-                              <td>
-                                 <button type='button'>Add</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Gallery</td>
-                     <td>
-                        <label htmlFor="yes_gallery">
-                           <input type="radio" id='yes_gallery' name='gallery' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_gallery">
-                           <input type="radio" id='no_gallery' name='gallery' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table>
-                           <tr>
-                              <th>Title</th>
-                              <th>Upload Image</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <input type='text' name="title" placeholder='Enter Image Title 1' />
-                              </td>
-                              <td>
-                                 <input type='file' name="src" />
-                              </td>
-                              <td>
-                                 <button type='button'>Upload</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Videos</td>
-                     <td>
-                        <label htmlFor="yes_videos">
-                           <input type="radio" id='yes_videos' name='videos' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_videos">
-                           <input type="radio" id='no_videos' name='videos' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table>
-                           <tr>
-                              <th>Title</th>
-                              <th>Enter URL</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <input type='text' name="title" placeholder='Enter Video Title 1' />
-                              </td>
-                              <td>
-                                 <input type='url' name="url" />
-                              </td>
-                              <td>
-                                 <button type='button'>Add</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Call</label>
+                           <input type="tel" name='call' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Email</label>
+                           <input type="email" name='email' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >SMS</label>
+                           <input type="tel" name='sms' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='multiple-values-sec'>
+                           <div className='form-group'>
+                              <label className='control-label' >Chat</label>
+                              <ul className=''>
+                                 <li>
+                                    <div className="row">
+                                       <div className="col">
+                                          <div className='form-group'>
+                                             <select name="title" className='form-control'>
+                                                <option value="whatsapp">WhatsApp No</option>
+                                                <option value="telegram">Telegram ID</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                       <div className="col">
+                                          <div className='form-group'>
+                                             <input type='text' name="value" className='form-control' />
+                                          </div>
+                                       </div>
+                                       <div className='col-auto'>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </li>
 
 
 
+                              </ul>
+                           </div>
+                        </div>
 
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Bank Account</td>
-                     <td>
-                        <label htmlFor="yes_bankAccount">
-                           <input type="radio" id='yes_bankAccount' name='bankAccount' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_bankAccount">
-                           <input type="radio" id='no_bankAccount' name='bankAccount' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table>
-                           <tr>
-                              <td>Name</td>
-                              <td><input type='text' name="name" /></td>
-                           </tr>
-                           <tr>
-                              <td>Bank</td>
-                              <td><input type='text' name="bank" /></td>
-                           </tr>
-                           <tr>
-                              <td>Number</td>
-                              <td><input type='text' name="number" /></td>
-                           </tr>
-                           <tr>
-                              <td>IFSC</td>
-                              <td><input type='text' name="ifsc" /></td>
-                           </tr>
-                           <tr>
-                              <td>Account Type</td>
-                              <td>
-                                 <select name="type">
-                                    <option value="Saving">Saving</option>
-                                    <option value="Current">Current</option>
-                                 </select>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>Branch</td>
-                              <td><input type='text' name="branch" /></td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Efiles</td>
-                     <td>
-                        <label htmlFor="yes_efiles">
-                           <input type="radio" id='yes_efiles' name='efiles' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_efiles">
-                           <input type="radio" id='no_efiles' name='efiles' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table>
-                           <tr>
-                              <th>File Name</th>
-                              <th>Upload File</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <input type='text' name="title" />
-                              </td>
-                              <td>
-                                 <input type='file' name="src" />
-                              </td>
-                              <td>
-                                 <button type='button'>Upload</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Links</td>
-                     <td>
-                        <label htmlFor="yes_links">
-                           <input type="radio" id='yes_links' name='links' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_links">
-                           <input type="radio" id='no_links' name='links' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table >
-                           <tr>
-                              <th>Title</th>
-                              <th>Enter URL</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <input type='text' name="title" />
-                              </td>
-                              <td>
-                                 <input type='url' name="url" />
-                              </td>
-                              <td>
-                                 <button type='button'>Add</button>
-                                 <button type='button'>Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Business Days</td>
-                     <td>
-                        <label htmlFor="yes_workingDayHrs">
-                           <input type="radio" id='yes_workingDayHrs' name='workingDayHrs' checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_workingDayHrs">
-                           <input type="radio" id='no_workingDayHrs' name='workingDayHrs' />
-                           <span> No </span>
-                        </label>
-                        <table >
-                           <tr>
-                              <th>Working</th>
-                              <th>Day</th>
-                              <th>Open At</th>
-                              <th>Close At</th>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Monday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Tuesday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Wednesday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Thursday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Friday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Saturday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td><input type='checkbox' name="working" /></td>
-                              <td>
-                                 <input type='text' name="day" value="Sunday" disabled />
-                              </td>
-                              <td>
-                                 <input type='time' name="openAt" />
-                              </td>
-                              <td>
-                                 <input type='time' name="closesAt" />
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Social</td>
-                     <td>
-                        <label htmlFor="yes_social">
-                           <input type="radio" id='yes_social' name='social' value="yes" checked={true} />
-                           <span> Yes </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="no_social">
-                           <input type="radio" id='no_social' name='social' value="no" />
-                           <span> No </span>
-                        </label>
-                        <table >
-                           <tr>
-                              <th>Title</th>
-                              <th>url</th>
-                              <th>Action</th>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <select name="title">
-                                    <option value="Facebook">Facebook</option>
-                                    <option value="Twitter">Twitter</option>
-                                    <option value="LinkedIn">LinkedIn</option>
-                                    <option value="Telegram">Telegram</option>
-                                    <option value="Instagram">Instagram</option>
-                                    <option value="Youtube">Youtube</option>
-                                    <option value="Catalogue">Catalogue</option>
-                                 </select>
-                              </td>
-                              <td>
-                                 <input type='url' name="url" />
-                              </td>
-                              <td>
-                                 <button type="button">Add</button>
-                                 <button type="button">Remove</button>
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-               </table>
-               <h3>SmartIDy Configuration</h3>
-               <table>
-
-                  <tr>
-                     <td>SmartIDyURL</td>
-                     <td><input type="text" name='smartIdyURL' /></td>
-                  </tr>
-                  <tr>
-                     <td>Language</td>
-                     <td>
-                        <select name="language">
-                           <option value="en">English</option>
-                           <option value="mr">Marathi</option>
-                           <option value="hn">Hindi</option>
-                        </select>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Show Initial Profile</td>
-                     <td>
-                        <label htmlFor="business">
-                           <input type="radio" id='business' name='IsBusinessProfile' checked={true} />
-                           <span> Business </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="individual">
-                           <input type="radio" id='Individual' name='IsBusinessProfile' />
-                           <span> Individual </span>
-                        </label>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Profile Picture Style</td>
-                     <td>
-                        <label htmlFor="circle">
-                           <input type="radio" id='circle' name='IsPicTypeCircle' checked={true} />
-                           <span> Circle </span>
-                        </label>
-                        &nbsp;&nbsp;
-                        <label htmlFor="square">
-                           <input type="radio" id='square' name='IsPicTypeCircle' />
-                           <span> Square </span>
-                        </label>
-                     </td>
-                  </tr>
-                  <tr>
-                     <td>Theme</td>
-                     <td>
-                        <table >
-                           <tr>
-                              <td>
-                                 Primary Color
-                              </td>
-                              <td>
-                                 <input type='color' name="primaryColor" />
-                              </td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 Title Color
-                              </td>
-                              <td>
-                                 <input type='color' name="titleColor" />
-                              </td>
-                           </tr>
-                        </table>
-                     </td>
-                  </tr>
-
-               </table>
-               <div>
-                  <button type="submit">Submit</button>
-                  <button type="reset">Reset</button>
-                  <button type="submit">Publish</button>
+                     </div>
+                  </div>
                </div>
-            </form>
+            </div>
+
+            <div className="panel">
+               <div className="panel-header">Business Information</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label'>Name</label>
+                           <input type="text" name='name' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label'>Business Logo</label>
+                           <input type="file" name='logo' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label'>Established Date</label>
+                           <input type="date" name='estDate' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Call</label>
+                           <input type="tel" name='call' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Email</label>
+                           <input type="email" name='email' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >SMS</label>
+                           <input type="tel" name='sms' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Designation</label>
+                           <input type="text" name='designation' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >GSTIN</label>
+                           <input type="text" name='gstin' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >MSME</label>
+                           <input type="text" name='msme' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >FSSAI</label>
+                           <input type="text" name='fssai' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Map URL</label>
+                           <input type="url" name='mapUrl' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Website</label>
+                           <input type="url" name='websiteUrl' className='form-control' />
+                        </div>
+                     </div>
+
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Address</label>
+                           <textarea name="address" className='form-control' rows="4"></textarea>
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >About Business</label>
+                           <textarea name="about" className='form-control' rows="4"></textarea>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >UPI ID</label>
+                           <input type="text" name='upiId' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Payment Gateway URL</label>
+                           <input type="url" name='paymentGatewayUrl' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Payment Gateway Logo</label>
+                           <input type="file" name='paymentGatewayLogo' className='form-control' />
+                        </div>
+
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Account Holder Name</label>
+                           <input type="text" name='accountHolderName' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Bank Name</label>
+                           <input type="text" name='bankName' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Account Number</label>
+                           <input type="text" name='accountNumber' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Account Type</label>
+                           <select name="accountType" className='form-control'>
+                              <option value="Saving">Saving</option>
+                              <option value="Current">Current</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >IFSC</label>
+                           <input type="text" name='ifsc' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Branch</label>
+                           <input type="text" name='branch' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Services</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type="text" name='service1' className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Chat</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <select name="title" className='form-control'>
+                                             <option value="whatsapp">WhatsApp No</option>
+                                             <option value="telegram">Telegram ID</option>
+                                          </select>
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="value" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className='col-12'>
+                                       <a href=""><i className='fal fa-plus'></i></a>
+                                       <a href=""><i className='fal fa-trash'></i></a>
+                                    </div>
+                                 </div>
+
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Gallery</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="title" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='file' name="url" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-12">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+
+
+
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Videos</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="title" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='url' name="url" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div >
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+
+
+
+                              </li>
+                           </ul>
+                        </div>
+
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >E-Files</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="title" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='file' name="url" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+
+                              </li>
+                           </ul>
+                        </div>
+
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Links</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="title" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='url' name="url" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Social</label>
+                           <ul className=''>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <select name="title" className='form-control'>
+                                             <option value="Facebook">Facebook</option>
+                                             <option value="Twitter">Twitter</option>
+                                             <option value="LinkedIn">LinkedIn</option>
+                                             <option value="Telegram">Telegram</option>
+                                             <option value="Instagram">Instagram</option>
+                                             <option value="Youtube">Youtube</option>
+                                             <option value="Catalogue">Catalogue</option>
+                                          </select>
+                                       </div></div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <input type='text' name="value" className='form-control' />
+                                       </div></div>
+                                    <div className="col-6">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+                                 </div>
+
+
+
+
+
+                              </li>
+                           </ul>
+                        </div>
+                     </div>
+
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >Business Days & Hrs</label>
+                           <ul>
+                              <li>
+                                 <div className="row">
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <label className='control-label' >Open At</label>
+                                          <input type='time' name="openAt" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-6">
+                                       <div className='form-group'>
+                                          <label className='control-label' >Close At</label>
+                                          <input type='time' name="closesAt" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className="col-12">
+                                       <div>
+                                          <label htmlFor="Mon"><input id='Mon' type="checkbox" name="Mon" /> Mon</label>
+                                          <label htmlFor="Tue"><input id='Tue' type="checkbox" name="Tue" /> Tue</label>
+                                          <label htmlFor="Wed"><input id='Wed' type="checkbox" name="Wed" /> Wed</label>
+                                          <label htmlFor="Thu"><input id='Thu' type="checkbox" name="Thu" /> Thu</label>
+                                          <label htmlFor="Fri"><input id='Fri' type="checkbox" name="Fri" /> Fri</label>
+                                          <label htmlFor="Sat"><input id='Sat' type="checkbox" name="Sat" /> Sat</label>
+                                          <label htmlFor="Sun"><input id='Sun' type="checkbox" name="Sun" /> Sun</label>
+                                       </div>
+                                    </div>
+                                    <div className="col-12">
+                                       <div>
+                                          <a href=""><i className='fal fa-plus'></i></a>
+                                          <a href=""><i className='fal fa-trash'></i></a>
+                                       </div>
+                                    </div>
+
+                                 </div>
+
+
+
+
+                              </li>
+                           </ul>
+                        </div>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div className="panel">
+               <div className="panel-header">SmartIDy Configuration</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >SmartIDyURL</label>
+                           <input type="text" name='smartIdyUrl' className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Language</label>
+                           <select name="language" className='form-control'>
+                              <option value="en">English</option>
+                              <option value="mr">Marathi</option>
+                              <option value="hn">Hindi</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Show Initial Profile</label>
+                           <div className='radio-group'>
+                              <label htmlFor="business">
+                                 <input type="radio" id='business' name='IsBusinessProfile' checked={true} />
+                                 <span> Business </span>
+                              </label>
+                              &nbsp;&nbsp;
+                              <label htmlFor="individual">
+                                 <input type="radio" id='Individual' name='IsBusinessProfile' />
+                                 <span> Individual </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Profile Picture Style</label>
+                           <div className='radio-group'>
+                              <label htmlFor="circle">
+                                 <input type="radio" id='circle' name='IsPicTypeCircle' checked={true} />
+                                 <span> Circle </span>
+                              </label>
+                              &nbsp;&nbsp;
+                              <label htmlFor="square">
+                                 <input type="radio" id='square' name='IsPicTypeCircle' />
+                                 <span> Square </span>
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Theme Primary Color</label>
+                           <input type='color' name="primaryColor" className='form-control' />
+                        </div>
+                     </div>
+                     <div className="col-6">
+                        <div className='form-group'>
+                           <label className='control-label' >Theme Title Color</label>
+                           <input type='color' name="titleColor" className='form-control' />
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <div className='form-footer'>
+            <button type="submit" className='btn' onClick={handleSubmit}>Submit</button>
+            <button type="reset" className='btn'>Reset</button>
+            <button type="submit" className='btn'>Publish</button>
          </div>
       </div>
 

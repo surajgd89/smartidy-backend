@@ -3,6 +3,7 @@ import './Login.scss'
 import { useState } from 'react';
 
 function Login() {
+
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [errors, setErrors] = useState({});
@@ -37,32 +38,26 @@ function Login() {
    };
 
    return (
-      <div>
-         <h2>Login</h2>
-         <div>
-            <form onSubmit={handleSubmit}>
-               <div>
-                  <label>
-                     Email:
-                  </label>
-                  <input type="text" value={email} onChange={handleEmailChange} />
-                  {errors.email && <div className="error">{errors.email}</div>}
-               </div>
+      <div className='form-section'>
+         <h2 className='form-header'>Login to Your Account</h2>
+         <div className='form-body'>
+            <div className='form-group'>
+               <label className='control-label'>Email</label>
+               <input type="text" value={email} onChange={handleEmailChange} className='form-control' />
+               {errors.email && <div className="control-error">{errors.email}</div>}
+            </div>
+            <div className='form-group'>
+               <label className='control-label'>Password</label>
+               <input type="password" value={password} onChange={handlePasswordChange} className='form-control' />
+               {errors.password && <div className="control-error">{errors.password}</div>}
+            </div>
 
-               <div>
-                  <label>
-                     Password:
-                  </label>
-                  <input type="password" value={password} onChange={handlePasswordChange} />
-                  {errors.password && <div className="error">{errors.password}</div>}
-               </div>
-               <div>
-                  <Link to="/forgotpassword">Forgot Password</Link>
-               </div>
-               <button type="submit">Login</button>
-            </form>
          </div>
-      </div>
+         <div className='form-footer'>
+            <button type="submit" onClick={handleSubmit} className='btn btn-block'>Login</button>
+            <Link to="/forgotpassword" className='link'>Forgot Password</Link>
+         </div>
+      </div >
    );
 }
 

@@ -1,12 +1,12 @@
-import React from 'react'
 
-export default function List() {
+
+function Users() {
+
    return (
-
-      <div>
-         <h2>Users</h2>
-         <form>
-            <table>
+      <div className='form-section'>
+         <h2 className='form-header'>Users</h2>
+         <div className='form-body'>
+            <table className='table'>
                <tr>
                   <th>Name</th>
                   <th>Business Name</th>
@@ -29,8 +29,8 @@ export default function List() {
                   </td>
                </tr>
             </table>
-         </form>
+         </div>
       </div>
-
    )
 }
+export default Users;

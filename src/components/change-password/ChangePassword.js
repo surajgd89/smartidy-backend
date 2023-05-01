@@ -46,39 +46,50 @@ function ChangePassword() {
 
    return (
 
-      <div>
-         <h2>
-            Change Password
-         </h2>
-         <div>
-            <form onSubmit={handleSubmit}>
-               <div>
-                  <label>
-                     Old Password:
-                  </label>
-                  <input type="password" value={oldPassword} onChange={handleOldPassword} />
-                  {errors.oldPassword && <div className="error">{errors.oldPassword}</div>}
-               </div>
+      <div className='form-section'>
+     
+         <div className='form-body'>
 
-               <div>
-                  <label>
-                     New Password:
-                  </label>
-                  <input type="password" value={newPassword} onChange={handleNewPassword} />
-                  {errors.newPassword && <div className="error">{errors.newPassword}</div>}
+            <div className="panel">
+               <div className="panel-header"> Change Password</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>
+                              Old Password
+                           </label>
+                           <input type="password" value={oldPassword} className='form-control' onChange={handleOldPassword} />
+                           {errors.oldPassword && <div className="control-error">{errors.oldPassword}</div>}
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>
+                              New Password
+                           </label>
+                           <input type="password" value={newPassword} className='form-control' onChange={handleNewPassword} />
+                           {errors.newPassword && <div className="control-error">{errors.newPassword}</div>}
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>
+                              Confirm New Password
+                           </label>
+                           <input type="password" value={confirmNewPassword} className='form-control' onChange={handleConfirmNewPassword} />
+                           {errors.confirmNewPassword && <div className="control-error">{errors.confirmNewPassword}</div>}
+                        </div>
+                     </div>
+                  </div>
                </div>
-
-               <div>
-                  <label>
-                     Confirm New Password:
-                  </label>
-                  <input type="password" value={confirmNewPassword} onChange={handleConfirmNewPassword} />
-                  {errors.confirmNewPassword && <div className="error">{errors.confirmNewPassword}</div>}
+               <div className="panel-footer">
+                  <button type="submit" className='btn btn-block' onClick={handleSubmit}>Update Password</button>
                </div>
+            </div>
 
-               <button type="submit">Update Password</button>
-            </form>
          </div>
+
       </div>
    );
 }

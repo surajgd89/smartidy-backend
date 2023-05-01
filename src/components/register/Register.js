@@ -59,7 +59,7 @@ function Register() {
 
 
       if (!name) {
-         errors.email = 'Name is required';
+         errors.name = 'Name is required';
       }
 
       if (!email) {
@@ -114,47 +114,67 @@ function Register() {
    }
 
    return (
-      <div>
-         <h2>Register</h2>
-         <div>
-            <form onSubmit={handleSubmit} id='registerForm'>
-               <div>
-                  <label>Name:</label>
-                  <input type="text" value={name} onChange={handleNameChange} />
-                  {errors.name && <div className="error">{errors.name}</div>}
+      <div className='form-section'>
+         <h2 className='form-header'>Create Your Account</h2>
+         <div className='form-body'>
+            <div className="row">
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Name</label>
+                     <input type="text" value={name} className='form-control' onChange={handleNameChange} />
+                     {errors.name && <div className="control-error">{errors.name}</div>}
+                  </div>
                </div>
-               <div>
-                  <label>Email:</label>
-                  <input type="email" value={email} onChange={handleEmailChange} />
-                  {errors.email && <div className="error">{errors.email}</div>}
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Email</label>
+                     <input type="email" value={email} className='form-control' onChange={handleEmailChange} />
+                     {errors.email && <div className="control-error">{errors.email}</div>}
+                  </div>
                </div>
+            </div>
+            <div className="row">
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Mobile</label>
+                     <input type="tel" value={mobile} className='form-control' onChange={handleMobileChange} />
+                     {errors.mobile && <div className="control-error">{errors.mobile}</div>}
+                  </div>
+               </div>
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Date of Birth</label>
+                     <input type="date" value={dob} className='form-control' onChange={handleDobChange} />
+                     {errors.dob && <div className="control-error">{errors.dob}</div>}
+                  </div>
+               </div>
+            </div>
 
-               <div>
-                  <label>Mobile:</label>
-                  <input type="tel" value={mobile} onChange={handleMobileChange} />
-                  {errors.mobile && <div className="error">{errors.mobile}</div>}
+            <div className="row">
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Password</label>
+                     <input type="password" value={password} className='form-control' onChange={handlePasswordChange} />
+                     {errors.password && <div className="control-error">{errors.password}</div>}
+                  </div>
                </div>
-
-               <div>
-                  <label>Date of Birth:</label>
-                  <input type="date" value={dob} onChange={handleDobChange} />
-                  {errors.dob && <div className="error">{errors.dob}</div>}
+               <div className="col-6">
+                  <div className='form-group'>
+                     <label className='control-label'>Confirm Password</label>
+                     <input type="password" value={confirmPassword} className='form-control' onChange={handleConfirmPasswordChange} />
+                     {errors.confirmPassword && <div className="control-error">{errors.confirmPassword}</div>}
+                  </div>
                </div>
+            </div>
 
-               <div>
-                  <label>Password:</label>
-                  <input type="password" value={password} onChange={handlePasswordChange} />
-                  {errors.password && <div className="error">{errors.password}</div>}
-               </div>
 
-               <div>
-                  <label>Confirm Password:</label>
-                  <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
-                  {errors.confirmPassword && <div className="error">{errors.confirmPassword}</div>}
-               </div>
 
-               <button type="submit">Register</button>
-            </form>
+
+
+
+         </div>
+         <div className='form-footer'>
+            <button onClick={handleSubmit} type="submit" className='btn btn-block'>Register</button>
          </div>
       </div>
    )
