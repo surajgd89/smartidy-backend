@@ -37,32 +37,39 @@ function ResetPassword() {
 
    return (
 
-      <div>
-         <h2>Reset Password</h2>
-         <div>
-            <form onSubmit={handleSubmit}>
+      <div className='page-section small-page'>
 
-               <div>
-                  <label>
-                     New Password:
-                  </label>
-                  <input type="password" value={newPassword} onChange={handleNewPassword} />
-                  {errors.newPassword && <div className="error">{errors.newPassword}</div>}
+         <div className='page-body'>
+
+            <div className="panel">
+               <div className="panel-header">Reset Password</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-12">
+                        <div className="form-group">
+                           <label className="control-label">New Password</label>
+                           <input type="password" value={newPassword} className="form-control" onChange={handleNewPassword} />
+                           {errors.newPassword && <div className="error">{errors.newPassword}</div>}
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className="form-group">
+                           <label className="control-label">Confirm New Password</label>
+                           <input type="password" value={confirmNewPassword} className="form-control" onChange={handleConfirmNewPassword} />
+                           {errors.confirmNewPassword && <div className="error">{errors.confirmNewPassword}</div>}
+                        </div>
+                     </div>
+                  </div>
                </div>
-
-               <div>
-                  <label>
-                     Confirm New Password:
-                  </label>
-                  <input type="password" value={confirmNewPassword} onChange={handleConfirmNewPassword} />
-                  {errors.confirmNewPassword && <div className="error">{errors.confirmNewPassword}</div>}
+               <div className="panel-footer">
+                  <button type="submit" className="btn btn-block" onSubmit={handleSubmit}>Update Password</button>
                </div>
-
-               <button type="submit">Update Password</button>
-            </form>
+            </div>
          </div>
 
-      </div>
+      </div >
+
+
 
 
 

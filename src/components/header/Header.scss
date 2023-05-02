@@ -1,8 +1,8 @@
 .welcome-sec {
-    padding-top: 70px;
-    padding-bottom: 70px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    padding-left: 24px;
+    padding-right: 24px;
     background: var(--territory);
     display: flex;
     flex-direction: column;
@@ -20,5 +20,11 @@
         max-width: 1000px;
         text-align: center;
         font-size: 16px;
+    }
+
+    .welcome-user {
+        font-size: 22px;
+        margin-top: 30px;
+        color: var(--primary);
     }
 }

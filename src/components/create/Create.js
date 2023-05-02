@@ -1,14 +1,30 @@
 
 import { useState } from 'react';
+import { TwitterPicker } from 'react-color';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import './Create.scss'
 function Create() {
 
    const [name, setName] = useState('');
    const [errors, setErrors] = useState({});
+   const [primaryColor, setPrimaryColor] = useState('#ff6600');
+   const [titleColor, setTitleColor] = useState('#411f85');
+   const [establishedDate, setEstablishedDate] = useState(new Date());
+   const [openAtTime, setOpenAtTime] = useState();
+   const [closeAtTime, setCloseAtTime] = useState();
 
    const handleNameChange = (event) => {
       setName(event.target.value);
    };
+
+   const handlePrimaryColorChange = (color, event) => {
+      setPrimaryColor(color.hex)
+   }
+
+   const handleTitleColorChange = (color, event) => {
+      setTitleColor(color.hex)
+   }
 
    const handleSubmit = (event) => {
       event.preventDefault();
@@ -27,9 +43,9 @@ function Create() {
    };
 
    return (
-      <div className='form-section'>
-         <h2 className='form-header'>Create SmartIDy</h2>
-         <div className='form-body'>
+      <div className='page-section'>
+         <h2 className='page-header'>Create SmartIDy</h2>
+         <div className='page-body'>
 
             <div className="panel">
                <div className="panel-header">Individual Information</div>
@@ -75,37 +91,38 @@ function Create() {
                         </div>
                      </div>
                      <div className="col-12">
-                        <div className='multiple-values-sec'>
-                           <div className='form-group'>
-                              <label className='control-label' >Chat</label>
-                              <ul className=''>
-                                 <li>
-                                    <div className="row">
-                                       <div className="col">
-                                          <div className='form-group'>
-                                             <select name="title" className='form-control'>
-                                                <option value="whatsapp">WhatsApp No</option>
-                                                <option value="telegram">Telegram ID</option>
-                                             </select>
-                                          </div>
-                                       </div>
-                                       <div className="col">
-                                          <div className='form-group'>
-                                             <input type='text' name="value" className='form-control' />
-                                          </div>
-                                       </div>
-                                       <div className='col-auto'>
-                                          <a href=""><i className='fal fa-plus'></i></a>
-                                          <a href=""><i className='fal fa-trash'></i></a>
+
+                        <div className='form-group'>
+                           <label className='control-label' >Chat</label>
+                           <ul className='multiple-values-sec'>
+
+
+                              <li>
+                                 <div className="row gx-12">
+                                    <div className="col">
+                                       <div className='form-group'>
+                                          <select name="title" className='form-control'>
+                                             <option value="whatsapp">WhatsApp No</option>
+                                             <option value="telegram">Telegram ID</option>
+                                          </select>
                                        </div>
                                     </div>
-                                 </li>
-
-
-
-                              </ul>
-                           </div>
+                                    <div className="col">
+                                       <div className='form-group'>
+                                          <input type='text' name="value" className='form-control' />
+                                       </div>
+                                    </div>
+                                    <div className='col-auto align-self-center'>
+                                       <div className="action">
+                                          <button type='button' title='Add' className='btn'><i className='fal fa-plus'></i></button>
+                                          <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
                         </div>
+
 
                      </div>
                   </div>
@@ -131,7 +148,8 @@ function Create() {
                      <div className="col-6">
                         <div className='form-group'>
                            <label className='control-label'>Established Date</label>
-                           <input type="date" name='estDate' className='form-control' />
+                           {/* <input type="date" name='estDate' className='form-control' /> */}
+                           <DatePicker selected={establishedDate} onChange={(date) => setEstablishedDate(date)} className='form-control' />
                         </div>
                      </div>
                      <div className="col-6">
@@ -475,13 +493,34 @@ function Create() {
                                     <div className="col-6">
                                        <div className='form-group'>
                                           <label className='control-label' >Open At</label>
-                                          <input type='time' name="openAt" className='form-control' />
+                                          {/* <input type='time' name="openAt" className='form-control' /> */}
+
+                                          <DatePicker
+                                             selected={openAtTime}
+                                             onChange={(date) => setOpenAtTime(date)}
+                                             showTimeSelect
+                                             showTimeSelectOnly
+                                             timeIntervals={15}
+                                             timeCaption="Time"
+                                             dateFormat="h:mm aa"
+                                             className='form-control'
+                                          />
                                        </div>
                                     </div>
                                     <div className="col-6">
                                        <div className='form-group'>
                                           <label className='control-label' >Close At</label>
-                                          <input type='time' name="closesAt" className='form-control' />
+                                          {/* <input type='time' name="closesAt" className='form-control' /> */}
+                                          <DatePicker
+                                             selected={closeAtTime}
+                                             onChange={(date) => setCloseAtTime(date)}
+                                             showTimeSelect
+                                             showTimeSelectOnly
+                                             timeIntervals={15}
+                                             timeCaption="Time"
+                                             dateFormat="h:mm aa"
+                                             className='form-control'
+                                          />
                                        </div>
                                     </div>
                                     <div className="col-12">
@@ -531,8 +570,8 @@ function Create() {
                            <label className='control-label' >Language</label>
                            <select name="language" className='form-control'>
                               <option value="en">English</option>
-                              <option value="mr">Marathi</option>
-                              <option value="hn">Hindi</option>
+                              <option value="mr">मराठी</option>
+                              <option value="hn">हिंदी</option>
                            </select>
                         </div>
                      </div>
@@ -571,13 +610,13 @@ function Create() {
                      <div className="col-6">
                         <div className='form-group'>
                            <label className='control-label' >Theme Primary Color</label>
-                           <input type='color' name="primaryColor" className='form-control' />
+                           <TwitterPicker onChange={handlePrimaryColorChange} color={primaryColor} />
                         </div>
                      </div>
                      <div className="col-6">
                         <div className='form-group'>
                            <label className='control-label' >Theme Title Color</label>
-                           <input type='color' name="titleColor" className='form-control' />
+                           <TwitterPicker onChange={handleTitleColorChange} color={titleColor} />
                         </div>
                      </div>
                   </div>
@@ -585,7 +624,7 @@ function Create() {
             </div>
 
          </div>
-         <div className='form-footer'>
+         <div className='page-footer'>
             <button type="submit" className='btn' onClick={handleSubmit}>Submit</button>
             <button type="reset" className='btn'>Reset</button>
             <button type="submit" className='btn'>Publish</button>

@@ -3,9 +3,9 @@
 function Users() {
 
    return (
-      <div className='form-section'>
-         <h2 className='form-header'>Users</h2>
-         <div className='form-body'>
+      <div className='page-section'>
+         <h2 className='page-header'>Users</h2>
+         <div className='page-body'>
             <table className='table'>
                <tr>
                   <th>Name</th>

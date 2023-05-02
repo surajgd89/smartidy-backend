@@ -4,9 +4,6 @@ import './Navbar.scss'
 function Navbar() {
    return (
       <div className='navbar'>
-         <div className='welcome-txt'>
-            Welcome Guest !
-         </div>
          <div className='nav-links'>
             <NavLink to="/">Home</NavLink>
             <NavLink to="/users">Users</NavLink>

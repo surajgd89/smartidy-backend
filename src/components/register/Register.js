@@ -4,7 +4,7 @@ import './Register.scss'
 import axios from 'axios';
 
 function Register() {
-   const [name, setName] = useState('');
+
    const [email, setEmail] = useState('');
    const [mobile, setMobile] = useState('');
    const [dob, setDob] = useState('');
@@ -14,9 +14,6 @@ function Register() {
    const [errors, setErrors] = useState({});
 
 
-   function handleNameChange(event) {
-      setName(event.target.value);
-   }
 
    function handleEmailChange(event) {
       setEmail(event.target.value);
@@ -50,7 +47,7 @@ function Register() {
       setErrors(errors);
 
       console.log({
-         'name': name,
+
          'email': email,
          'mobile': mobile,
          'dob': dob,
@@ -58,9 +55,7 @@ function Register() {
       })
 
 
-      if (!name) {
-         errors.name = 'Name is required';
-      }
+
 
       if (!email) {
          errors.email = 'Email is required';
@@ -91,7 +86,7 @@ function Register() {
          // Submit the form
 
          axios.post('http://localhost:3000/register', {
-            name: name,
+
             email: email,
             mobile: mobile,
             dob: dob,
@@ -99,7 +94,7 @@ function Register() {
          })
             .then(response => {
                console.log(response.data);
-               setName('')
+
                setEmail('')
                setMobile('')
                setDob('')
@@ -114,68 +109,68 @@ function Register() {
    }
 
    return (
-      <div className='form-section'>
-         <h2 className='form-header'>Create Your Account</h2>
-         <div className='form-body'>
-            <div className="row">
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Name</label>
-                     <input type="text" value={name} className='form-control' onChange={handleNameChange} />
-                     {errors.name && <div className="control-error">{errors.name}</div>}
-                  </div>
-               </div>
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Email</label>
-                     <input type="email" value={email} className='form-control' onChange={handleEmailChange} />
-                     {errors.email && <div className="control-error">{errors.email}</div>}
-                  </div>
-               </div>
-            </div>
-            <div className="row">
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Mobile</label>
-                     <input type="tel" value={mobile} className='form-control' onChange={handleMobileChange} />
-                     {errors.mobile && <div className="control-error">{errors.mobile}</div>}
-                  </div>
-               </div>
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Date of Birth</label>
-                     <input type="date" value={dob} className='form-control' onChange={handleDobChange} />
-                     {errors.dob && <div className="control-error">{errors.dob}</div>}
-                  </div>
-               </div>
-            </div>
-
-            <div className="row">
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Password</label>
-                     <input type="password" value={password} className='form-control' onChange={handlePasswordChange} />
-                     {errors.password && <div className="control-error">{errors.password}</div>}
-                  </div>
-               </div>
-               <div className="col-6">
-                  <div className='form-group'>
-                     <label className='control-label'>Confirm Password</label>
-                     <input type="password" value={confirmPassword} className='form-control' onChange={handleConfirmPasswordChange} />
-                     {errors.confirmPassword && <div className="control-error">{errors.confirmPassword}</div>}
-                  </div>
-               </div>
-            </div>
+      <div className='page-section small-page'>
 
 
+         <div className='page-body'>
+
+
+
+            <div className="panel">
+               <div className="panel-header">Create Your Account</div>
+               <div className="panel-body">
+                  <div className="row">
+
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Email</label>
+                           <input type="email" value={email} className='form-control' onChange={handleEmailChange} />
+                           {errors.email && <div className="control-error">{errors.email}</div>}
+                        </div>
+                     </div>
+
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Mobile</label>
+                           <input type="tel" value={mobile} className='form-control' onChange={handleMobileChange} />
+                           {errors.mobile && <div className="control-error">{errors.mobile}</div>}
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Date of Birth</label>
+                           <input type="date" value={dob} className='form-control' onChange={handleDobChange} />
+                           {errors.dob && <div className="control-error">{errors.dob}</div>}
+                        </div>
+                     </div>
+
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Password</label>
+                           <input type="password" value={password} className='form-control' onChange={handlePasswordChange} />
+                           {errors.password && <div className="control-error">{errors.password}</div>}
+                        </div>
+                     </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label'>Confirm Password</label>
+                           <input type="password" value={confirmPassword} className='form-control' onChange={handleConfirmPasswordChange} />
+                           {errors.confirmPassword && <div className="control-error">{errors.confirmPassword}</div>}
+                        </div>
+                     </div>
+
+                  </div>
+               </div>
+               <div className="panel-footer">
+                  <button onClick={handleSubmit} type="submit" className='btn btn-block'>Register</button>
+               </div>
+            </div>
 
 
 
 
          </div>
-         <div className='form-footer'>
-            <button onClick={handleSubmit} type="submit" className='btn btn-block'>Register</button>
-         </div>
+
       </div>
    )
 }

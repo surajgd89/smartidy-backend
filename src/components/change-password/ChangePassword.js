@@ -46,8 +46,8 @@ function ChangePassword() {
 
    return (
 
-      <div className='form-section'>
-     
+      <div className='form-section small-form'>
+
          <div className='form-body'>
 
             <div className="panel">

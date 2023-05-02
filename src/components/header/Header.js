@@ -14,6 +14,11 @@ export default function Header() {
             business card.
             It is smart, elegant and affordable.
          </div>
+
+         <div className='welcome-user'>
+            Welcome Guest !
+         </div>
+
       </div>
    )
 }

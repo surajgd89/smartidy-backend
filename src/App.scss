@@ -53,6 +53,14 @@ input[type='number'] {
     text-align: center;
 }
 
+.align-self-center {
+    align-self: center;
+}
+
+.margin-bottom-0 {
+    margin-bottom: 0 !important;
+}
+
 table {
     border-collapse: collapse;
     box-sizing: border-box;
@@ -75,16 +83,26 @@ td {
     min-height: 500px;
 }
 
-.form-section {
+.page-section {
     max-width: 100%;
     margin: 0 auto;
+
+    &.small-page {
+        max-width: 500px;
+        .panel-body {
+            padding-bottom: 6px;
+        }
+        .panel-footer {
+            padding-top: 0;
+        }
+    }
 }
 
-.form-header {
+.page-header {
     font-size: 28px;
     text-align: center;
-    padding: 0 25px;
-    margin-bottom: 25px;
+    padding: 0 24px;
+    margin-bottom: 24px;
     position: relative;
 
     &::after {
@@ -92,23 +110,16 @@ td {
     }
 }
 
-.form-body {
+.page-body {
 }
 
-.form-footer {
-    margin-top: 25px;
+.page-footer {
+    margin-top: 24px;
     text-align: center;
 
-    .link {
-        margin-top: 10px;
-        display: inline-flex;
+    .btn {
+        margin: 0 12px;
     }
-}
-
-.panel-footer {
-    text-align: center;
-    padding: 25px;
-    border-top: 1px solid var(--border);
 
     .link {
         margin-top: 10px;
@@ -118,30 +129,33 @@ td {
 
 .panel {
     border: 1px solid var(--border);
-    margin-bottom: 25px;
+    margin-bottom: 24px;
+    border-radius: 4px;
 }
 
 .panel-header {
     font-size: 20px;
     background: var(--territory-light);
-    padding: 25px;
+    padding: 24px;
+    overflow: hidden;
 }
 
 .panel-body {
-    padding: 25px;
+    padding: 24px;
+}
+
+.panel-footer {
+    text-align: center;
+    padding: 24px;
+
+    .link {
+        margin-top: 10px;
+        display: inline-flex;
+    }
 }
 
 .form-group {
-    margin-bottom: 25px;
-
-    ul {
-        margin: 0;
-        padding: 0;
-
-        li {
-            list-style: none;
-        }
-    }
+    margin-bottom: 24px;
 }
 
 .control-label {
@@ -166,7 +180,8 @@ td {
 }
 
 .btn {
-    min-height: 60px;
+    min-height: 55px;
+    min-width: 120px;
     padding: 6px 12px;
     border: 0;
     color: #fff;
@@ -185,6 +200,40 @@ td {
 }
 
 .multiple-values-sec {
-    background: var(--territory-light);
-    padding: 25px;
+    margin: 0;
+    padding: 0;
+
+    li {
+        list-style: none;
+        background: var(--territory-light);
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .row {
+            &.gx-12 {
+                --bs-gutter-x: 12px;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .action {
+            .btn {
+                min-height: 45px;
+                min-width: 45px;
+                margin-right: 12px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+    }
 }

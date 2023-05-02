@@ -30,24 +30,30 @@ function ForgotPassword() {
 
    return (
 
-      <div>
-         <h2>Forgot Password</h2>
-         <div>
-            <form onSubmit={handleSubmit}>
-               <div>
-                  Please enter your registred email. We will send you a link to reset your password.
+
+      <div className='page-section small-page'>
+         <div className='page-body'>
+            <div className="panel">
+               <div className="panel-header"> Forgot Password</div>
+               <div className="panel-body">
+                  <div className="row">
+                     <div className="col-12">
+                        <div className="form-group">
+                           <label className="control-label">Email</label>
+                           <input type="text" value={email} className="form-control" onChange={handleEmailChange} />
+                           {errors.email && <div className="control-error">{errors.email}</div>}
+                        </div>
+                     </div>
+                  </div>
                </div>
-               <div>
-                  <label>
-                     Email:
-                  </label>
-                  <input type="text" value={email} onChange={handleEmailChange} />
-                  {errors.email && <div className="error">{errors.email}</div>}
+               <div className="panel-footer">
+                  <button onSubmit={handleSubmit} type="submit" className='btn btn-block'>Reset Password</button>
                </div>
-               <button type="submit">Reset Password</button>
-            </form>
+            </div>
          </div>
       </div>
+
+
 
    )
 }
