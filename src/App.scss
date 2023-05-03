@@ -199,41 +199,41 @@ td {
     color: var(--link);
 }
 
-.multiple-values-sec {
-    margin: 0;
-    padding: 0;
+.add-values-sec {
+    .row {
+        &.gx-12 {
+            --bs-gutter-x: 12px;
+        }
+    }
 
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .action {
+        .btn {
+            min-height: 45px;
+            min-width: 45px;
+            margin-right: 12px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.list-values-sec {
     li {
         list-style: none;
         background: var(--territory-light);
-        padding: 12px;
+        padding: 8px 12px;
         border-radius: 4px;
+        margin-top: 8px;
         margin-bottom: 8px;
 
         &:last-child {
             margin-bottom: 0;
-        }
-
-        .row {
-            &.gx-12 {
-                --bs-gutter-x: 12px;
-            }
-        }
-
-        .form-group {
-            margin-bottom: 0;
-        }
-
-        .action {
-            .btn {
-                min-height: 45px;
-                min-width: 45px;
-                margin-right: 12px;
-
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
         }
     }
 }

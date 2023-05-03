@@ -46,9 +46,9 @@ function ChangePassword() {
 
    return (
 
-      <div className='form-section small-form'>
+      <div className='page-section small-page'>
 
-         <div className='form-body'>
+         <div className='page-body'>
 
             <div className="panel">
                <div className="panel-header"> Change Password</div>

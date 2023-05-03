@@ -94,32 +94,30 @@ function Create() {
 
                         <div className='form-group'>
                            <label className='control-label' >Chat</label>
-                           <ul className='multiple-values-sec'>
-
-
-                              <li>
-                                 <div className="row gx-12">
-                                    <div className="col">
-                                       <div className='form-group'>
-                                          <select name="title" className='form-control'>
-                                             <option value="whatsapp">WhatsApp No</option>
-                                             <option value="telegram">Telegram ID</option>
-                                          </select>
-                                       </div>
-                                    </div>
-                                    <div className="col">
-                                       <div className='form-group'>
-                                          <input type='text' name="value" className='form-control' />
-                                       </div>
-                                    </div>
-                                    <div className='col-auto align-self-center'>
-                                       <div className="action">
-                                          <button type='button' title='Add' className='btn'><i className='fal fa-plus'></i></button>
-                                          <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
-                                       </div>
+                           <div className='add-values-sec'>
+                              <div className="row gx-12">
+                                 <div className="col">
+                                    <div className='form-group'>
+                                       <select name="title" className='form-control'>
+                                          <option value="whatsapp">WhatsApp No</option>
+                                          <option value="telegram">Telegram ID</option>
+                                       </select>
                                     </div>
                                  </div>
-                              </li>
+                                 <div className="col">
+                                    <div className='form-group'>
+                                       <input type='text' name="value" className='form-control' />
+                                    </div>
+                                 </div>
+                                 <div className='col-auto align-self-center'>
+                                    <div className="action">
+                                       <button type='button' title='Add' className='btn'><i className='fal fa-plus'></i></button>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <ul className='list-values-sec'>
+                              <li>anvd</li>
                            </ul>
                         </div>
 
@@ -148,7 +146,7 @@ function Create() {
                      <div className="col-6">
                         <div className='form-group'>
                            <label className='control-label'>Established Date</label>
-                           {/* <input type="date" name='estDate' className='form-control' /> */}
+
                            <DatePicker selected={establishedDate} onChange={(date) => setEstablishedDate(date)} className='form-control' />
                         </div>
                      </div>
@@ -493,7 +491,7 @@ function Create() {
                                     <div className="col-6">
                                        <div className='form-group'>
                                           <label className='control-label' >Open At</label>
-                                          {/* <input type='time' name="openAt" className='form-control' /> */}
+
 
                                           <DatePicker
                                              selected={openAtTime}
@@ -510,7 +508,7 @@ function Create() {
                                     <div className="col-6">
                                        <div className='form-group'>
                                           <label className='control-label' >Close At</label>
-                                          {/* <input type='time' name="closesAt" className='form-control' /> */}
+
                                           <DatePicker
                                              selected={closeAtTime}
                                              onChange={(date) => setCloseAtTime(date)}
