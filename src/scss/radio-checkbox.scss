@@ -1,0 +1,58 @@
+:root {
+    --chk-bg: #ffffff;
+    --chk-border-color: #a8b3c4;
+    --chkd-bg: #116be1;
+    --chkd-border-color: #116be1;
+    --chkd-tick: #ffffff;
+    --dis-chk-bg: #ebeff5;
+    --dis-chk-border-color: #cfd9e7;
+    --dis-chk-tick: #a7b9c3;
+    --chk-text-color: #000000;
+    accent-color: var(--chkd-bg);
+}
+
+input:where([type='checkbox'], [type='radio']) {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    vertical-align: top;
+    border: 1px solid var(--chk-border-color);
+    border-radius: 4px;
+    background: var(--chk-bg) no-repeat center center;
+}
+
+input[type='radio'] {
+    border-radius: 50%;
+}
+
+input:where([type='checkbox'], [type='radio']):where(
+        :active:not(:disabled),
+        :focus
+    ) {
+    border-color: var(--chk-border-color);
+    outline: none;
+}
+
+input:where([type='checkbox'], [type='radio']):disabled {
+    background: var(--dis-chk-bg);
+}
+
+input[type='checkbox']:hover,
+input[type='radio']:hover {
+    border-color: var(--chkd-border-color);
+}
+
+input[type='checkbox']:checked {
+    border-color: var(--chkd-border-color);
+    background-color: var(--chkd-bg);
+    background-image: url('../assets/checkbox.svg');
+    background-size: 8px;
+}
+
+input[type='radio']:checked {
+    border-color: var(--chkd-border-color);
+    background-color: var(--chkd-bg);
+    background-image: url('../assets/radio.svg');
+    background-size: 6px;
+}
