@@ -109,7 +109,7 @@ function Register() {
    }
 
    return (
-      <div className='page-section small-page'>
+      <div className='page-section small-page '>
 
 
          <div className='page-body'>

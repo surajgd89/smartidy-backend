@@ -3,7 +3,7 @@
 function Users() {
 
    return (
-      <div className='page-section'>
+      <div className='page-section '>
          <h2 className='page-header'>Users</h2>
          <div className='page-body'>
             <table className='table'>

@@ -10,10 +10,10 @@ export default function Footer() {
             8450959594
          </div>
          <div className="social-info">
-            <a href="javascript:void(0)" className="soc-lnk facebook"></a>
-            <a href="javascript:void(0)" className="soc-lnk twitter"></a>
-            <a href="javascript:void(0)" className="soc-lnk instagram"></a>
-            <a href="javascript:void(0)" className="soc-lnk whatsapp"></a>
+            <a href="#" className="soc-lnk facebook"></a>
+            <a href="#" className="soc-lnk twitter"></a>
+            <a href="#" className="soc-lnk instagram"></a>
+            <a href="#" className="soc-lnk whatsapp"></a>
          </div>
       </div>
    )

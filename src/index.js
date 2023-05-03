@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './scss/reset.scss';
-import './index.scss';
 import './scss/grid.scss'
+import './scss/radio-checkbox.scss'
+import './index.scss';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

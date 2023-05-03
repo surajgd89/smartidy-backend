@@ -31,7 +31,7 @@ function ForgotPassword() {
    return (
 
 
-      <div className='page-section small-page'>
+      <div className='page-section small-page '>
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header"> Forgot Password</div>
