@@ -43,17 +43,34 @@ function Create() {
    };
 
 
-
-
    return (
       <div className='page-section small-page '>
          <h2 className='page-header'>Create SmartIDy</h2>
          <div className='page-body'>
 
             <div className='form-statusbar'>
-               <div class="progress"></div>
-               <div class="progress"></div>
-               <div class="progress"></div>
+
+               <div className="progress">
+                  <span className='bar'>
+                     <span>1</span>
+                  </span>
+                  <span className='title'>Individual</span>
+               </div>
+
+               <div className="progress">
+                  <span className='bar'>
+                     <span>2</span>
+                  </span>
+                  <span className='title'>Business</span>
+               </div>
+
+               <div className="progress">
+                  <span className='bar'>
+                     <span>3</span>
+                  </span>
+                  <span className='title'>Configuration</span>
+               </div>
+
             </div>
 
             <div className="panel">
@@ -89,13 +106,13 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Upload Profile Picture</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -139,17 +156,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Add Chat</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Chat</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>Telegram</span>:<span className='value'>9594415153</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -159,7 +176,7 @@ function Create() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" className='btn btn-block'>Save & Proceed </button>
+                  <button type="submit" className='btn btn-primary btn-block'>Save & Proceed </button>
                </div>
             </div>
 
@@ -188,13 +205,13 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Upload Business Logo</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Business Logo</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <img src="https://fakeimg.pl/250x80/" alt="" className='business-logo' />
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -205,7 +222,16 @@ function Create() {
                         <div className='form-group'>
                            <label className='control-label'>Established Date</label>
 
-                           <DatePicker selected={establishedDate} onChange={(date) => setEstablishedDate(date)} className='form-control' />
+                           <DatePicker selected={establishedDate} popperModifiers={[
+                              {
+                                 name: 'arrow',
+                                 options: {
+                                    padding: ({ popper }) => ({
+                                       right: popper.width - 32,
+                                    }),
+                                 },
+                              }
+                           ]} onChange={(date) => setEstablishedDate(date)} className='form-control' />
                         </div>
                      </div>
                      <div className="col-12">
@@ -305,34 +331,26 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Upload Payment Gateway Logo</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Payment Gateway Logo</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <img src="https://fakeimg.pl/250x60/" alt="" className='pg-logo' />
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
                         </div>
-
                      </div>
-
-
 
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label' >If you want to show bank account details ?</label>
-                           <div className='radio-group'>
-                              <label htmlFor="yesAccount">
-                                 <input type="radio" id='yesAccount' name='haveAccountDetails' defaultChecked />
-                                 <span> Yes </span>
-                              </label>
-
-                              <label htmlFor="noAccount">
-                                 <input type="radio" id='noAccount' name='haveAccountDetails' />
-                                 <span> No </span>
+                           <div class="switch-group">
+                              <label class="custom-switch yes-no">
+                                 <input type="checkbox" defaultChecked />
+                                 <span class="checkmark"></span>
                               </label>
                            </div>
                         </div>
@@ -382,31 +400,27 @@ function Create() {
                         </div>
                      </div>
 
-
-
-
                      <div className="col-12">
                         <div className='values-grouping'>
                            <div className='form-group'>
                               <label className='control-label' >Services</label>
                               <div className='add-values-sec'>
-
                                  <div className='form-group'>
                                     <input type="text" name='service' className='form-control' />
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add Service</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add Service</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='value'>Service 1</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='value'>Service 2</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -431,17 +445,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Add Chat</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Chat</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>Telegram</span>:<span className='value'>9594415153</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -463,17 +477,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i> Add Images</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Images</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='gallery-img'><img src="https://fakeimg.pl/80x80/" alt="" className='gallery-img' /></span><span className='title'>Image 1</span>:<span className='value'>img1.png</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='gallery-img'><img src="https://fakeimg.pl/80x80/" alt="" className='gallery-img' /></span><span className='title'>Image 2</span>:<span className='value'>img2.png</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -496,17 +510,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add Videos URL</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add Videos URL</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>Video 1</span>:<span className='value'>video1.mp4</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>Video 2</span>:<span className='value'>video2.mp4</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -528,17 +542,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add E-Files</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add E-Files</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>File 1</span>:<span className='value'>file1.doc</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>File 2</span>:<span className='value'>file2.xls</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -560,17 +574,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add Links</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add Links</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>File 1</span>:<span className='value'>file1.doc</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>File 2</span>:<span className='value'>file2.xls</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -601,17 +615,17 @@ function Create() {
                                     <span className='control-error'>Error Message</span>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add Social URL</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add Social URL</button>
                                  </div>
                               </div>
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>File 1</span>:<span className='value'>file1.doc</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>File 2</span>:<span className='value'>file2.xls</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -631,6 +645,16 @@ function Create() {
                                        onChange={(date) => setOpenAtTime(date)}
                                        showTimeSelect
                                        showTimeSelectOnly
+                                       popperModifiers={[
+                                          {
+                                             name: 'arrow',
+                                             options: {
+                                                padding: ({ popper }) => ({
+                                                   right: popper.width - 32,
+                                                }),
+                                             },
+                                          }
+                                       ]}
                                        timeIntervals={15}
                                        timeCaption="Time"
                                        dateFormat="h:mm aa"
@@ -645,6 +669,16 @@ function Create() {
                                        onChange={(date) => setCloseAtTime(date)}
                                        showTimeSelect
                                        showTimeSelectOnly
+                                       popperModifiers={[
+                                          {
+                                             name: 'arrow',
+                                             options: {
+                                                padding: ({ popper }) => ({
+                                                   right: popper.width - 32,
+                                                }),
+                                             },
+                                          }
+                                       ]}
                                        timeIntervals={15}
                                        timeCaption="Time"
                                        dateFormat="h:mm aa"
@@ -655,16 +689,16 @@ function Create() {
                                  </div>
                                  <div className="checkbox-group">
 
-                                    <label htmlFor="Mon"><input id='Mon' type="checkbox" name="Mon" /><span>Mon</span></label>
-                                    <label htmlFor="Tue"><input id='Tue' type="checkbox" name="Tue" /><span>Tue</span></label>
-                                    <label htmlFor="Wed"><input id='Wed' type="checkbox" name="Wed" /><span>Wed</span></label>
-                                    <label htmlFor="Thu"><input id='Thu' type="checkbox" name="Thu" /><span>Thu</span></label>
-                                    <label htmlFor="Fri"><input id='Fri' type="checkbox" name="Fri" /><span>Fri</span></label>
-                                    <label htmlFor="Sat"><input id='Sat' type="checkbox" name="Sat" /><span>Sat</span></label>
-                                    <label htmlFor="Sun"><input id='Sun' type="checkbox" name="Sun" /><span>Sun</span></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="mon" /><span class="checkmark"></span><small>Mon</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="tue" /><span class="checkmark"></span><small>Tue</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="wed" /><span class="checkmark"></span><small>Wed</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="thu" /><span class="checkmark"></span><small>Thu</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="fri" /><span class="checkmark"></span><small>Fri</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="sat" /><span class="checkmark"></span><small>Sat</small></label>
+                                    <label className="custom-checkbox"><input type="checkbox" name="sun" /><span class="checkmark"></span><small>Sun</small></label>
                                  </div>
                                  <div className="action">
-                                    <button type='button' className='btn'><i className='fal fa-plus'></i>Add Business Hrs & Days</button>
+                                    <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i>Add Business Hrs & Days</button>
                                  </div>
 
                               </div>
@@ -672,11 +706,11 @@ function Create() {
                               <ul className='list-values-sec'>
                                  <li>
                                     <span className='title'>Monday</span>:<span className='value'>9:00 AM to 6:00 PM</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                                  <li>
                                     <span className='title'>Tuesday</span>:<span className='value'>9:00 AM to 6:00 PM</span>
-                                    <button type='button' title='Delete' className='btn'><i className='fal fa-trash'></i></button>
+                                    <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                                  </li>
                               </ul>
                            </div>
@@ -691,7 +725,7 @@ function Create() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" className='btn btn-block'>Save & Proceed </button>
+                  <button type="submit" className='btn btn-primary btn-block'>Save & Proceed </button>
                </div>
             </div>
 
@@ -719,14 +753,16 @@ function Create() {
                         <div className='form-group'>
                            <label className='control-label' >Show Initial Profile</label>
                            <div className='radio-group'>
-                              <label htmlFor="business">
-                                 <input type="radio" id='business' name='IsBusinessProfile' defaultChecked />
-                                 <span> Business </span>
+                              <label className='custom-radio'>
+                                 <input type="radio" name='IsBusinessProfile' defaultChecked />
+                                 <span class="checkmark"></span>
+                                 <small> Business </small>
                               </label>
 
-                              <label htmlFor="individual">
-                                 <input type="radio" id='Individual' name='IsBusinessProfile' />
-                                 <span> Individual </span>
+                              <label className='custom-radio'>
+                                 <input type="radio" name='IsBusinessProfile' />
+                                 <span class="checkmark"></span>
+                                 <small> Individual </small>
                               </label>
                            </div>
                         </div>
@@ -735,14 +771,16 @@ function Create() {
                         <div className='form-group'>
                            <label className='control-label' >Profile Picture Style</label>
                            <div className='radio-group'>
-                              <label htmlFor="circle">
-                                 <input type="radio" id='circle' name='IsPicTypeCircle' defaultChecked />
-                                 <span> Circle </span>
+                              <label className='custom-radio'>
+                                 <input type="radio" name='IsPicTypeCircle' defaultChecked />
+                                 <span class="checkmark"></span>
+                                 <small> Circle </small>
                               </label>
 
-                              <label htmlFor="square">
-                                 <input type="radio" id='square' name='IsPicTypeCircle' />
-                                 <span> Square </span>
+                              <label className='custom-radio'>
+                                 <input type="radio" name='IsPicTypeCircle' />
+                                 <span class="checkmark"></span>
+                                 <small> Square </small>
                               </label>
                            </div>
                         </div>
@@ -759,12 +797,22 @@ function Create() {
                            <TwitterPicker onChange={handleTitleColorChange} color={titleColor} />
                         </div>
                      </div>
+                     <div className="col-12">
+                        <div className='form-group'>
+                           <label className='control-label' >SmartIDy Status</label>
+                           <select name="language" className='form-control'>
+                              <option value="active">Active</option>
+                              <option value="hold">Hold</option>
+                              <option value="inactive">Inactive</option>
+                           </select>
+                        </div>
+                     </div>
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" className='btn' onClick={handleSubmit}>Submit</button>
-                  <button type="reset" className='btn'>Reset</button>
-                  <button type="submit" className='btn'>Publish</button>
+                  <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Submit</button>
+                  <button type="reset" className='btn btn-secondary'>Reset</button>
+                  <button type="submit" className='btn btn-primary'>Publish</button>
                </div>
             </div>
 

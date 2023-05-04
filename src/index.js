@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './scss/reset.scss';
 import './scss/grid.scss'
-import './scss/radio-checkbox.scss'
+import './scss/radio-checkbox-switch.scss'
 import './index.scss';
 
 import App from './App';

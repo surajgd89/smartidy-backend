@@ -47,7 +47,7 @@ function ForgotPassword() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button onSubmit={handleSubmit} type="submit" className='btn btn-block'>Reset Password</button>
+                  <button onSubmit={handleSubmit} type="submit" className='btn btn-primary btn-block'>Reset Password</button>
                </div>
             </div>
          </div>

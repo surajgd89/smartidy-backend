@@ -84,7 +84,7 @@ function ChangePassword() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" className='btn btn-block' onClick={handleSubmit}>Update Password</button>
+                  <button type="submit" className='btn btn-primary btn-block' onClick={handleSubmit}>Update Password</button>
                </div>
             </div>
 

@@ -62,18 +62,12 @@ function ResetPassword() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" className="btn btn-block" onSubmit={handleSubmit}>Update Password</button>
+                  <button type="submit" className="btn btn-primary btn-block" onSubmit={handleSubmit}>Update Password</button>
                </div>
             </div>
          </div>
 
       </div >
-
-
-
-
-
-
 
    )
 }

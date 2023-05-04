@@ -162,7 +162,7 @@ function Register() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button onClick={handleSubmit} type="submit" className='btn btn-block'>Register</button>
+                  <button onClick={handleSubmit} type="submit" className='btn btn-primary btn-block'>Register</button>
                </div>
             </div>
 

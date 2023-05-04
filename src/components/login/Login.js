@@ -63,7 +63,7 @@ function Login() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button type="submit" onClick={handleSubmit} className='btn btn-block'>Login</button>
+                  <button type="submit" onClick={handleSubmit} className='btn btn-primary btn-block'>Login</button>
                   <Link to="/forgotpassword" className='link'>Forgot Password</Link>
                </div>
             </div>
