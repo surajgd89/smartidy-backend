@@ -50,6 +50,12 @@ function Create() {
          <h2 className='page-header'>Create SmartIDy</h2>
          <div className='page-body'>
 
+            <div className='form-statusbar'>
+               <div class="progress"></div>
+               <div class="progress"></div>
+               <div class="progress"></div>
+            </div>
+
             <div className="panel">
                <div className="panel-header">Individual Information</div>
                <div className="panel-body">
