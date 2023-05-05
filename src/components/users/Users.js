@@ -1,101 +1,81 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
-
-
+import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
 
 
 function Users() {
-   const url = "http://localhost:3000/userList"
+   const url = "http://localhost:3000/users";
    const [users, setUsers] = useState([]);
-   useEffect(() => {
-      const fetchUsers = async () => {
-         try {
-            const { data } = await axios.get(url)
-            setUsers(data)
-            console.log(data)
-         } catch (error) {
-            console.log(error)
-         }
+   const [searchValue, setSearchValue] = useState('');
+
+   const getUsers = async () => {
+      try {
+         const response = await axios.get(url)
+         setUsers(response.data);
+      } catch (error) {
+         console.log(error)
       }
-
-      fetchUsers()
-   }, []);
-
-
-   const columns = [
-      {
-         name: 'ID',
-         selector: row => row.id,
-      },
-
-      {
-         name: 'Name',
-         selector: row => row.name,
-      },
-
-      {
-         name: 'Business Name',
-         selector: row => row.businessName,
-      },
-
-      {
-         name: 'Email',
-         selector: row => row.email,
-      },
-
-      {
-         name: 'Mobile',
-         selector: row => row.mobile,
-      },
-
-      {
-         name: 'User ID',
-         selector: row => row.userId,
-      },
-
-      {
-         name: 'Status',
-         selector: row => row.status,
-      }
-   ];
-
-
-
-   if (users.length === 0) {
-      return <div>Loading Data</div>
    }
+
+   useEffect(() => {
+      getUsers()
+   }, []);
 
    return (
       <div className='page-section '>
-         <h2 className='page-header'>Users</h2>
+         <h2 className='page-header'>SmartIDy Users</h2>
          <div className='page-body'>
+            <div className="col">
+               <div className="form-group">
+                  <input
+                     type="text"
+                     placeholder="Search by Individual Name..."
+                     value={searchValue}
+                     class="form-control"
+                     onChange={(e) => setSearchValue(e.target.value)}
+                  />
+               </div>
+            </div>
+            <div className="table-responsive">
+               <table>
+                  <thead>
+                     <tr>
 
-
-
-
-            {/* <table className='table'>
-               <tr>
-                  <th>Name</th>
-                  <th>Business Name</th>
-                  <th>Email</th>
-                  <th>Mobile</th>
-                  <th>UserID</th>
-                  <th>Status</th>
-                  <th></th>
-               </tr>
-               <tr>
-                  <td>Suraj Patil</td>
-                  <td>Shreesha Digital</td>
-                  <td>suraj.gd89@gmail.com</td>
-                  <td>9594415153</td>
-                  <td>SurajPatil5153</td>
-                  <td>Active</td>
-                  <td>
-                     <button type='button' title='Delete' className='btn'><i className='fal fa-pencil'></i></button>
-                  </td>
-               </tr>
-            </table> */}
+                        <th>Individual Name</th>
+                        <th>Business Name</th>
+                        <th>Individual Email</th>
+                        <th>Individual Mobile</th>
+                        <th>User ID</th>
+                        <th width="100px" >Status</th>
+                        <th width="50px"></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {users.filter((user) =>
+                        user.individual.name.toLowerCase().includes(searchValue.toLowerCase())
+                     ).map((user) => {
+                        return (
+                           <tr key={user.id}>
+                              <td>
+                                 <div className='user-details'>
+                                    <img className='pic' src={user.profilePic != null ? user.profilePic : ProfilePhotoDefault} />
+                                    <span className='name'>{user.individual.name}</span>
+                                 </div>
+                              </td>
+                              <td>{user.business.name}</td>
+                              <td>{user.individual.email}</td>
+                              <td>{user.individual.call}</td>
+                              <td>{user.userId}</td>
+                              <td>
+                                 {user.status ? <div class="status active">Active</div> : <div class="status inactive">Inactive</div>}
+                              </td>
+                              <td><button type='button' title='Edit' className='btn btn-primary'><i className='fal fa-pencil'></i></button></td>
+                           </tr>
+                        )
+                     })}
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    )
