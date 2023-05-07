@@ -13,8 +13,6 @@ function Register() {
 
    const [errors, setErrors] = useState({});
 
-
-
    function handleEmailChange(event) {
       setEmail(event.target.value);
    }
@@ -46,17 +44,6 @@ function Register() {
 
       setErrors(errors);
 
-      console.log({
-
-         'email': email,
-         'mobile': mobile,
-         'dob': dob,
-         'password': password,
-      })
-
-
-
-
       if (!email) {
          errors.email = 'Email is required';
       }
@@ -86,24 +73,19 @@ function Register() {
          // Submit the form
 
          axios.post('http://localhost:3000/register', {
-
-            email: email,
-            mobile: mobile,
-            dob: dob,
-            password: password,
-         })
-            .then(response => {
-               console.log(response.data);
-
-               setEmail('')
-               setMobile('')
-               setDob('')
-               setPassword('')
-               setConfirmPassword('')
-            })
-            .catch(error => {
-               console.log(error.response.data);
-            });
+            'email': email,
+            'mobile': mobile,
+            'dob': dob,
+            'password': password,
+         }).then(response => {
+            setEmail('')
+            setMobile('')
+            setDob('')
+            setPassword('')
+            setConfirmPassword('')
+         }).catch(error => {
+            console.log(error.response.data);
+         });
       }
 
    }

@@ -8,7 +8,7 @@ import ForgotPassword from './components/forgot-password/ForgotPassword';
 import ResetPassword from './components/reset-password/ResetPassword';
 import ChangePassword from './components/change-password/ChangePassword';
 import Create from './components/create/Create';
-import Users from './components/users/Users';
+
 import Footer from './components/footer/Footer';
 import './App.scss';
 
@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        {/* <Header /> */}
+        <Header />
         <Navbar />
         <div className='content-sec'>
           <div className="container-fluid">
@@ -30,12 +30,12 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/changepassword" element={<ChangePassword />} />
                 <Route path="/create" element={<Create />} />
-                <Route path="/users" element={<Users />} />
+
               </Routes>
             </div>
           </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </BrowserRouter>
   );

@@ -6,7 +6,6 @@ function Navbar() {
       <div className='navbar'>
          <div className='nav-links'>
             <NavLink to="/">Home</NavLink>
-            <NavLink to="/users">Users</NavLink>
             <NavLink to="/create">Create</NavLink>
             <NavLink to="/">Logout</NavLink>
             <NavLink to="/changepassword">Change Password</NavLink>

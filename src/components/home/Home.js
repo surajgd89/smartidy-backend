@@ -1,61 +1,92 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
+import { useNavigate } from 'react-router-dom';
+
 import './Home.scss'
-import logo from "../../assets/images/SmartIDy_logo.png"
 export default function Home() {
+
+   const url = "http://localhost:3000/users";
+   const [users, setUsers] = useState([]);
+   const [searchValue, setSearchValue] = useState('');
+   const navigate = useNavigate();
+
+   const navigateForEdit = () => {
+      console.log(url)
+      navigate('/create');
+   };
+
+   const viewNewWindow = (url) => {
+      console.log(url)
+      window.open(url, '_blank');
+   };
+
+   const getUsers = async () => {
+      try {
+         const response = await axios.get(url)
+         setUsers(response.data);
+      } catch (error) {
+         console.log(error)
+      }
+   }
+
+   const statusLbl = (status) => {
+
+      let htmlStatus = <div className="status process">Process</div>
+
+      if (status === "A") {
+         htmlStatus = <div className="status active">Active</div>
+      } else if (status === "H") {
+         htmlStatus = <div className="status hold">Hold</div>
+      } else if (status === "I") {
+         htmlStatus = <div className="status inactive">InActive</div>
+      }
+
+      return htmlStatus
+   }
+
+   useEffect(() => {
+      getUsers()
+   }, []);
+
+
    return (
       <div className='page-section'>
          <div className="page-header">Live SmartIDy Users</div>
          <div className='page-body'>
+            <div className="form-group">
+               <input
+                  type="text"
+                  placeholder="Search by Individual Name..."
+                  value={searchValue}
+                  className="form-control"
+                  onChange={(e) => setSearchValue(e.target.value)}
+               />
+            </div>
             <div className="live-listing">
                <div className="link-row">
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Shreesha Digital</div>
-                        <div className="individual-name">Suraj Patil</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Vihan Enterprises</div>
-                        <div className="individual-name">Sachin Mane</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Tanisha Cake</div>
-                        <div className="individual-name">Jyoti Borge</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">A. M. Enterprises</div>
-                        <div className="individual-name">Amol Matekar</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Dot Line Tatto</div>
-                        <div className="individual-name">Sunil Washivale</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Swara Internet</div>
-                        <div className="individual-name">Sachin Patil</div>
-                     </a>
-                  </div>
-                  <div className="link-col">
-                     <a href="#" target="_blank" className="portfolio-lnk"> <i
-                        className="fal fa-external-link"></i>
-                        <div className="business-name">Shree Estate Agency</div>
-                        <div className="individual-name">Jeevan Bhilare</div>
-                     </a>
-                  </div>
+                  {users.filter((user) =>
+                     user.individual.name.toLowerCase().includes(searchValue.toLowerCase())
+                  ).map((user) => {
+                     return (
+                        <div className="link-col">
+                           <div className="portfolio-lnk">
+
+                              <img className='profile-picture' src={user.profilePic != null ? user.profilePic : ProfilePhotoDefault} />
+
+                              <div className='details'>
+                                 <div className="individual-name">{user.individual.name}</div>
+                                 <div className="business-name">{user.business.name}</div>
+                              </div>
+                              {statusLbl(user.status)}
+                              <div className='action'>
+                                 <button type='button' title='Edit' className='btn btn-primary' onClick={(e) => navigateForEdit(user.userId)}><i className='fal fa-pencil'></i></button>
+                                 <button type='button' title='View' className='btn btn-primary' onClick={(e) => viewNewWindow(user.config.smartIdyUrl)}><i className='fal fa-eye'></i></button>
+                              </div>
+                           </div>
+                        </div>
+                     )
+                  })}
                </div>
             </div>
          </div>

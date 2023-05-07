@@ -1,40 +1,82 @@
 .live-listing {
     .link-row {
         display: grid;
-        grid-template-columns: auto auto;
+        grid-template-columns: repeat(1, 1fr);
         gap: 20px;
     }
 
     .portfolio-lnk {
         display: flex;
-        flex-direction: column;
+        column-gap: 20px;
         align-items: center;
         border-radius: 4px;
-        padding: 15px 20px;
+        padding: 20px;
         background: var(--territory-light);
         text-decoration: none;
         transition: all 0.5s ease;
 
-        i {
-            font-size: 18px;
-            margin-bottom: 8px;
-            color: var(--secondary);
+        .profile-picture {
+            max-width: 60px;
+            border-radius: 50%;
+            display: inline-flex;
         }
 
-        .business-name {
-            font-size: 18px;
-            color: var(--secondary);
-            mark {
-                background: transparent;
-                color: var(--primary);
+        .details {
+            margin-right: auto;
+            .business-name {
+                font-size: 14px;
+                color: var(--secondary-light);
+                mark {
+                    background: transparent;
+                    color: var(--primary);
+                }
+            }
+            .individual-name {
+                font-size: 18px;
+                color: var(--secondary);
+                mark {
+                    background: transparent;
+                    color: var(--primary);
+                }
             }
         }
-        .individual-name {
-            font-size: 14px;
-            color: var(--secondary-light);
-            mark {
-                background: transparent;
-                color: var(--primary);
+
+        .status {
+            padding: 4px 16px;
+            font-size: 13px;
+            text-align: center;
+            border-radius: 30px;
+            color: #000;
+            text-transform: capitalize;
+            display: inline;
+
+            &.active {
+                background: var(--active-bg);
+            }
+
+            &.inactive {
+                background: var(--inactive-bg);
+            }
+
+            &.hold {
+                background: var(--hold-bg);
+            }
+
+            &.process {
+                background: var(--process-bg);
+            }
+        }
+
+        .action {
+            .btn {
+                min-height: 30px;
+                min-width: 30px;
+                padding: 4px;
+                margin-left: 10px;
+
+                &:first-child {
+                    margin-left: 0;
+                }
             }
         }
     }
