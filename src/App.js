@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header />
+        {/* <Header /> */}
         <Navbar />
         <div className='content-sec'>
           <div className="container-fluid">
@@ -30,12 +30,11 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/changepassword" element={<ChangePassword />} />
                 <Route path="/create" element={<Create />} />
-
               </Routes>
             </div>
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </BrowserRouter>
   );
