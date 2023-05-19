@@ -1,34 +1,38 @@
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchAllUser } from '../../features/user/userSlice';
 
 import './Home.scss'
-export default function Home() {
+function Home() {
 
-   const url = "http://localhost:3000/users";
-   const [users, setUsers] = useState([]);
+
+   //Users
+   const users = useSelector((state) => { return state.idyUser.data });
+   const loading = useSelector((state) => { return state.idyUser.loading });
+   const error = useSelector((state) => { return state.idyUser.error });
+   const dispatch = useDispatch();
    const [searchValue, setSearchValue] = useState('');
    const navigate = useNavigate();
 
-   const navigateForEdit = () => {
-      console.log(url)
-      navigate('/create');
+
+   const handle_FetchUser = () => {
+      dispatch(fetchAllUser());
    };
 
-   const viewNewWindow = (url) => {
-      console.log(url)
-      window.open(url, '_blank');
-   };
+   // const handle_CreateUser = () => {
+   //    dispatch(createUser({ 'userId': 'surya' }));
+   // };
 
-   const getUsers = async () => {
-      try {
-         const response = await axios.get(url)
-         setUsers(response.data);
-      } catch (error) {
-         console.log(error)
-      }
-   }
+   // const handle_UpdateUser = (id, userData) => {
+   //    dispatch(updateUser({ id, userData }));
+   // };
+
+   // const handle_DeleteUser = (id) => {
+   //    dispatch(deleteUser(id));
+   // };
 
    const statusLbl = (status) => {
 
@@ -45,10 +49,29 @@ export default function Home() {
       return htmlStatus
    }
 
-   useEffect(() => {
-      getUsers()
-   }, []);
+   const navigateForEdit = () => {
+      navigate('/create');
+   };
 
+   const viewNewWindow = (url) => {
+      console.log(url)
+      window.open(url, '_blank');
+   };
+
+
+   useEffect(() => {
+      handle_FetchUser();
+   }, [dispatch]);
+
+
+
+   if (loading) {
+      return <div>Loading...</div>;
+   }
+
+   if (error) {
+      return <div>Error: {error}</div>;
+   }
 
    return (
       <div className='page-section'>
@@ -67,9 +90,9 @@ export default function Home() {
                <div className="link-row">
                   {users.filter((user) =>
                      user.individual.name.toLowerCase().includes(searchValue.toLowerCase())
-                  ).map((user) => {
+                  ).map((user, index) => {
                      return (
-                        <div className="link-col">
+                        <div className="link-col" key={index}>
                            <div className="portfolio-lnk">
 
                               <img className='profile-picture' src={user.profilePic != null ? user.profilePic : ProfilePhotoDefault} />
@@ -91,11 +114,7 @@ export default function Home() {
             </div>
          </div>
       </div>
-
-
-
-
-
-
    )
 }
+
+export default Home;

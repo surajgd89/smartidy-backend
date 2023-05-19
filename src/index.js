@@ -6,13 +6,18 @@ import './scss/grid.scss'
 import './scss/radio-checkbox-switch.scss'
 import './index.scss';
 
+import { store } from './app/store';
+import { Provider } from 'react-redux';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 reportWebVitals();

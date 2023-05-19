@@ -1,8 +1,5 @@
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
-import axios from 'axios';
-
-
 
 function Business() {
 
@@ -11,6 +8,52 @@ function Business() {
    const [establishedDate, setEstablishedDate] = useState(new Date());
    const [openAtTime, setOpenAtTime] = useState();
    const [closeAtTime, setCloseAtTime] = useState();
+
+
+   const [websiteFlag, setWebsiteFlag] = useState(false);
+   const handle_websiteFlag = () => { setWebsiteFlag(!websiteFlag) };
+
+   const [gstinFlag, setGstinFlag] = useState(false);
+   const handle_gstinFlag = () => { setGstinFlag(!gstinFlag) };
+
+   const [msmeFlag, setMsmeFlag] = useState(false);
+   const handle_msmeFlag = () => { setMsmeFlag(!msmeFlag) };
+
+   const [upiFlag, setUpiFlag] = useState(false);
+   const handle_upiFlag = () => { setUpiFlag(!upiFlag) };
+
+   const [fssaiFlag, setFssaiFlag] = useState(false);
+   const handle_fssaiFlag = () => { setFssaiFlag(!fssaiFlag) };
+
+   const [pgFlag, setPgFlag] = useState(false);
+   const handle_pgFlag = () => { setPgFlag(!pgFlag) };
+
+   const [adFlag, setAdFlag] = useState(false);
+   const handle_adFlag = () => { setAdFlag(!adFlag) };
+
+   const [servicesFlag, setServicesFlag] = useState(false);
+   const handle_servicesFlag = () => { setServicesFlag(!servicesFlag) };
+
+   const [galleryFlag, setGalleryFlag] = useState(false);
+   const handle_galleryFlag = () => { setGalleryFlag(!galleryFlag) };
+
+   const [videosFlag, setVideosFlag] = useState(false);
+   const handle_videosFlag = () => { setVideosFlag(!videosFlag) };
+
+   const [efileFlag, setEfileFlag] = useState(false);
+   const handle_efileFlag = () => { setEfileFlag(!efileFlag) };
+
+   const [linksFlag, setLinksFlag] = useState(false);
+   const handle_linksFlag = () => { setLinksFlag(!linksFlag) };
+
+   const [socialFlag, setSocialFlag] = useState(false);
+   const handle_socialFlag = () => { setSocialFlag(!socialFlag) };
+
+   const [bhFlag, setBhFlag] = useState(false);
+   const handle_bhFlag = () => { setBhFlag(!bhFlag) };
+
+
+
    return (
       <div className="panel">
          <div className="panel-header">Business Information</div>
@@ -71,30 +114,39 @@ function Business() {
                   <div className='form-group'>
                      <label className='control-label'>Established In</label>
 
-                     <DatePicker selected={establishedDate} popperModifiers={[
-                        {
-                           name: 'arrow',
-                           options: {
-                              padding: ({ popper }) => ({
-                                 right: popper.width - 32,
-                              }),
-                           },
-                        }
-                     ]} onChange={(date) => setEstablishedDate(date)} className='form-control' />
+                     <DatePicker
+                        selected={establishedDate}
+                        onChange={(date) => setEstablishedDate(date)}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        popperModifiers={[
+                           {
+                              name: 'arrow',
+                              options: {
+                                 padding: ({ popper }) => ({
+                                    right: popper.width - 32,
+                                 }),
+                              },
+                           }
+                        ]} className='form-control' />
                   </div>
                </div>
+
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Call</label>
                      <input type="tel" name='call' className='form-control' />
                   </div>
                </div>
+
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Email</label>
                      <input type="email" name='email' className='form-control' />
                   </div>
                </div>
+
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >SMS</label>
@@ -116,13 +168,10 @@ function Business() {
                   </div>
                </div>
 
-
-
                <div className="col-12">
                   <div className='values-grouping'>
                      <div className='form-group'>
                         <div className='heading' >Chat</div>
-
                         <div className='add-values-sec'>
                            <div className='form-group'>
                               <label className='control-label' >Network</label>
@@ -157,52 +206,38 @@ function Business() {
                </div>
 
 
-
-
-
-
-
-
                <div className="col-12">
                   <div className='values-grouping'>
-
                      <div className='form-group'>
-                        <div className='heading' >
+                        <div className='heading'>
                            <span>Website</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={websiteFlag} onChange={handle_websiteFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${websiteFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
 
                               <input type="text" name='websiteUrl' className='form-control' />
                            </div>
                         </div>
-
                      </div>
                   </div>
                </div>
-
 
                <div className="col-12">
                   <div className='values-grouping'>
-
                      <div className='form-group'>
                         <div className='heading' >
                            <span>GSTIN</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={gstinFlag} onChange={handle_gstinFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${gstinFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
-
                               <input type="text" name='gstin' className='form-control' />
                            </div>
                         </div>
-
                      </div>
                   </div>
                </div>
-
-
 
                <div className="col-12">
                   <div className='values-grouping'>
@@ -210,9 +245,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>MSME</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={msmeFlag} onChange={handle_msmeFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${msmeFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
 
                               <input type="text" name='msme' className='form-control' />
@@ -229,9 +264,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>FSSAI</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={fssaiFlag} onChange={handle_fssaiFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${fssaiFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
 
                               <input type="text" name='msme' className='form-control' />
@@ -249,9 +284,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>UPI</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={upiFlag} onChange={handle_upiFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${upiFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
 
                               <input type="text" name='upiId' className='form-control' />
@@ -264,15 +299,17 @@ function Business() {
 
 
 
+
+
                <div className="col-12">
                   <div className='values-grouping'>
 
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Payment Gateway</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={pgFlag} onChange={handle_pgFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${pgFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className='control-label' >Pay Link</label>
                               <input type="url" name='paymentGatewayUrl' className='form-control' />
@@ -310,9 +347,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Account Details</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={adFlag} onChange={handle_adFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${adFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className='control-label' >Name</label>
                               <input type="text" name='accountHolderName' className='form-control' />
@@ -353,9 +390,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Services</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={servicesFlag} onChange={handle_servicesFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${servicesFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className='control-label' >Name</label>
                               <input type="text" name='service' className='form-control' />
@@ -387,13 +424,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Gallery</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label></div>
-                        <div className='add-values-sec'>
-                           <div className='form-group'>
-                              <label className='control-label' >Title</label>
-                              <input type='text' name="title" className='form-control' />
-                              <span className='control-error'>Error Message</span>
-                           </div>
+                           <label className="custom-switch"><input type="checkbox" checked={galleryFlag} onChange={handle_galleryFlag} /><span className="checkmark"></span></label></div>
+                        <div className={`add-values-sec toggle-sec ${galleryFlag ? 'slide-down' : 'slide-up'}`}>
+
                            <div className='form-group'>
                               <label htmlFor="galleryImg" className="drop-container">
                                  <span className="drop-title">Upload Gallery Images</span>
@@ -426,9 +459,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Videos</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={videosFlag} onChange={handle_videosFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${videosFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className='control-label' >Title</label>
                               <input type='text' name="title" className='form-control' />
@@ -463,20 +496,25 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>E-Files</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={efileFlag} onChange={handle_efileFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${efileFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className='control-label' >Title</label>
                               <input type='text' name="title" className='form-control' />
                               <span className='control-error'>Error Message</span>
                            </div>
-                           <div class="form-group">
 
-                              <label for="galleryImg" class="drop-container">
-                                 <span class="drop-title">Upload Files</span><input type="file" id="eFile" name="eFile" accept="image/*" />
+                           <div className='form-group'>
+
+                              <label className="drop-container">
+                                 <span className="drop-title">Enter URL</span>
+                                 <input type='text' name="url" className='form-control' />
+                                 <div className='divider-or'><strong>OR</strong></div>
+                                 <span className="drop-title">Upload File</span>
+                                 <input type="file" name='efile' required />
                               </label>
-                              <span class="control-error">Error Message</span>
+                              <span className='control-error'>Error Message</span>
                            </div>
 
                            <div className="action">
@@ -503,9 +541,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Links</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={linksFlag} onChange={handle_linksFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${linksFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className="control-label">Title</label>
                               <input type='text' name="title" className='form-control' />
@@ -538,9 +576,9 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Social</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
+                           <label className="custom-switch"><input type="checkbox" checked={socialFlag} onChange={handle_socialFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
+                        <div className={`add-values-sec toggle-sec ${socialFlag ? 'slide-down' : 'slide-up'}`}>
                            <div className='form-group'>
                               <label className="control-label">Network</label>
                               <select name="title" className='form-control'>
@@ -583,70 +621,80 @@ function Business() {
                      <div className='form-group'>
                         <div className='heading' >
                            <span>Business Hrs & Days</span>
-                           <label class="custom-switch"><input type="checkbox" /><span class="checkmark"></span></label>
-
+                           <label className="custom-switch"><input type="checkbox" checked={bhFlag} onChange={handle_bhFlag} /><span className="checkmark"></span></label>
                         </div>
-                        <div className='add-values-sec'>
-                           <div className='form-group'>
-                              <label className="control-label">Open At</label>
-                              <DatePicker
-                                 selected={openAtTime}
-                                 onChange={(date) => setOpenAtTime(date)}
-                                 showTimeSelect
-                                 showTimeSelectOnly
-                                 popperModifiers={[
-                                    {
-                                       name: 'arrow',
-                                       options: {
-                                          padding: ({ popper }) => ({
-                                             right: popper.width - 32,
-                                          }),
-                                       },
-                                    }
-                                 ]}
-                                 timeIntervals={15}
-                                 timeCaption="Time"
-                                 dateFormat="h:mm aa"
-                                 className='form-control'
+                        <div className={`add-values-sec toggle-sec ${bhFlag ? 'slide-down' : 'slide-up'}`}>
+                           <div className="row gx-3">
+                              <div className="col-sm-6 margin-bottom-10">
+                                 <div className='form-group'>
+                                    <label className="control-label">Open At</label>
+                                    <DatePicker
 
-                              />
-                              <span className='control-error'>Error Message</span>
-                           </div>
-                           <div className='form-group'>
-                              <label className="control-label">Close At</label>
-                              <DatePicker
-                                 selected={closeAtTime}
-                                 onChange={(date) => setCloseAtTime(date)}
-                                 showTimeSelect
-                                 showTimeSelectOnly
-                                 popperModifiers={[
-                                    {
-                                       name: 'arrow',
-                                       options: {
-                                          padding: ({ popper }) => ({
-                                             right: popper.width - 32,
-                                          }),
-                                       },
-                                    }
-                                 ]}
-                                 timeIntervals={15}
-                                 timeCaption="Time"
-                                 dateFormat="h:mm aa"
-                                 className='form-control'
+                                       selected={openAtTime}
+                                       onChange={(date) => setOpenAtTime(date)}
+                                       showTimeSelect
+                                       showTimeSelectOnly
+                                       popperModifiers={[
+                                          {
+                                             name: 'arrow',
+                                             options: {
+                                                padding: ({ popper }) => ({
+                                                   right: popper.width - 32,
+                                                }),
+                                             },
+                                          }
+                                       ]}
+                                       timeIntervals={15}
+                                       timeCaption="Time"
+                                       dateFormat="h:mm aa"
+                                       className='form-control'
 
-                              />
-                              <span className='control-error'>Error Message</span>
-                           </div>
-                           <div className="form-group">
-                              <label className="control-label">Day's</label>
-                              <div className="checkbox-group">
-                                 <label className="custom-checkbox"><input type="checkbox" name="mon" /><span className="checkmark"></span><small>Mon</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="tue" /><span className="checkmark"></span><small>Tue</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="wed" /><span className="checkmark"></span><small>Wed</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="thu" /><span className="checkmark"></span><small>Thu</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="fri" /><span className="checkmark"></span><small>Fri</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="sat" /><span className="checkmark"></span><small>Sat</small></label>
-                                 <label className="custom-checkbox"><input type="checkbox" name="sun" /><span className="checkmark"></span><small>Sun</small></label>
+                                    />
+                                    <span className='control-error'>Error Message</span>
+                                 </div>
+                              </div>
+                              <div className="col-sm-6 margin-bottom-10">
+                                 <div className='form-group'>
+                                    <label className="control-label">Close At</label>
+                                    <DatePicker
+
+                                       selected={closeAtTime}
+                                       onChange={(date) => setCloseAtTime(date)}
+                                       showTimeSelect
+                                       showTimeSelectOnly
+                                       popperModifiers={[
+                                          {
+                                             name: 'arrow',
+                                             options: {
+                                                padding: ({ popper }) => ({
+                                                   right: popper.width - 32,
+                                                }),
+                                             },
+                                          }
+                                       ]}
+                                       timeIntervals={15}
+                                       timeCaption="Time"
+                                       dateFormat="h:mm aa"
+                                       className='form-control'
+
+                                    />
+                                    <span className='control-error'>Error Message</span>
+                                 </div>
+                              </div>
+                              <div className="col-sm-12">
+                                 <div className="form-group">
+                                    <label className="control-label">Day's</label>
+                                    <div className="checkbox-group">
+                                       <label className="custom-checkbox"><input type="checkbox" name="mon" /><span className="checkmark"></span><small>Mon</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="tue" /><span className="checkmark"></span><small>Tue</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="wed" /><span className="checkmark"></span><small>Wed</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="thu" /><span className="checkmark"></span><small>Thu</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="fri" /><span className="checkmark"></span><small>Fri</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="sat" /><span className="checkmark"></span><small>Sat</small></label>
+                                       <label className="custom-checkbox"><input type="checkbox" name="sun" /><span className="checkmark"></span><small>Sun</small></label>
+                                    </div>
+                                 </div>
+
                               </div>
                            </div>
 

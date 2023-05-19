@@ -1,14 +1,19 @@
-
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 import './Register.scss'
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { createUser, fetchUser } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import bcrypt from "bcryptjs";
 
 function Register() {
+   const registeredEmail = useSelector((state) => { return state.idyUser.data });
+   const dispatch = useDispatch()
+   const navigate = useNavigate();
 
    const [formData, setFormData] = useState({
       email: '',
-      mobile: '',
+      call: '',
       dob: '',
       password: '',
       confirmPassword: '',
@@ -22,23 +27,33 @@ function Register() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      if (validateForm()) {
-         let formatingDate = new Date(formData.dob).toLocaleDateString();
-         formData.dob = formatingDate;
 
-         console.log('Form submitted:', formData);
+      if (validateForm()) {
+
+         const hashedPassword = bcrypt.hashSync(formData.password, 10)
+         formData.password = hashedPassword;
+
+         const dob_date = new Date(formData.dob);
+         formData.dob = dob_date.toLocaleDateString
+
+         const { confirmPassword, ...restformData } = formData;
+
+
+         dispatch(createUser(restformData));
+
 
          setFormData({
             email: '',
-            mobile: '',
+            call: '',
             dob: '',
             password: '',
             confirmPassword: '',
          })
+
+         navigate('/login');
+
       }
    };
-
-
 
    const validateForm = () => {
       let isValid = true;
@@ -46,13 +61,12 @@ function Register() {
 
       const isValidEmail = (email) => {
          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
          return regex.test(email);
       };
 
-      const isValidMobile = (mobile) => {
+      const isValidMobile = (call) => {
          const regex = /^[0-9]{10}$/;
-         return regex.test(mobile);
+         return regex.test(call);
       };
 
       const isValidPassword = (password) => {
@@ -67,6 +81,12 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
+      }
+      const searchParams = `?email=${formData.email}`;
+      dispatch(fetchUser(searchParams));
+      if (!registeredEmail) {
+         isValid = false;
+         errors.isEmailRegistered = 'Email is already registered.';
       }
 
       // 2. Validate mobile
@@ -123,29 +143,36 @@ function Register() {
                            <label className='control-label'>Email</label>
                            <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
+                           {errors.isEmailRegistered && <div className="control-error">{errors.isEmailRegistered}</div>}
                         </div>
                      </div>
 
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label'>Mobile</label>
-                           <input type="text" value={formData.mobile} className='form-control' name='mobile' onChange={handleChange} />
-                           {errors.mobile && <div className="control-error">{errors.mobile}</div>}
+                           <input type="text" value={formData.call} className='form-control' name='call' onChange={handleChange} />
+                           {errors.call && <div className="control-error">{errors.call}</div>}
                         </div>
                      </div>
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label'>Date of Birth</label>
-                           <DatePicker dateFormat="dd/MM/yyyy" selected={formData.dob} popperModifiers={[
-                              {
-                                 name: 'arrow',
-                                 options: {
-                                    padding: ({ popper }) => ({
-                                       right: popper.width - 32,
-                                    }),
-                                 },
-                              }
-                           ]} onChange={(date) => { setFormData({ ...formData, ['dob']: date }) }} className='form-control' />
+                           <DatePicker dateFormat="dd/MM/yyyy"
+                              selected={formData.dob}
+                              onChange={(date) => { setFormData({ ...formData, ['dob']: date }) }}
+                              showMonthDropdown
+                              showYearDropdown
+                              dropdownMode="select"
+                              popperModifiers={[
+                                 {
+                                    name: 'arrow',
+                                    options: {
+                                       padding: ({ popper }) => ({
+                                          right: popper.width - 32,
+                                       }),
+                                    },
+                                 }
+                              ]} className='form-control' />
                            {errors.dob && <div className="control-error">{errors.dob}</div>}
                         </div>
                      </div>
@@ -177,6 +204,7 @@ function Register() {
                <div className="panel-footer">
                   <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Register</button>
                </div>
+
             </div>
          </div>
       </div>
