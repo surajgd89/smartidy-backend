@@ -3,14 +3,14 @@ import { useEffect, useState } from 'react';
 import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAllUser } from '../../features/user/userSlice';
+import { fetchUser } from '../../features/user/userSlice';
 
 import './Home.scss'
 function Home() {
 
 
    //Users
-   const users = useSelector((state) => { return state.idyUser.data });
+   const userData = useSelector((state) => { return state.idyUser.data });
    const loading = useSelector((state) => { return state.idyUser.loading });
    const error = useSelector((state) => { return state.idyUser.error });
    const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function Home() {
 
 
    const handle_FetchUser = () => {
-      dispatch(fetchAllUser());
+      dispatch(fetchUser());
    };
 
    // const handle_CreateUser = () => {
@@ -35,18 +35,17 @@ function Home() {
    // };
 
    const statusLbl = (status) => {
-
-      let htmlStatus = <div className="status process">Process</div>
-
+      let userStatus;
       if (status === "A") {
-         htmlStatus = <div className="status active">Active</div>
+         userStatus = <div className="status active">Active</div>
       } else if (status === "H") {
-         htmlStatus = <div className="status hold">Hold</div>
+         userStatus = <div className="status hold">Hold</div>
       } else if (status === "I") {
-         htmlStatus = <div className="status inactive">InActive</div>
+         userStatus = <div className="status inactive">InActive</div>
+      } else if (status === "P") {
+         userStatus = <div className="status process">Process</div>
       }
-
-      return htmlStatus
+      return userStatus
    }
 
    const navigateForEdit = () => {
@@ -58,11 +57,9 @@ function Home() {
       window.open(url, '_blank');
    };
 
-
    useEffect(() => {
       handle_FetchUser();
    }, [dispatch]);
-
 
 
    if (loading) {
@@ -72,6 +69,7 @@ function Home() {
    if (error) {
       return <div>Error: {error}</div>;
    }
+
 
    return (
       <div className='page-section'>
@@ -88,27 +86,25 @@ function Home() {
             </div>
             <div className="live-listing">
                <div className="link-row">
-                  {users.filter((user) =>
-                     user.individual.name.toLowerCase().includes(searchValue.toLowerCase())
-                  ).map((user, index) => {
-                     return (
-                        <div className="link-col" key={index}>
-                           <div className="portfolio-lnk">
-
-                              <img className='profile-picture' src={user.profilePic != null ? user.profilePic : ProfilePhotoDefault} />
-
-                              <div className='details'>
-                                 <div className="individual-name">{user.individual.name}</div>
-                                 <div className="business-name">{user.business.name}</div>
-                              </div>
-                              {statusLbl(user.status)}
-                              <div className='action'>
-                                 <button type='button' title='Edit' className='btn btn-primary' onClick={(e) => navigateForEdit(user.userId)}><i className='fal fa-pencil'></i></button>
-                                 <button type='button' title='View' className='btn btn-primary' onClick={(e) => viewNewWindow(user.config.smartIdyUrl)}><i className='fal fa-eye'></i></button>
+                  {userData.filter((filter) => filter.individual.name.toLowerCase().includes(searchValue.toLowerCase())).map((user, index) => {
+                     if (user.status) {
+                        return (
+                           <div className="link-col" key={index}>
+                              <div className="portfolio-lnk">
+                                 <img className='profile-picture' src={user.profilePic ? user.profilePic : ProfilePhotoDefault} />
+                                 <div className='details'>
+                                    <div className="individual-name">{user.individual.name}</div>
+                                    <div className="business-name">{user.business.name}</div>
+                                 </div>
+                                 {statusLbl(user.status)}
+                                 <div className='action'>
+                                    <button type='button' title='Edit' className='btn btn-primary' onClick={(e) => navigateForEdit(user.userId)}><i className='fal fa-pencil'></i></button>
+                                    <button type='button' title='View' className='btn btn-primary' onClick={(e) => viewNewWindow(user.config.smartIdyUrl)}><i className='fal fa-eye'></i></button>
+                                 </div>
                               </div>
                            </div>
-                        </div>
-                     )
+                        )
+                     }
                   })}
                </div>
             </div>

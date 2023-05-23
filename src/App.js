@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
@@ -11,7 +11,7 @@ import ForgotPassword from './components/forgot-password/ForgotPassword';
 import ResetPassword from './components/reset-password/ResetPassword';
 import ChangePassword from './components/change-password/ChangePassword';
 import Create from './components/create/Create';
-
+import Otp from './components/otp/Otp';
 import Footer from './components/footer/Footer';
 import './App.scss';
 
@@ -37,6 +37,7 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/changepassword" element={<ChangePassword />} />
                 <Route path="/create" element={<Create />} />
+                <Route path="/otp" element={<Otp />} />
               </Routes>
             </div>
           </div>

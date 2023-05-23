@@ -4,21 +4,10 @@ import axios from 'axios';
 const API_USER_URL = 'http://localhost:3000/user';
 
 
-//GET ALL Users
-export const fetchAllUser = createAsyncThunk('users/fetchAllUser', async () => {
-   try {
-      const response = await axios.get(API_USER_URL);
-      return response.data;
-   } catch (error) {
-      throw Error(error.response.data.error);
-   }
-});
-
-
 //FETCH User
-export const fetchUser = createAsyncThunk('users/fetchUser', async (searchParams) => {
+export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
    try {
-      const response = await axios.get(`${API_USER_URL}/${searchParams}`);
+      const response = await axios.get(`${API_USER_URL}`);
       return response.data;
    } catch (error) {
       throw Error(error.response.data.error);
@@ -70,20 +59,6 @@ const userSlice = createSlice({
    extraReducers: builder => {
       builder
 
-
-         //GET ALL DATA 
-         .addCase(fetchAllUser.pending, state => {
-            state.loading = true;
-            state.error = null;
-         })
-         .addCase(fetchAllUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.data = action.payload;
-         })
-         .addCase(fetchAllUser.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message;
-         })
 
          //FETCH 
          .addCase(fetchUser.pending, state => {
