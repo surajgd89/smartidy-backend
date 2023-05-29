@@ -11,10 +11,9 @@ import ForgotPassword from './components/forgot-password/ForgotPassword';
 import ResetPassword from './components/reset-password/ResetPassword';
 import ChangePassword from './components/change-password/ChangePassword';
 import Create from './components/create/Create';
-import Otp from './components/otp/Otp';
+import OneTimePassCode from './components/otp/OneTimePassCode';
 import Footer from './components/footer/Footer';
 import './App.scss';
-
 
 
 function App() {
@@ -37,7 +36,7 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/changepassword" element={<ChangePassword />} />
                 <Route path="/create" element={<Create />} />
-                <Route path="/otp" element={<Otp />} />
+                <Route path="/otp" element={<OneTimePassCode />} />
               </Routes>
             </div>
           </div>

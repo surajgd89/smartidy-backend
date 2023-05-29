@@ -5,18 +5,14 @@ import { fetchUser } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 
-
 function Register() {
-
    const userData = useSelector((state) => state.idyUser.data);
-
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
 
    const [errors, setErrors] = useState({});
-   const [OTP, setOTP] = useState('');
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,15 +20,11 @@ function Register() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
-
-
       if (validateForm()) {
          const hashedPassword = bcrypt.hashSync(formData.password, 10)
 
-         const postData = {
+         const registerUserData = {
             "password": hashedPassword,
-            "otp": OTP,
             "individual": {
                "name": formData.name,
                "email": formData.email,
@@ -40,28 +32,16 @@ function Register() {
             }
          }
 
-         const postDataString = JSON.stringify(postData);
-         sessionStorage.setItem('registerData', postDataString);
-
+         sessionStorage.setItem('registerUserData', JSON.stringify(registerUserData));
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
 
-         // navigate('/otp');
+         navigate('/otp');
       }
-
-   };
-
-   const generateOTP = () => {
-      const newOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      setOTP(newOTP)
    };
 
    useEffect(() => {
       dispatch(fetchUser())
    }, [dispatch]);
-
-   useEffect(() => {
-      generateOTP()
-   }, [handleChange]);
 
    const validateForm = () => {
       let isValid = true;
@@ -83,7 +63,12 @@ function Register() {
       };
 
       const isRegEmail = (email) => {
-         const isPresent = userData.some((user) => user.individual.email === email);
+         const isPresent = userData.some((user) => {
+            const userEmail = user.individual.email;
+            if (userEmail) {
+               return userEmail === email
+            }
+         });
          return isPresent;
       };
 
@@ -135,8 +120,6 @@ function Register() {
       setErrors(errors);
       return isValid;
    };
-
-
 
    return (
       <div className='page-section small-page '>
@@ -203,6 +186,5 @@ function Register() {
       </div>
    )
 }
+export default Register;
 
-
-export default Register

@@ -159,8 +159,19 @@ input[type='number'] {
 .control-error {
     margin-top: 4px;
     display: flex;
-    color: var(--primary);
+    color: #f50115;
     font-size: 12px;
+}
+
+.panel-error {
+    display: flex;
+    background: #ffdddf;
+    border: 1px solid #fea6ad;
+    color: #f50115;
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 15px;
 }
 
 .control-note {
@@ -198,6 +209,11 @@ input[type='number'] {
 
 .link {
     color: var(--link);
+    background: none;
+    border: 0;
+    outline: 0;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .password-rules {

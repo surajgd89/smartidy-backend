@@ -1,36 +1,80 @@
 
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+import './ForgotPassword.scss'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
+   const userData = useSelector((state) => state.idyUser.data);
+   const dispatch = useDispatch()
+   const navigate = useNavigate();
 
-   const [email, setEmail] = useState('');
+   const [formData, setFormData] = useState({ email: '' });
    const [errors, setErrors] = useState({});
 
-   const handleEmailChange = (event) => {
-      setEmail(event.target.value);
+   const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   const handleSubmit = (event) => {
-      event.preventDefault();
-      const errors = {};
-      console.log(`Email: ${email}`);
+   const handleSubmit = (e) => {
+      e.preventDefault();
 
-      if (!email) {
+      if (validateForm()) {
+
+         const forgotEmail = {
+            "email": formData.email
+         }
+
+         sessionStorage.setItem('forgotEmail', JSON.stringify(forgotEmail));
+
+         setFormData({ email: '' })
+         navigate('/otp');
+      }
+
+   }
+
+   useEffect(() => {
+      dispatch(fetchUser())
+   }, [dispatch]);
+
+   const validateForm = () => {
+      let isValid = true;
+      let errors = {};
+
+      const isValidEmail = (testcase) => {
+         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+         return regex.test(testcase);
+      };
+
+      const isRegEmail = (email) => {
+         const isPresent = userData.some((user) => {
+            const userEmail = user.individual.email;
+            if (userEmail) {
+               return userEmail === email
+            }
+         });
+         return isPresent;
+      };
+
+
+      //  Validate email
+      if (formData.email === '') {
          errors.email = 'Email is required';
-      } else if (!/\S+@\S+\.\S+/.test(email)) {
-         errors.email = 'Email is invalid';
+         isValid = false;
+      } else if (!isValidEmail(formData.email)) {
+         errors.email = 'Invalid email address';
+         isValid = false;
+      } else if (!isRegEmail(formData.email)) {
+         errors.email = 'Incorrect email address.';
+         isValid = false;
       }
 
       setErrors(errors);
-
-      if (Object.keys(errors).length === 0) {
-         // Submit the form
-      }
+      return isValid;
    };
 
    return (
-
-
       <div className='page-section small-page '>
          <div className='page-body'>
             <div className="panel">
@@ -40,21 +84,21 @@ function ForgotPassword() {
                      <div className="col-12">
                         <div className="form-group">
                            <label className="control-label">Email</label>
-                           <input type="text" value={email} className="form-control" onChange={handleEmailChange} />
+                           <input type="text" value={formData.email} className="form-control" name="email" onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
+
                         </div>
                      </div>
                   </div>
                </div>
                <div className="panel-footer">
-                  <button onSubmit={handleSubmit} type="submit" className='btn btn-primary btn-block'>Reset Password</button>
+                  <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Reset Password</button>
                </div>
             </div>
          </div>
       </div>
-
-
-
    )
+
 }
+
 export default ForgotPassword;
