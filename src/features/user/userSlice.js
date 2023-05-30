@@ -25,9 +25,9 @@ export const createUser = createAsyncThunk('users/createUser', async (userData) 
 });
 
 //UPDATE User
-export const updateUser = createAsyncThunk('users/updateUser', async ({ id, userData }) => {
+export const updateUser = createAsyncThunk('users/updateUser', async (userData) => {
    try {
-      const response = await axios.put(`${API_USER_URL}/${id}`, userData);
+      const response = await axios.put(`${API_USER_URL}/${userData.id}`, userData);
       return response.data;
    } catch (error) {
       throw Error(error.response.data.error);

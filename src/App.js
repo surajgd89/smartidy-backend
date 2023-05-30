@@ -1,7 +1,5 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
 import Home from './components/home/Home';
@@ -16,14 +14,13 @@ import Footer from './components/footer/Footer';
 import './App.scss';
 
 
+
 function App() {
-
-
 
   return (
     <BrowserRouter>
       <div className="wrapper">
-        {/* <Header /> */}
+        <Header />
         <Navbar />
         <div className='content-sec'>
           <div className="container-fluid">
@@ -41,7 +38,7 @@ function App() {
             </div>
           </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </BrowserRouter>
   );

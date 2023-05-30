@@ -11,6 +11,8 @@ function Create() {
    const [businessForm, setBusinessForm] = useState(true);
    const [configurationForm, setConfigurationForm] = useState(true);
 
+
+
    return (
       <div className='page-section small-page '>
          <h2 className='page-header'>Create SmartIDy</h2>

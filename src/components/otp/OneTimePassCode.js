@@ -131,7 +131,7 @@ function OneTimePassCode() {
                            <label className='control-label'>Verification Code</label>
                            <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
                            {errors.otp && <div className="control-error">{errors.otp}</div>}
-                           {showTimer && <div className='control-note'>The code will expire in&nbsp;&nbsp;<strong><Timer duration={10} onTimerEnd={handleTimerEnd} /></strong></div>}
+                           {showTimer && <div className='control-note'>The code will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
                         </div>
                      </div>
                   </div>

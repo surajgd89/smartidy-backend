@@ -3,7 +3,7 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../features/user/userSlice';
+import { updateUser, fetchUser } from '../../features/user/userSlice';
 import bcrypt from "bcryptjs";
 
 function Login() {
@@ -13,17 +13,22 @@ function Login() {
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
+   const [userUpdate, setUserUpdate] = useState({});
 
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
+
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
       if (validateForm()) {
          setFormData({ email: '', password: '' })
+         const updateData = { ...userUpdate, "isLoggedIn": true }
+         dispatch(updateUser(updateData));
          navigate('/create');
       }
    };
@@ -39,15 +44,15 @@ function Login() {
       };
 
       const isCheckUser = (email, password) => {
-         const isCheckUser = userData.some((user) => {
+         const isCheck = userData.some((user) => {
             if (user.individual.email === email) {
-               const match = bcrypt.compareSync(password, user.password);
-               return match
+               const isMatch = bcrypt.compareSync(password, user.password);
+               setUserUpdate(user);
+               return isMatch
             }
          });
-         return isCheckUser;
+         return isCheck;
       };
-
 
       //  Validate email
       if (formData.email === '') {
