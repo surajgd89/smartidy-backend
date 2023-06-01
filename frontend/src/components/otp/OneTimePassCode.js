@@ -66,7 +66,6 @@ function OneTimePassCode() {
             setEmailSent(forgotEmail)
             navigate('/changepassword');
          }
-
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
