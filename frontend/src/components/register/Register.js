@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import './Register.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 
@@ -39,9 +38,7 @@ function Register() {
       }
    };
 
-   useEffect(() => {
-      dispatch(fetchUser())
-   }, [dispatch]);
+
 
    const validateForm = () => {
       let isValid = true;
@@ -62,15 +59,7 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegEmail = (email) => {
-         const isPresent = userData.some((user) => {
-            const userEmail = user.individual.email;
-            if (userEmail) {
-               return userEmail === email
-            }
-         });
-         return isPresent;
-      };
+
 
       //  Validate name
       if (formData.name === '') {
@@ -84,9 +73,6 @@ function Register() {
          isValid = false;
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
-         isValid = false;
-      } else if (isRegEmail(formData.email)) {
-         errors.isRegEmail = 'Email Already Registred.';
          isValid = false;
       }
 
@@ -142,7 +128,7 @@ function Register() {
                            <label className='control-label'>Email</label>
                            <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
-                           {errors.isRegEmail && <div className="control-error">{errors.isRegEmail}</div>}
+
                         </div>
                      </div>
 
