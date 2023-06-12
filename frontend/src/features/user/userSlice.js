@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-const API_USER_URL = 'http://localhost:4000/users';
+const API_USER_URL = 'http://localhost:4000/user';
 
-//FETCH User
-export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
+//GET USER
+export const getUser = createAsyncThunk('users/getUser', async () => {
    try {
       const response = await axios.get(`${API_USER_URL}`);
       return response.data;
@@ -12,7 +12,7 @@ export const fetchUser = createAsyncThunk('users/fetchUser', async () => {
    }
 });
 
-//CREATE User
+//CREATE USERS
 export const createUser = createAsyncThunk('users/createUser', async (userData) => {
    try {
       const response = await axios.post(API_USER_URL, userData);
@@ -22,10 +22,10 @@ export const createUser = createAsyncThunk('users/createUser', async (userData) 
    }
 });
 
-//UPDATE User
+//UPDATE USERS
 export const updateUser = createAsyncThunk('users/updateUser', async (userData) => {
    try {
-      const response = await axios.put(`${API_USER_URL}/${userData.id}`, userData);
+      const response = await axios.patch(`${API_USER_URL}/${userData.id}`, userData);
       return response.data;
    } catch (error) {
       throw Error(error.response.data.error);
@@ -33,7 +33,7 @@ export const updateUser = createAsyncThunk('users/updateUser', async (userData) 
 });
 
 
-//DELETE User
+//DELETE USERS
 export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
    try {
       await axios.delete(`${API_USER_URL}/${id}`);
@@ -58,16 +58,16 @@ const userSlice = createSlice({
       builder
 
 
-         //FETCH 
-         .addCase(fetchUser.pending, state => {
+         //GET 
+         .addCase(getUser.pending, state => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(fetchUser.fulfilled, (state, action) => {
+         .addCase(getUser.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
          })
-         .addCase(fetchUser.rejected, (state, action) => {
+         .addCase(getUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })

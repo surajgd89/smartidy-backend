@@ -32,7 +32,7 @@ const userSchema = new Schema(
          estDate: { type: Date },
          call: { type: String },
          sms: { type: String },
-         email: { type: String, unique: true },
+         email: { type: String },
          designation: { type: String },
          gstin: { type: String },
          msme: { type: String },
@@ -118,8 +118,8 @@ const userSchema = new Schema(
 
 )
 
-const Users = mongoose.model('Users', userSchema, 'users');
+const User = mongoose.model('User', userSchema, 'user');
 
-const schemas = { 'Users': Users }
+const schemas = { 'User': User }
 
 module.exports = schemas

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import './Login.scss'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../features/user/userSlice';
+import { getUser, updateUser } from '../../features/user/userSlice';
 import bcrypt from "bcryptjs";
 
 function Login() {
@@ -26,7 +26,6 @@ function Login() {
       e.preventDefault();
 
       if (validateForm()) {
-         // const isMatch = bcrypt.compareSync(password, user.password);
          setFormData({ email: '', password: '' })
          const updateData = { ...userUpdate, "isLoggedIn": true }
          dispatch(updateUser(updateData));
@@ -45,6 +44,17 @@ function Login() {
       };
 
 
+      const isCheckUser = (email, password) => {
+         const isCheck = userData.some((user) => {
+            if (user.individual.email === email) {
+               const isMatch = bcrypt.compareSync(password, user.password);
+               setUserUpdate(user);
+               return isMatch
+            }
+         });
+         return isCheck;
+      };
+
 
       //  Validate email
       if (formData.email === '') {
@@ -61,13 +71,21 @@ function Login() {
          isValid = false;
       }
 
+      //Match User
+      if (!isCheckUser(formData.email, formData.password) && formData.password !== '' && formData.email !== '') {
+         errors.isCheckUser = 'Incorrect email or password';
+         isValid = false;
+      }
+
 
 
       setErrors(errors);
       return isValid;
    };
 
-
+   useEffect(() => {
+      dispatch(getUser())
+   }, [dispatch]);
 
    return (
       <div className='page-section small-page'>
@@ -78,7 +96,7 @@ function Login() {
                <div className="panel-header">Login to Your Account</div>
 
                <div className="panel-body">
-
+                  {errors.isCheckUser && <div className="panel-error">{errors.isCheckUser}</div>}
                   <div className="row">
                      <div className="col-12">
                         <div className='form-group'>

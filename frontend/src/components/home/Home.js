@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchUser } from '../../features/user/userSlice';
+import { getUser } from '../../features/user/userSlice';
 
 import './Home.scss'
 function Home() {
 
 
-   //Users
+   //User
    const userData = useSelector((state) => { return state.idyUser.data });
    const loading = useSelector((state) => { return state.idyUser.loading });
    const error = useSelector((state) => { return state.idyUser.error });
@@ -18,8 +18,8 @@ function Home() {
    const navigate = useNavigate();
 
 
-   const handle_FetchUser = () => {
-      dispatch(fetchUser());
+   const handle_getUser = () => {
+      dispatch(getUser());
    };
 
    // const handle_CreateUser = () => {
@@ -58,7 +58,7 @@ function Home() {
    };
 
    useEffect(() => {
-      handle_FetchUser();
+      handle_getUser();
    }, [dispatch]);
 
 

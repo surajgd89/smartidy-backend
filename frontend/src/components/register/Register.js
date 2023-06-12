@@ -1,12 +1,13 @@
-import {  useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Register.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
+import { getUser } from '../../features/user/userSlice';
 
 function Register() {
-   const userData = useSelector((state) => state.idyUser.data);
-   const dispatch = useDispatch()
+   const userData = useSelector((state) => { return state.idyUser.data });
+   const dispatch = useDispatch();
    const navigate = useNavigate();
 
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -33,12 +34,9 @@ function Register() {
 
          sessionStorage.setItem('registerUserData', JSON.stringify(registerUserData));
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
-
          navigate('/otp');
       }
    };
-
-
 
    const validateForm = () => {
       let isValid = true;
@@ -59,7 +57,10 @@ function Register() {
          return regex.test(testcase);
       };
 
-
+      const isRegEmail = (email) => {
+         const isPresent = userData.some((user) => user.individual.email === email);
+         return isPresent;
+      };
 
       //  Validate name
       if (formData.name === '') {
@@ -73,6 +74,9 @@ function Register() {
          isValid = false;
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
+         isValid = false;
+      } else if (isRegEmail(formData.email)) {
+         errors.email = 'Email Already Registred.';
          isValid = false;
       }
 
@@ -106,6 +110,10 @@ function Register() {
       setErrors(errors);
       return isValid;
    };
+
+   useEffect(() => {
+      dispatch(getUser())
+   }, [dispatch]);
 
    return (
       <div className='page-section small-page '>

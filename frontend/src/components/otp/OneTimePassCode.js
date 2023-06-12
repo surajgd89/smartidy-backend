@@ -40,6 +40,7 @@ const Timer = ({ duration, onTimerEnd }) => {
 function OneTimePassCode() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
+
    const [emailSent, setEmailSent] = useState('');
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
@@ -47,32 +48,15 @@ function OneTimePassCode() {
    const [showResend, setShowResend] = useState(false);
    const [showTimer, setshowTimer] = useState(false);
 
-   const registerUserData = sessionStorage.getItem('registerUserData');
-   const forgotEmail = sessionStorage.getItem('forgotEmail');
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
-      if (validateForm()) {
 
-         if (sessionStorage.getItem('registerUserData')) {
-            dispatch(createUser(JSON.parse(registerUserData)));
-            setEmailSent(JSON.parse(registerUserData).individual.email)
-            navigate('/login');
-         } else if (sessionStorage.getItem('forgotEmail')) {
-            setEmailSent(forgotEmail)
-            navigate('/changepassword');
-         }
-         setFormData({ otp: '' });
-         setOTP('');
-         setshowTimer(false);
-         sessionStorage.clear()
+   const registerUserData = sessionStorage.getItem('registerUserData');
+   const forgotEmail = sessionStorage.getItem('forgotEmail');
 
-      }
-   };
 
    const generateOTP = () => {
       const newOTP = Math.floor(100000 + Math.random() * 900000).toString();
@@ -93,6 +77,9 @@ function OneTimePassCode() {
    const validateForm = () => {
       let isValid = true;
       let errors = {};
+
+
+
       const isValidOtp = (otp) => {
          const regex = /^\d{6}$/;
          return regex.test(otp);
@@ -111,8 +98,42 @@ function OneTimePassCode() {
       return isValid;
    };
 
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+
+      if (validateForm()) {
+
+         if (sessionStorage.getItem('registerUserData')) {
+            dispatch(createUser(JSON.parse(registerUserData)));
+            navigate('/login');
+         }
+
+         if (sessionStorage.getItem('forgotEmail')) {
+            navigate('/changepassword');
+         }
+
+         setFormData({ otp: '' });
+         setOTP('');
+         setshowTimer(false);
+         sessionStorage.clear()
+      }
+
+
+   };
+
    useEffect(() => {
       handleResendOTP();
+
+      if (sessionStorage.getItem('registerUserData') != null) {
+         dispatch(createUser(JSON.parse(registerUserData)));
+         setEmailSent(JSON.parse(registerUserData).individual.email)
+      }
+
+      if (sessionStorage.getItem('forgotEmail') != null) {
+         setEmailSent(forgotEmail)
+      }
+
    }, [])
 
    return (

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import './ForgotPassword.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../features/user/userSlice';
+import { getUser } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
@@ -21,13 +21,7 @@ function ForgotPassword() {
       e.preventDefault();
 
       if (validateForm()) {
-
-         const forgotEmail = {
-            "email": formData.email
-         }
-
-         sessionStorage.setItem('forgotEmail', JSON.stringify(forgotEmail));
-
+         sessionStorage.setItem('forgotEmail', formData.email);
          setFormData({ email: '' })
          navigate('/otp');
       }
@@ -35,7 +29,7 @@ function ForgotPassword() {
    }
 
    useEffect(() => {
-      dispatch(fetchUser())
+      dispatch(getUser())
    }, [dispatch]);
 
    const validateForm = () => {
@@ -86,7 +80,6 @@ function ForgotPassword() {
                            <label className="control-label">Email</label>
                            <input type="text" value={formData.email} className="form-control" name="email" onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
-
                         </div>
                      </div>
                   </div>
