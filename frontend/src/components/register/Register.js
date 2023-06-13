@@ -23,7 +23,7 @@ function Register() {
       if (validateForm()) {
          const hashedPassword = bcrypt.hashSync(formData.password, 10)
 
-         const registerUserData = {
+         const registerUser = {
             "password": hashedPassword,
             "individual": {
                "name": formData.name,
@@ -32,7 +32,7 @@ function Register() {
             }
          }
 
-         sessionStorage.setItem('registerUserData', JSON.stringify(registerUserData));
+         sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate('/otp');
       }

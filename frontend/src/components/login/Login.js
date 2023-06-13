@@ -20,15 +20,12 @@ function Login() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-
-
    const handleSubmit = (e) => {
       e.preventDefault();
-
       if (validateForm()) {
-         setFormData({ email: '', password: '' })
          const updateData = { ...userUpdate, "isLoggedIn": true }
          dispatch(updateUser(updateData));
+         setFormData({ email: '', password: '' })
          navigate('/create');
       }
    };

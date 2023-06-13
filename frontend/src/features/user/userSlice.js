@@ -3,13 +3,25 @@ import axios from 'axios';
 const API_USER_URL = 'http://localhost:4000/user';
 
 //GET USER
-export const getUser = createAsyncThunk('users/getUser', async () => {
-   try {
-      const response = await axios.get(`${API_USER_URL}`);
-      return response.data;
-   } catch (error) {
-      throw Error(error.response.data.error);
+export const getUser = createAsyncThunk('users/getUser', async (searchQuery) => {
+
+   if (searchQuery) {
+      try {
+         const response = await axios.get(`${API_USER_URL}${searchQuery}`);
+         return response.data;
+      } catch (error) {
+         throw Error(error.response.data.error);
+      }
+   } else {
+      try {
+         const response = await axios.get(`${API_USER_URL}`);
+         return response.data;
+      } catch (error) {
+         throw Error(error.response.data.error);
+      }
    }
+
+
 });
 
 //CREATE USERS
@@ -25,7 +37,7 @@ export const createUser = createAsyncThunk('users/createUser', async (userData) 
 //UPDATE USERS
 export const updateUser = createAsyncThunk('users/updateUser', async (userData) => {
    try {
-      const response = await axios.patch(`${API_USER_URL}/${userData.id}`, userData);
+      const response = await axios.patch(`${API_USER_URL}/${userData._id}`, userData);
       return response.data;
    } catch (error) {
       throw Error(error.response.data.error);

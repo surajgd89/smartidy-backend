@@ -41,7 +41,7 @@ function OneTimePassCode() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
-   const [emailSent, setEmailSent] = useState('');
+   const [sendEmail, setSendEmail] = useState('');
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
    const [otp, setOTP] = useState('');
@@ -54,8 +54,8 @@ function OneTimePassCode() {
    };
 
 
-   const registerUserData = sessionStorage.getItem('registerUserData');
-   const forgotEmail = sessionStorage.getItem('forgotEmail');
+   const registerUser = sessionStorage.getItem('registerUser');
+   const regdEmail = sessionStorage.getItem('regdEmail');
 
 
    const generateOTP = () => {
@@ -78,8 +78,6 @@ function OneTimePassCode() {
       let isValid = true;
       let errors = {};
 
-
-
       const isValidOtp = (otp) => {
          const regex = /^\d{6}$/;
          return regex.test(otp);
@@ -100,40 +98,29 @@ function OneTimePassCode() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
-
       if (validateForm()) {
-
-         if (sessionStorage.getItem('registerUserData')) {
-            dispatch(createUser(JSON.parse(registerUserData)));
+         if (sessionStorage.getItem('registerUser')) {
+            dispatch(createUser(JSON.parse(registerUser)));
+            sessionStorage.removeItem("registerUser");
             navigate('/login');
          }
-
-         if (sessionStorage.getItem('forgotEmail')) {
+         if (sessionStorage.getItem('regdEmail')) {
             navigate('/changepassword');
          }
-
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
-         sessionStorage.clear()
       }
-
-
    };
 
    useEffect(() => {
       handleResendOTP();
-
-      if (sessionStorage.getItem('registerUserData') != null) {
-         dispatch(createUser(JSON.parse(registerUserData)));
-         setEmailSent(JSON.parse(registerUserData).individual.email)
+      if (sessionStorage.getItem('registerUser')) {
+         setSendEmail(JSON.parse(registerUser).individual.email)
       }
-
-      if (sessionStorage.getItem('forgotEmail') != null) {
-         setEmailSent(forgotEmail)
+      if (sessionStorage.getItem('regdEmail')) {
+         setSendEmail(regdEmail)
       }
-
    }, [])
 
    return (
@@ -142,7 +129,7 @@ function OneTimePassCode() {
             <div className="panel">
                <div className="panel-header">
                   <div>Verify Email {otp}</div>
-                  <small>A verification code has been sent to <strong>{emailSent}</strong></small>
+                  <small>A verification code has been sent to <strong>{sendEmail}</strong></small>
                </div>
                <div className="panel-body">
                   <div className="row">

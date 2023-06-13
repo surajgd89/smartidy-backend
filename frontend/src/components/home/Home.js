@@ -73,7 +73,7 @@ function Home() {
 
    return (
       <div className='page-section'>
-         <div className="page-header">Live SmartIDy Users</div>
+         <div className="page-header">SmartIDy User</div>
          <div className='page-body'>
             <div className="form-group">
                <input

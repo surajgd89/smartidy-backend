@@ -21,16 +21,12 @@ function ForgotPassword() {
       e.preventDefault();
 
       if (validateForm()) {
-         sessionStorage.setItem('forgotEmail', formData.email);
+         sessionStorage.setItem('regdEmail', formData.email);
          setFormData({ email: '' })
          navigate('/otp');
       }
-
    }
 
-   useEffect(() => {
-      dispatch(getUser())
-   }, [dispatch]);
 
    const validateForm = () => {
       let isValid = true;
@@ -67,6 +63,13 @@ function ForgotPassword() {
       setErrors(errors);
       return isValid;
    };
+
+
+   useEffect(() => {
+      dispatch(getUser())
+   }, [dispatch]);
+
+
 
    return (
       <div className='page-section small-page '>
