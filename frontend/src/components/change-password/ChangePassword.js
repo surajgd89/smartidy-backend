@@ -9,7 +9,7 @@ function ChangePassword() {
    const userData = useSelector((state) => state.idyUser.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const [formData, setFormData] = useState({ oldPassword: '', newPassword: '', confirmNewPassword: '' });
+   const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
    const [userUpdate, setUserUpdate] = useState({});
 
@@ -21,12 +21,12 @@ function ChangePassword() {
       e.preventDefault();
 
       if (validateForm()) {
-         const updateData = { ...userUpdate, "changes": true }
+         const updateData = { ...userUpdate, "changePass": true }
          dispatch(updateUser(updateData));
-         setFormData({ oldPassword: '', newPassword: '', confirmNewPassword: '' });
+         setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
-         alert('Password Change Successfully');
-         navigate('/login');
+         alert('Change Password Successfully');
+         navigate('/home');
       }
    };
 
@@ -34,15 +34,14 @@ function ChangePassword() {
       let isValid = true;
       let errors = {};
 
-
       const isValidPassword = (testcase) => {
          const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
          return regex.test(testcase);
       };
 
-      const isCheckUser = (email, oldPassword) => {
+      const isCheckUser = (email, currentPassword) => {
          return userData.some((user) => {
-            if (user.individual.email === email && bcrypt.compareSync(oldPassword, user.password)) {
+            if (user.individual.email === email && bcrypt.compareSync(currentPassword, user.password)) {
                setUserUpdate(user);
                return true
             }
@@ -50,12 +49,12 @@ function ChangePassword() {
          });
       };
 
-      //  Old password
-      if (formData.oldPassword === '') {
-         errors.oldPassword = 'Password is required';
+      //  Current password
+      if (formData.currentPassword === '') {
+         errors.currentPassword = 'Password is required';
          isValid = false;
-      } else if (!isCheckUser(sessionStorage.getItem('regdEmail'), formData.oldPassword)) {
-         errors.oldPassword = 'Incorrect Password';
+      } else if (!isCheckUser(sessionStorage.getItem('regdEmail'), formData.currentPassword)) {
+         errors.currentPassword = 'Incorrect Password';
          isValid = false;
       }
 
@@ -66,7 +65,7 @@ function ChangePassword() {
       } else if (!isValidPassword(formData.newPassword)) {
          errors.newPassword = 'Password is invalid.';
          isValid = false;
-      } else if (formData.oldPassword === formData.newPassword) {
+      } else if (formData.currentPassword === formData.newPassword) {
          errors.newPassword = 'New password cannot be the same as your old password';
          isValid = false;
       } else if (formData.confirmNewPassword === '') {
@@ -76,7 +75,6 @@ function ChangePassword() {
          errors.confirmNewPassword = 'Passwords do not match';
          isValid = false;
       }
-
 
       setErrors(errors);
       return isValid;
@@ -99,10 +97,10 @@ function ChangePassword() {
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label'>
-                              Old Password
+                              Current Password
                            </label>
-                           <input type="password" value={formData.oldPassword} name='oldPassword' className='form-control' onChange={handleChange} />
-                           {errors.oldPassword && <div className="control-error">{errors.oldPassword}</div>}
+                           <input type="password" value={formData.currentPassword} name='currentPassword' className='form-control' onChange={handleChange} />
+                           {errors.currentPassword && <div className="control-error">{errors.currentPassword}</div>}
                         </div>
                      </div>
                      <div className="col-12">

@@ -1,43 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import Timer from '../timer/Timer';
+import OtpGenerator from '../otp-generator/OtpGenerator';
+import './OneTimePassword.scss'
 
-import './OneTimePassCode.scss'
-
-const Timer = ({ duration, onTimerEnd }) => {
-
-   const [timer, setTimer] = useState(duration);
-
-   useEffect(() => {
-      let interval = null;
-
-      if (timer > 0) {
-         interval = setInterval(() => {
-            setTimer((prevTimer) => prevTimer - 1);
-         }, 1000);
-      } else {
-         onTimerEnd();
-      }
-
-      return () => {
-         clearInterval(interval);
-      };
-
-   }, [timer, onTimerEnd]);
-
-   const formatTime = (time) => {
-      const minutes = Math.floor(time / 60);
-      const seconds = time % 60;
-      return `${minutes} Min : ${seconds.toString().padStart(2, '0')} Sec`;
-   };
-
-   return (
-      <span>{formatTime(timer)}</span>
-   );
-};
-
-function OneTimePassCode() {
+function OneTimePassword() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
@@ -53,15 +22,10 @@ function OneTimePassCode() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-
    const registerUser = sessionStorage.getItem('registerUser');
    const regdEmail = sessionStorage.getItem('regdEmail');
 
 
-   const generateOTP = () => {
-      const newOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      return newOTP;
-   };
 
    const handleTimerEnd = () => {
       setShowResend(true);
@@ -69,7 +33,7 @@ function OneTimePassCode() {
    };
 
    const handleResendOTP = () => {
-      setOTP(generateOTP())
+      setOTP(OtpGenerator())
       setshowTimer(true);
       setShowResend(false);
    };
@@ -104,8 +68,8 @@ function OneTimePassCode() {
             sessionStorage.removeItem("registerUser");
             navigate('/login');
          }
-         if (sessionStorage.getItem('regdEmail')) {
-            navigate('/changepassword');
+         if (sessionStorage.getItem('regdEmail')) {            
+            navigate('/reset-password');
          }
          setFormData({ otp: '' });
          setOTP('');
@@ -128,14 +92,14 @@ function OneTimePassCode() {
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header">
-                  <div>Verify Email {otp}</div>
-                  <small>A verification code has been sent to <strong>{sendEmail}</strong></small>
+                  <div>One Time Password {otp}</div>
+                  <small>A OTP has been sent to <strong>{sendEmail}</strong></small>
                </div>
                <div className="panel-body">
                   <div className="row">
                      <div className="col-12">
                         <div className='form-group'>
-                           <label className='control-label'>Verification Code</label>
+                           <label className='control-label'>Enter OTP</label>
                            <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
                            {errors.otp && <div className="control-error">{errors.otp}</div>}
                            {showTimer && <div className='control-note'>The code will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
@@ -153,4 +117,4 @@ function OneTimePassCode() {
    )
 }
 
-export default OneTimePassCode;
+export default OneTimePassword;

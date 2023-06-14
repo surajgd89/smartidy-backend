@@ -114,7 +114,7 @@ function Login() {
                </div>
                <div className="panel-footer">
                   <button type="button" onClick={handleSubmit} className='btn btn-primary btn-block'>Login</button>
-                  <Link to="/forgotpassword" className='link'>Forgot Password</Link>
+                  <Link to="/forgot-password" className='link'>Forgot Password</Link>
                </div>
             </div>
          </div>

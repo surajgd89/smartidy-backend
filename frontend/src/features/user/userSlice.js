@@ -2,56 +2,60 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const API_USER_URL = 'http://localhost:4000/user';
 
-//GET USER
-export const getUser = createAsyncThunk('users/getUser', async (searchQuery) => {
 
-   if (searchQuery) {
+
+
+//GET USER
+export const getUser = createAsyncThunk('user/get', async (searchQuery) => {
+
+   if (searchQuery == undefined) {
       try {
-         const response = await axios.get(`${API_USER_URL}${searchQuery}`);
+         const response = await axios.get(`${API_USER_URL}`);
+         console.log('get')
          return response.data;
       } catch (error) {
-         throw Error(error.response.data.error);
+         throw Error('Failed to getUser');
       }
    } else {
       try {
-         const response = await axios.get(`${API_USER_URL}`);
+         const response = await axios.get(`${API_USER_URL}${searchQuery}`);
+         console.log('search')
          return response.data;
       } catch (error) {
-         throw Error(error.response.data.error);
+         throw Error('Failed to searchUser');
       }
    }
 
-
 });
 
-//CREATE USERS
-export const createUser = createAsyncThunk('users/createUser', async (userData) => {
+//CREATE USER
+export const createUser = createAsyncThunk('user/create', async (userData) => {
    try {
       const response = await axios.post(API_USER_URL, userData);
       return response.data;
    } catch (error) {
-      throw Error(error.response.data.error);
+      throw Error('Failed to createUser');
    }
 });
 
-//UPDATE USERS
-export const updateUser = createAsyncThunk('users/updateUser', async (userData) => {
+//UPDATE USER
+export const updateUser = createAsyncThunk('user/update', async (userData) => {
    try {
-      const response = await axios.patch(`${API_USER_URL}/${userData._id}`, userData);
+      const response = await axios.put(`${API_USER_URL}/${userData._id}`, userData);
       return response.data;
    } catch (error) {
-      throw Error(error.response.data.error);
+      throw Error('Failed to updateUser');
    }
 });
 
 
-//DELETE USERS
-export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
+//DELETE USER
+export const deleteUser = createAsyncThunk('user/delete', async (id) => {
    try {
       await axios.delete(`${API_USER_URL}/${id}`);
       return id;
    } catch (error) {
-      throw Error(error.response.data.error);
+      throw Error('Failed to deleteUser');
    }
 });
 
@@ -68,6 +72,7 @@ const userSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
+
 
 
          //GET 
@@ -107,7 +112,7 @@ const userSlice = createSlice({
          })
          .addCase(updateUser.fulfilled, (state, action) => {
             const updateUserData = action.payload;
-            const index = state.data.findIndex((user) => user.id === updateUserData.id);
+            const index = state.data.findIndex((user) => user._id === updateUserData._id);
             if (index !== -1) {
                state.data[index] = updateUserData;
             }
@@ -125,8 +130,8 @@ const userSlice = createSlice({
             state.error = null;
          })
          .addCase(deleteUser.fulfilled, (state, action) => {
-            const id = action.payload;
-            state.data = state.data.filter((user) => user.id !== id);
+            const _id = action.payload;
+            state.data = state.data.filter((user) => user._id !== _id);
             state.loading = false;
          })
          .addCase(deleteUser.rejected, (state, action) => {

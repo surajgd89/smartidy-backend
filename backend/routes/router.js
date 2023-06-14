@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const schemas = require('../models/schemas');
 
+
+
 //GET USER
 router.get('/user', async (req, res) => {
    const searchQuery = req.query;
@@ -13,6 +15,8 @@ router.get('/user', async (req, res) => {
    }
    res.end()
 });
+
+
 
 //GET USER (ID)
 router.get('/user/:id', async (req, res) => {
@@ -43,7 +47,7 @@ router.post('/user', async (req, res) => {
 });
 
 //UPDATE USER
-router.patch('/user/:id', async (req, res) => {
+router.put('/user/:id', async (req, res) => {
    try {
       const _id = req.params.id;
       const updateUser = await schemas.User.findByIdAndUpdate(_id, req.body, { new: true });

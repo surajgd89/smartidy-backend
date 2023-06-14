@@ -9,7 +9,7 @@ import ForgotPassword from './components/forgot-password/ForgotPassword';
 import ResetPassword from './components/reset-password/ResetPassword';
 import ChangePassword from './components/change-password/ChangePassword';
 import Create from './components/create/Create';
-import OneTimePassCode from './components/otp/OneTimePassCode';
+import OneTimePassCode from './components/otp/OneTimePassword';
 import Footer from './components/footer/Footer';
 import './App.scss';
 
@@ -29,9 +29,9 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="/resetpassword" element={<ResetPassword />} />
-                <Route path="/changepassword" element={<ChangePassword />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/create" element={<Create />} />
                 <Route path="/otp" element={<OneTimePassCode />} />
               </Routes>
