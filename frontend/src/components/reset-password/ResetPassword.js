@@ -2,7 +2,7 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, updateUser } from '../../features/user/userSlice';
+import { searchUser, updateUser } from '../../features/user/userSlice';
 
 
 function ResetPassword() {
@@ -13,6 +13,7 @@ function ResetPassword() {
    const [errors, setErrors] = useState({});
 
 
+
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
@@ -21,7 +22,13 @@ function ResetPassword() {
       e.preventDefault();
 
       if (validateForm()) {
-         console.log(userData);
+
+         const id = userData[0]._id;
+         const updateData = { ...userData[0], ...formData };
+         console.log(id)
+         console.log(updateData)
+
+         //dispatch(updateUser(id, updateUserData))
          setFormData({ newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
          alert('Reset Password Successfully');
@@ -67,7 +74,8 @@ function ResetPassword() {
 
    useEffect(() => {
       const searchQuery = `?individual.email=${sessionStorage.getItem('regdEmail')}`
-      dispatch(getUser(searchQuery))
+      dispatch(searchUser(searchQuery))
+
    }, [dispatch])
 
    return (

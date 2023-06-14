@@ -3,29 +3,27 @@ import axios from 'axios';
 const API_USER_URL = 'http://localhost:4000/user';
 
 
-
-
-//GET USER
-export const getUser = createAsyncThunk('user/get', async (searchQuery) => {
-
-   if (searchQuery == undefined) {
-      try {
-         const response = await axios.get(`${API_USER_URL}`);
-         console.log('get')
-         return response.data;
-      } catch (error) {
-         throw Error('Failed to getUser');
-      }
-   } else {
+//SEARCH USER
+export const searchUser = createAsyncThunk('user/search', async (searchQuery) => {
+   if (searchQuery !== undefined) {
       try {
          const response = await axios.get(`${API_USER_URL}${searchQuery}`);
-         console.log('search')
          return response.data;
       } catch (error) {
          throw Error('Failed to searchUser');
       }
    }
+});
 
+
+//GET USER
+export const getUser = createAsyncThunk('user/get', async () => {
+   try {
+      const response = await axios.get(API_USER_URL);
+      return response.data;
+   } catch (error) {
+      throw Error('Failed to getUser');
+   }
 });
 
 //CREATE USER
@@ -39,9 +37,9 @@ export const createUser = createAsyncThunk('user/create', async (userData) => {
 });
 
 //UPDATE USER
-export const updateUser = createAsyncThunk('user/update', async (userData) => {
+export const updateUser = createAsyncThunk('user/update', async (id, userData) => {
    try {
-      const response = await axios.put(`${API_USER_URL}/${userData._id}`, userData);
+      const response = await axios.put(`${API_USER_URL}/${id}`, userData);
       return response.data;
    } catch (error) {
       throw Error('Failed to updateUser');
@@ -73,6 +71,19 @@ const userSlice = createSlice({
    extraReducers: builder => {
       builder
 
+         //SEARCH 
+         .addCase(searchUser.pending, state => {
+            state.loading = true;
+            state.error = null;
+         })
+         .addCase(searchUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+         })
+         .addCase(searchUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+         })
 
 
          //GET 
@@ -112,7 +123,7 @@ const userSlice = createSlice({
          })
          .addCase(updateUser.fulfilled, (state, action) => {
             const updateUserData = action.payload;
-            const index = state.data.findIndex((user) => user._id === updateUserData._id);
+            const index = state.data.findIndex((user) => user.id === updateUserData.id);
             if (index !== -1) {
                state.data[index] = updateUserData;
             }
@@ -130,8 +141,8 @@ const userSlice = createSlice({
             state.error = null;
          })
          .addCase(deleteUser.fulfilled, (state, action) => {
-            const _id = action.payload;
-            state.data = state.data.filter((user) => user._id !== _id);
+            const id = action.payload;
+            state.data = state.data.filter((user) => user.id !== id);
             state.loading = false;
          })
          .addCase(deleteUser.rejected, (state, action) => {

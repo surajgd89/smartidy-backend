@@ -17,7 +17,6 @@ router.get('/user', async (req, res) => {
 });
 
 
-
 //GET USER (ID)
 router.get('/user/:id', async (req, res) => {
    const _id = req.params.id;
