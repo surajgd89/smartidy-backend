@@ -3,14 +3,18 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUser, updateUser } from '../../features/user/userSlice';
+import bcrypt from "bcryptjs";
 
 
 function ResetPassword() {
-   const userData = useSelector((state) => state.idyUser.data);
+   const user = useSelector((state) => {
+      return state.idyUser.data[0]
+   });
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
+
 
 
 
@@ -23,12 +27,15 @@ function ResetPassword() {
 
       if (validateForm()) {
 
-         const id = userData[0]._id;
-         const updateData = { ...userData[0], ...formData };
-         console.log(id)
-         console.log(updateData)
+         const hashedPassword = bcrypt.hashSync(formData.newPassword, 10)
 
-         //dispatch(updateUser(id, updateUserData))
+         const userData = {
+            ...user,
+            "password": hashedPassword,
+         };
+
+         dispatch(updateUser(userData));
+
          setFormData({ newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
          alert('Reset Password Successfully');
@@ -75,7 +82,6 @@ function ResetPassword() {
    useEffect(() => {
       const searchQuery = `?individual.email=${sessionStorage.getItem('regdEmail')}`
       dispatch(searchUser(searchQuery))
-
    }, [dispatch])
 
    return (

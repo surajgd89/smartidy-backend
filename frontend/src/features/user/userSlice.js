@@ -26,6 +26,7 @@ export const getUser = createAsyncThunk('user/get', async () => {
    }
 });
 
+
 //CREATE USER
 export const createUser = createAsyncThunk('user/create', async (userData) => {
    try {
@@ -36,8 +37,10 @@ export const createUser = createAsyncThunk('user/create', async (userData) => {
    }
 });
 
+
 //UPDATE USER
-export const updateUser = createAsyncThunk('user/update', async (id, userData) => {
+export const updateUser = createAsyncThunk('user/update', async (userData) => {
+   const id = userData._id;
    try {
       const response = await axios.put(`${API_USER_URL}/${id}`, userData);
       return response.data;
@@ -121,14 +124,16 @@ const userSlice = createSlice({
             state.loading = true;
             state.error = null;
          })
+
          .addCase(updateUser.fulfilled, (state, action) => {
-            const updateUserData = action.payload;
-            const index = state.data.findIndex((user) => user.id === updateUserData.id);
+            const updatedUser = action.payload;
+            const index = state.data.findIndex(user => user._id === updatedUser._id);
             if (index !== -1) {
-               state.data[index] = updateUserData;
+               state.data[index] = updatedUser;
             }
             state.loading = false;
          })
+
          .addCase(updateUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;

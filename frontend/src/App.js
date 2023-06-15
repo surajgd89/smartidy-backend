@@ -2,14 +2,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
-import Home from './components/home/Home';
-import Register from './components/register/Register';
-import Login from './components/login/Login';
-import ForgotPassword from './components/forgot-password/ForgotPassword';
-import ResetPassword from './components/reset-password/ResetPassword';
-import ChangePassword from './components/change-password/ChangePassword';
-import Create from './components/create/Create';
-import OneTimePassCode from './components/otp/OneTimePassword';
+import Home from './pages/home/Home';
+import Register from './pages/register/Register';
+import Login from './pages/login/Login';
+import ForgotPassword from './pages/forgot-password/ForgotPassword';
+import ResetPassword from './pages/reset-password/ResetPassword';
+import ChangePassword from './pages/change-password/ChangePassword';
+import Create from './pages/create/Create';
+import OneTimePassCode from './pages/otp/OneTimePassword';
 import Footer from './components/footer/Footer';
 import './App.scss';
 
@@ -20,7 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        {/* <Header /> */}
+        <Header />
         <Navbar />
         <div className='content-sec'>
           <div className="container-fluid">
@@ -38,7 +38,7 @@ function App() {
             </div>
           </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </BrowserRouter>
   );

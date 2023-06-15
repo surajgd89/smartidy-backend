@@ -13,21 +13,11 @@ function Login() {
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
-   const [userUpdate, setUserUpdate] = useState({});
+
 
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-   };
-
-   const handleSubmit = (e) => {
-      e.preventDefault();
-      if (validateForm()) {
-         const updateData = { ...userUpdate, "isLoggedIn": true }
-         dispatch(updateUser(updateData));
-         setFormData({ email: '', password: '' })
-         navigate('/create');
-      }
    };
 
    const validateForm = () => {
@@ -42,14 +32,13 @@ function Login() {
 
 
       const isCheckUser = (email, password) => {
-         const isCheck = userData.some((user) => {
-            if (user.individual.email === email) {
-               const isMatch = bcrypt.compareSync(password, user.password);
-               setUserUpdate(user);
-               return isMatch
+         const isMatch = userData.some((user) => {
+            if (user.individual.email === email && bcrypt.compareSync(password, user.password)) {
+               return true
             }
+            return false;
          });
-         return isCheck;
+         return isMatch;
       };
 
 
@@ -74,11 +63,26 @@ function Login() {
          isValid = false;
       }
 
-
-
       setErrors(errors);
       return isValid;
    };
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      if (validateForm()) {
+         const isUser = userData.filter((user) => {
+            return user.individual.email === formData.email && bcrypt.compareSync(formData.password, user.password);
+         });
+         const updateData = { ...isUser[0], "isLoggedIn": true }
+         dispatch(updateUser(updateData));
+         setFormData({ email: '', password: '' })
+         navigate('/create');
+      }
+   };
+
+
+
+
 
    useEffect(() => {
       dispatch(getUser())

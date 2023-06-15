@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createUser } from '../../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-import Timer from '../timer/Timer';
-import OtpGenerator from '../otp-generator/OtpGenerator';
+import Timer from '../../components/timer/Timer';
+import OtpGenerator from '../../components/otp-generator/OtpGenerator';
 import './OneTimePassword.scss'
 
 function OneTimePassword() {
@@ -68,7 +68,7 @@ function OneTimePassword() {
             sessionStorage.removeItem("registerUser");
             navigate('/login');
          }
-         if (sessionStorage.getItem('regdEmail')) {            
+         if (sessionStorage.getItem('regdEmail')) {
             navigate('/reset-password');
          }
          setFormData({ otp: '' });
