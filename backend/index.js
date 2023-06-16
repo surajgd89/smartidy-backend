@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const router = require("./routes/router");
+
+const routerRegister = require("./routes/routerRegister");
+const routerLogin = require("./routes/routerLogin");
+const routerUser = require("./routes/routerUser");
+
+
 const mongoose = require("mongoose");
 require('dotenv/config')
 
@@ -18,7 +23,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-app.use('/', router)
+app.use('/', routerRegister)
+app.use('/', routerLogin)
+app.use('/', routerUser)
 
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, dbOptions)

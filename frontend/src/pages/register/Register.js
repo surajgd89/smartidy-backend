@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -175,8 +176,11 @@ function Register() {
                <div className="panel-footer">
                   <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Register</button>
                </div>
+
             </div>
+            <div className='page-link'>Already have an account ? <Link to="/login" className='link'>Login</Link></div>
          </div>
+
       </div>
    )
 }

@@ -102,6 +102,7 @@ input[type='number'] {
     border: 1px solid var(--border);
     margin-bottom: 20px;
     border-radius: 4px;
+
     .panel-header {
         font-size: 20px;
         background: var(--territory-light);
@@ -135,6 +136,11 @@ input[type='number'] {
             display: inline-flex;
         }
     }
+}
+
+.page-link {
+    text-align: center;
+    margin-top: 20px;
 }
 
 .form-group {

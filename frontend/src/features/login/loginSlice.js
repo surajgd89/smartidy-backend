@@ -1,64 +1,66 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_USER_URL = 'http://localhost:4000/user';
+
+const API_LOGIN_URL = 'http://localhost:4000/login';
+
 
 //SEARCH USER
-export const searchUser = createAsyncThunk('user/search', async (searchQuery) => {
+export const searchLoginUser = createAsyncThunk('login/search', async (searchQuery) => {
    if (searchQuery !== undefined) {
       try {
-         const response = await axios.get(`${API_USER_URL}${searchQuery}`);
+         const response = await axios.get(`${API_LOGIN_URL}${searchQuery}`);
          return response.data;
       } catch (error) {
-         throw Error('Failed to searchUser');
+         throw Error('Failed to searchLoginUser');
       }
    }
 });
 
 //GET USER
-export const getUser = createAsyncThunk('user/get', async () => {
+export const getLoginUser = createAsyncThunk('login/get', async () => {
    try {
-      const response = await axios.get(API_USER_URL);
+      const response = await axios.get(API_LOGIN_URL);
       return response.data;
    } catch (error) {
-      throw Error('Failed to getUser');
+      throw Error('Failed to getLoginUser');
    }
 });
 
 //CREATE USER
-export const createUser = createAsyncThunk('user/create', async (userData) => {
+export const createLoginUser = createAsyncThunk('login/create', async (userData) => {
    try {
-      const response = await axios.post(API_USER_URL, userData);
+      const response = await axios.post(API_LOGIN_URL, userData);
       return response.data;
    } catch (error) {
-      throw Error('Failed to createUser');
+      throw Error('Failed to createLoginUser');
    }
 });
 
 //UPDATE USER
-export const updateUser = createAsyncThunk('user/update', async (userData) => {
+export const updateLoginUser = createAsyncThunk('login/update', async (userData) => {
    const id = userData._id;
    try {
-      const response = await axios.put(`${API_USER_URL}/${id}`, userData);
+      const response = await axios.put(`${API_LOGIN_URL}/${id}`, userData);
       return response.data;
    } catch (error) {
-      throw Error('Failed to updateUser');
+      throw Error('Failed to updateLoginUser');
    }
 });
 
 //DELETE USER
-export const deleteUser = createAsyncThunk('user/delete', async (id) => {
+export const deleteLoginUser = createAsyncThunk('login/delete', async (id) => {
    try {
-      await axios.delete(`${API_USER_URL}/${id}`);
+      await axios.delete(`${API_LOGIN_URL}/${id}`);
       return id;
    } catch (error) {
-      throw Error('Failed to deleteUser');
+      throw Error('Failed to deleteLoginUser');
    }
 });
 
 //ACTIONS
-const userSlice = createSlice({
-   name: 'user',
+const loginSlice = createSlice({
+   name: 'login',
    initialState: {
       data: [],
       loading: false,
@@ -68,59 +70,58 @@ const userSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
-
          //SEARCH 
-         .addCase(searchUser.pending, state => {
+         .addCase(searchLoginUser.pending, state => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(searchUser.fulfilled, (state, action) => {
+         .addCase(searchLoginUser.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
          })
-         .addCase(searchUser.rejected, (state, action) => {
+         .addCase(searchLoginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
          //GET 
-         .addCase(getUser.pending, state => {
+         .addCase(getLoginUser.pending, state => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(getUser.fulfilled, (state, action) => {
+         .addCase(getLoginUser.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
          })
-         .addCase(getUser.rejected, (state, action) => {
+         .addCase(getLoginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
          //CREATE 
-         .addCase(createUser.pending, (state) => {
+         .addCase(createLoginUser.pending, (state) => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(createUser.fulfilled, (state, action) => {
+         .addCase(createLoginUser.fulfilled, (state, action) => {
             state.loading = false;
             state.data.push(action.payload);
          })
-         .addCase(createUser.rejected, (state, action) => {
+         .addCase(createLoginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
          //UPDATE 
-         .addCase(updateUser.pending, (state) => {
+         .addCase(updateLoginUser.pending, (state) => {
             state.loading = true;
             state.error = null;
          })
 
-         .addCase(updateUser.fulfilled, (state, action) => {
+         .addCase(updateLoginUser.fulfilled, (state, action) => {
             const updatedUser = action.payload;
             const index = state.data.findIndex(user => user._id === updatedUser._id);
             if (index !== -1) {
@@ -129,23 +130,23 @@ const userSlice = createSlice({
             state.loading = false;
          })
 
-         .addCase(updateUser.rejected, (state, action) => {
+         .addCase(updateLoginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
          //DELETE 
-         .addCase(deleteUser.pending, (state) => {
+         .addCase(deleteLoginUser.pending, (state) => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(deleteUser.fulfilled, (state, action) => {
+         .addCase(deleteLoginUser.fulfilled, (state, action) => {
             const id = action.payload;
             state.data = state.data.filter((user) => user.id !== id);
             state.loading = false;
          })
-         .addCase(deleteUser.rejected, (state, action) => {
+         .addCase(deleteLoginUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          });
@@ -154,4 +155,4 @@ const userSlice = createSlice({
    },
 });
 
-export default userSlice.reducer;
+export default loginSlice.reducer;

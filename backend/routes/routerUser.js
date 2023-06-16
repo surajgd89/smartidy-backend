@@ -1,13 +1,16 @@
 const express = require("express");
-const router = express.Router();
-const schemas = require('../models/schemas');
+const routerUser = express.Router();
 
 
+const schemaUser = require('../models/schemaUser');
+
+
+//=================USER=========================//
 
 //GET USER
-router.get('/user', async (req, res) => {
+routerUser.get('/user', async (req, res) => {
    const searchQuery = req.query;
-   const getUser = await schemas.User.find(searchQuery);
+   const getUser = await schemaUser.User.find(searchQuery);
    try {
       res.send(getUser);
    } catch (err) {
@@ -16,11 +19,10 @@ router.get('/user', async (req, res) => {
    res.end()
 });
 
-
 //GET USER (ID)
-router.get('/user/:id', async (req, res) => {
+routerUser.get('/user/:id', async (req, res) => {
    const _id = req.params.id;
-   const getUser = await schemas.User.findById(_id);
+   const getUser = await schemaUser.User.findById(_id);
    try {
       if (!getUser) {
          return res.status(404).send();
@@ -34,8 +36,8 @@ router.get('/user/:id', async (req, res) => {
 });
 
 //CREATE USER
-router.post('/user', async (req, res) => {
-   const createUser = new schemas.User(req.body);
+routerUser.post('/user', async (req, res) => {
+   const createUser = new schemaUser.User(req.body);
    try {
       await createUser.save();
       res.send(createUser)
@@ -46,10 +48,10 @@ router.post('/user', async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/user/:id', async (req, res) => {
+routerUser.put('/user/:id', async (req, res) => {
    try {
       const _id = req.params.id;
-      const updateUser = await schemas.User.findByIdAndUpdate(_id, req.body, { new: true });
+      const updateUser = await schemaUser.User.findByIdAndUpdate(_id, req.body, { new: true });
       if (!updateUser) {
          return res.status(404).send();
       } else {
@@ -61,10 +63,10 @@ router.put('/user/:id', async (req, res) => {
 });
 
 //DELETE USER
-router.delete('/user/:id', async (req, res) => {
+routerUser.delete('/user/:id', async (req, res) => {
    try {
       const _id = req.params.id;
-      const deleteUser = await schemas.User.findByIdAndDelete(_id, req.body, { new: true });
+      const deleteUser = await schemaUser.User.findByIdAndDelete(_id, req.body, { new: true });
       if (!deleteUser) {
          return res.status(404).send();
       } else {
@@ -75,4 +77,5 @@ router.delete('/user/:id', async (req, res) => {
    }
 });
 
-module.exports = router
+
+module.exports = routerUser

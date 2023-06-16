@@ -20,7 +20,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header />
+        {/* <Header /> */}
         <Navbar />
         <div className='content-sec'>
           <div className="container-fluid">
@@ -38,7 +38,7 @@ function App() {
             </div>
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </BrowserRouter>
   );

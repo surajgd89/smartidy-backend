@@ -93,7 +93,7 @@ function OneTimePassword() {
             <div className="panel">
                <div className="panel-header">
                   <div>One Time Password {otp}</div>
-                  <small>A OTP has been sent to <strong>{sendEmail}</strong></small>
+                  <small>A OTP has been sent to your email :  <strong>{sendEmail}</strong></small>
                </div>
                <div className="panel-body">
                   <div className="row">

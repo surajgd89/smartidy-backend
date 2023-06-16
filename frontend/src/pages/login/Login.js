@@ -92,7 +92,6 @@ function Login() {
       <div className='page-section small-page'>
 
          <div className='page-body'>
-
             <div className="panel">
                <div className="panel-header">Login to Your Account</div>
 
@@ -121,6 +120,7 @@ function Login() {
                   <Link to="/forgot-password" className='link'>Forgot Password</Link>
                </div>
             </div>
+            <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
          </div>
 
       </div >
