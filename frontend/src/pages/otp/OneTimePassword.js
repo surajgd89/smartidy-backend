@@ -10,6 +10,7 @@ function OneTimePassword() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
+
    const [sendEmail, setSendEmail] = useState('');
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
@@ -24,7 +25,6 @@ function OneTimePassword() {
 
    const registerUser = sessionStorage.getItem('registerUser');
    const regdEmail = sessionStorage.getItem('regdEmail');
-
 
 
    const handleTimerEnd = () => {
@@ -86,6 +86,12 @@ function OneTimePassword() {
          setSendEmail(regdEmail)
       }
    }, [])
+
+
+
+
+
+
 
    return (
       <div className='page-section small-page'>

@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../features/user/userSlice';
 
+
 function Register() {
-   const userData = useSelector((state) => { return state.idyUser.data });
    const dispatch = useDispatch();
+   const userError = useSelector(state => state.idyUser.error);
    const navigate = useNavigate();
 
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
-
    const [errors, setErrors] = useState({});
 
    const handleChange = (e) => {
@@ -21,6 +21,8 @@ function Register() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
+
+
       if (validateForm()) {
          const hashedPassword = bcrypt.hashSync(formData.password, 10)
 
@@ -34,6 +36,8 @@ function Register() {
          }
 
          sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
+
+
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate('/otp');
       }
@@ -58,10 +62,7 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegEmail = (email) => {
-         const isPresent = userData.some((user) => user.individual.email === email);
-         return isPresent;
-      };
+
 
       //  Validate name
       if (formData.name === '') {
@@ -76,7 +77,7 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegEmail(formData.email)) {
+      } else if (userError != '') {
          errors.email = 'Email Already Registred.';
          isValid = false;
       }
@@ -113,8 +114,9 @@ function Register() {
    };
 
    useEffect(() => {
-      dispatch(getUser())
+      dispatch(getUser());
    }, [dispatch]);
+
 
    return (
       <div className='page-section small-page '>

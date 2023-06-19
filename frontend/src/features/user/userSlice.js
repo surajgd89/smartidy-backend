@@ -10,7 +10,7 @@ export const searchUser = createAsyncThunk('user/search', async (searchQuery) =>
          const response = await axios.get(`${API_USER_URL}${searchQuery}`);
          return response.data;
       } catch (error) {
-         throw Error('Failed to searchUser');
+         throw new Error('Failed to searchUser');
       }
    }
 });
@@ -21,17 +21,21 @@ export const getUser = createAsyncThunk('user/get', async () => {
       const response = await axios.get(API_USER_URL);
       return response.data;
    } catch (error) {
-      throw Error('Failed to getUser');
+      throw new Error('Failed to getUser');
    }
 });
 
 //CREATE USER
 export const createUser = createAsyncThunk('user/create', async (userData) => {
    try {
-      const response = await axios.post(API_USER_URL, userData);
+      const response = await axios.post(`${API_USER_URL}`, userData);
       return response.data;
    } catch (error) {
-      throw Error('Failed to createUser');
+      if (error.response && error.response.data.error === 'Email is already registered') {
+         throw new Error('Email is already registered');
+      } else {
+         throw new Error('Failed to createUser');
+      }
    }
 });
 
@@ -42,7 +46,7 @@ export const updateUser = createAsyncThunk('user/update', async (userData) => {
       const response = await axios.put(`${API_USER_URL}/${id}`, userData);
       return response.data;
    } catch (error) {
-      throw Error('Failed to updateUser');
+      throw new Error('Failed to updateUser');
    }
 });
 
@@ -52,7 +56,7 @@ export const deleteUser = createAsyncThunk('user/delete', async (id) => {
       await axios.delete(`${API_USER_URL}/${id}`);
       return id;
    } catch (error) {
-      throw Error('Failed to deleteUser');
+      throw new Error('Failed to deleteUser');
    }
 });
 
@@ -141,8 +145,8 @@ const userSlice = createSlice({
             state.error = null;
          })
          .addCase(deleteUser.fulfilled, (state, action) => {
-            const id = action.payload;
-            state.data = state.data.filter((user) => user.id !== id);
+            const deletedUser = action.payload;
+            state.data = state.data.filter((user) => user._id !== deletedUser._id);
             state.loading = false;
          })
          .addCase(deleteUser.rejected, (state, action) => {

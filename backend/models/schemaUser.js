@@ -6,7 +6,7 @@ const schemaUser = new Schema({
       type: Date,
       default: Date.now
    },
-   userId: { type: String },
+   userId: { type: String, },
    isLoggedIn: { type: Boolean, },
    status: { type: String },
    password: { type: String },
@@ -16,7 +16,7 @@ const schemaUser = new Schema({
       experties: { type: String },
       profilePic: { type: String },
       call: { type: String },
-      email: { type: String, unique: true },
+      email: { type: String, },
       sms: { type: String },
       chat: [
          {
