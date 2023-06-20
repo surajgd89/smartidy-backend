@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+export const serverError = {}
+
 const API_USER_URL = 'http://localhost:4000/user';
 
 //SEARCH USER
@@ -50,6 +52,7 @@ export const updateUser = createAsyncThunk('user/update', async (userData) => {
    }
 });
 
+
 //DELETE USER
 export const deleteUser = createAsyncThunk('user/delete', async (id) => {
    try {
@@ -59,6 +62,7 @@ export const deleteUser = createAsyncThunk('user/delete', async (id) => {
       throw new Error('Failed to deleteUser');
    }
 });
+
 
 //ACTIONS
 const userSlice = createSlice({
@@ -72,6 +76,7 @@ const userSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
+
 
          //SEARCH 
          .addCase(searchUser.pending, state => {

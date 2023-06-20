@@ -1,11 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-
-const routerRegister = require("./routes/routerRegister");
-const routerLogin = require("./routes/routerLogin");
-const routerUser = require("./routes/routerUser");
-
+const userRouter = require("./routes/userRouter");
 
 const mongoose = require("mongoose");
 require('dotenv/config')
@@ -23,15 +19,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-app.use('/', routerRegister)
-app.use('/', routerLogin)
-app.use('/', routerUser)
+app.use('/', userRouter)
 
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, dbOptions)
    .then(() => console.log(`SmartIDyDB Connected = ${process.env.DB_URI}`))
    .catch(err => console.log(err))
-
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
    console.log(`Server Is Running on ports ${port}`)

@@ -70,6 +70,7 @@ function Login() {
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
+
          const isUser = userData.filter((user) => {
             return user.individual.email === formData.email && bcrypt.compareSync(formData.password, user.password);
          });
@@ -79,8 +80,6 @@ function Login() {
          navigate('/create');
       }
    };
-
-
 
 
 
