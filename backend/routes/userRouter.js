@@ -2,6 +2,8 @@ const express = require("express");
 const userRouter = express.Router();
 const userSchema = require('../models/userSchema');
 const jwt = require('jsonwebtoken');
+require('dotenv/config')
+
 
 //=================USER=========================//
 
@@ -9,8 +11,8 @@ const jwt = require('jsonwebtoken');
 userRouter.get('/user', async (req, res) => {
    try {
       const searchQuery = req.query;
-      const getUser = await userSchema.User.find(searchQuery);
-      res.send(getUser);
+      const user = await userSchema.User.find(searchQuery);
+      res.send(user);
    } catch (err) {
       res.status(500).send(err);
    }
@@ -19,12 +21,12 @@ userRouter.get('/user', async (req, res) => {
 //GET USER (ID)
 userRouter.get('/user/:id', async (req, res) => {
    const _id = req.params.id;
-   const getUser = await userSchema.User.findById(_id);
+   const user = await userSchema.User.findById(_id);
    try {
-      if (!getUser) {
+      if (!user) {
          return res.status(404).send('User not found');
       }
-      res.send(getUser);
+      res.send(user);
    } catch (error) {
       res.status(500).send(err);
    }
@@ -37,12 +39,9 @@ userRouter.post('/user', async (req, res) => {
       if (existingUser) {
          return res.status(400).send({ error: 'Email is already registered' });
       }
-      const newUser = new userSchema.User(req.body);
-      await newUser.save();
-
-
-
-      res.send(newUser);
+      const user = new userSchema.User(req.body);
+      await user.save();
+      res.send(user);
    } catch (err) {
       res.status(500).send(err);
    }
@@ -52,22 +51,22 @@ userRouter.post('/user', async (req, res) => {
 userRouter.put('/user/:id', async (req, res) => {
    try {
       const _id = req.params.id;
-      const updateUser = await userSchema.User.findByIdAndUpdate(_id, req.body, { new: true });
+      const user = await userSchema.User.findByIdAndUpdate(_id, req.body, { new: true });
 
-      if (!updateUser) {
+      if (!user) {
          return res.status(404).send('User not found');
       }
 
-
       if (req.body.isLoggedIn) {
-         const email = req.body.individual.email
-         const payload = { email };
-         const secretKey = 'smartidy';
-         const expiresIn = '30m';
+         const payload = { id: req.body._id, email: req.body.individual.email }
+         const secretKey = process.env.SECRET_KEY;
+         const expiresIn = '5m';
          const token = jwt.sign(payload, secretKey, { expiresIn });
-         res.send(updateUser, { token })
+         res.send({ token: token })
+      } else {
+         res.send(user)
       }
-      res.send(updateUser)
+
    } catch (err) {
       res.status(500).send(err);
    }
@@ -77,17 +76,15 @@ userRouter.put('/user/:id', async (req, res) => {
 userRouter.delete('/user/:id', async (req, res) => {
    try {
       const _id = req.params.id;
-      const deleteUser = await userSchema.User.findByIdAndDelete(_id, req.body, { new: true });
-      if (!deleteUser) {
+      const user = await userSchema.User.findByIdAndDelete(_id, req.body, { new: true });
+      if (!user) {
          return res.status(404).send('User not found');
       }
-      res.send(deleteUser)
+      res.send(user)
    } catch (err) {
       res.status(500).send(err);
    }
 });
-
-
 
 
 module.exports = userRouter

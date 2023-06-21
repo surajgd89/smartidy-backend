@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../features/user/userSlice';
 
 import './Home.scss'
-function Home() {
+function Home({ isLoggedIn }) {
 
 
    //User
@@ -98,7 +98,9 @@ function Home() {
                                  </div>
                                  {statusLbl(user.status)}
                                  <div className='action'>
-                                    <button type='button' title='Edit' className='btn btn-primary' onClick={(e) => navigateForEdit(user.userId)}><i className='fal fa-pencil'></i></button>
+                                    {
+                                       isLoggedIn && <button type='button' title='Edit' className='btn btn-primary' onClick={(e) => navigateForEdit(user.userId)}><i className='fal fa-pencil'></i></button>
+                                    }
                                     <button type='button' title='View' className='btn btn-primary' onClick={(e) => viewNewWindow(user.config.smartIdyUrl)}><i className='fal fa-eye'></i></button>
                                  </div>
                               </div>

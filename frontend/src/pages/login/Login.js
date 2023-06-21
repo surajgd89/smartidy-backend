@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../features/user/userSlice';
 import bcrypt from "bcryptjs";
 
-function Login() {
+function Login({ logIn }) {
 
    const userData = useSelector((state) => state.idyUser.data);
    const dispatch = useDispatch();
@@ -70,14 +70,14 @@ function Login() {
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
-
          const isUser = userData.filter((user) => {
             return user.individual.email === formData.email && bcrypt.compareSync(formData.password, user.password);
          });
-         const updateData = { ...isUser[0], "isLoggedIn": true }
+         const updateData = { ...isUser[0], "isLoggedIn": true }         
          dispatch(updateUser(updateData));
          setFormData({ email: '', password: '' })
-         navigate('/create');
+         logIn()
+         navigate('/home');
       }
    };
 

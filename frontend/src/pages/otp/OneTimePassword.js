@@ -65,7 +65,7 @@ function OneTimePassword() {
       if (validateForm()) {
          if (sessionStorage.getItem('registerUser')) {
             dispatch(createUser(JSON.parse(registerUser)));
-            sessionStorage.removeItem("registerUser");
+            sessionStorage.removeItem("registerUser");            
             navigate('/login');
          }
          if (sessionStorage.getItem('regdEmail')) {

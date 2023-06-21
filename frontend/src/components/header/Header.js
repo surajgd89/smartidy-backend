@@ -1,9 +1,7 @@
-
 import './Header.scss'
-
 import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 
-export default function Header() {
+export default function Header({ isLoggedIn }) {
    return (
       <div className="welcome-sec">
          <div className="head-logo">
@@ -16,7 +14,7 @@ export default function Header() {
          </div>
 
          <div className='welcome-user'>
-            Welcome Guest !
+            Welcome {isLoggedIn ? 'Surya' : 'Guest!'}
          </div>
 
       </div>

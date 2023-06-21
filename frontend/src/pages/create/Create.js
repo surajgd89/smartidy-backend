@@ -5,12 +5,13 @@ import Individual from './Individual';
 import Business from './Business';
 import Configuration from './Configuration';
 
+
+
 function Create() {
 
    const [individualForm, setIndividualForm] = useState(true);
    const [businessForm, setBusinessForm] = useState(true);
    const [configurationForm, setConfigurationForm] = useState(true);
-
 
 
    return (

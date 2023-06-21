@@ -17,6 +17,16 @@ export const searchUser = createAsyncThunk('user/search', async (searchQuery) =>
    }
 });
 
+//ID USER
+export const getIdUser = createAsyncThunk('user/id', async (id) => {
+   try {
+      const response = await axios.get(`${API_USER_URL}/${id}`);
+      return response.data;
+   } catch (error) {
+      throw new Error('Failed to idUser');
+   }
+});
+
 //GET USER
 export const getUser = createAsyncThunk('user/get', async () => {
    try {
@@ -46,12 +56,14 @@ export const updateUser = createAsyncThunk('user/update', async (userData) => {
    const id = userData._id;
    try {
       const response = await axios.put(`${API_USER_URL}/${id}`, userData);
+      if (response.data.token) {
+         sessionStorage.setItem("token", response.data.token)
+      }
       return response.data;
    } catch (error) {
       throw new Error('Failed to updateUser');
    }
 });
-
 
 //DELETE USER
 export const deleteUser = createAsyncThunk('user/delete', async (id) => {
@@ -88,6 +100,22 @@ const userSlice = createSlice({
             state.data = action.payload;
          })
          .addCase(searchUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+         })
+
+
+
+         //ID USER 
+         .addCase(getIdUser.pending, state => {
+            state.loading = true;
+            state.error = null;
+         })
+         .addCase(getIdUser.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+         })
+         .addCase(getIdUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
