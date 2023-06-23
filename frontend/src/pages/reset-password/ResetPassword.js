@@ -2,14 +2,13 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUser, updateUser } from '../../features/user/userSlice';
+import { searchUsers, updateUser } from '../../features/user/userSlice';
 import bcrypt from "bcryptjs";
 
 
 function ResetPassword() {
-   const user = useSelector((state) => {
-      return state.idyUser.data[0]
-   });
+   
+   const userData = useSelector((state) => {return state.idyUser.data[0]});
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
@@ -29,12 +28,12 @@ function ResetPassword() {
 
          const hashedPassword = bcrypt.hashSync(formData.newPassword, 10)
 
-         const userData = {
-            ...user,
+         const user = {
+            ...userData,
             "password": hashedPassword,
          };
 
-         dispatch(updateUser(userData));
+         dispatch(updateUser(user));
 
          setFormData({ newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
@@ -47,7 +46,6 @@ function ResetPassword() {
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
 
       const isValidPassword = (testcase) => {
          const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -81,7 +79,7 @@ function ResetPassword() {
 
    useEffect(() => {
       const searchQuery = `?individual.email=${sessionStorage.getItem('regdEmail')}`
-      dispatch(searchUser(searchQuery))
+      dispatch(searchUsers(searchQuery))
    }, [dispatch])
 
    return (

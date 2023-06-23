@@ -27,4 +27,15 @@
         margin-top: 30px;
         color: var(--primary);
     }
+
+    .user-action {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+        column-gap: 12px;
+        .btn {
+            font-size: 14px;
+            min-height: 35px;
+        }
+    }
 }

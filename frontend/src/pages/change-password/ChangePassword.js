@@ -2,7 +2,7 @@ import './ChangePassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, updateUser } from '../../features/user/userSlice';
+import { getUsers, updateUser } from '../../features/user/userSlice';
 import bcrypt from "bcryptjs";
 
 function ChangePassword() {
@@ -81,7 +81,7 @@ function ChangePassword() {
    };
 
    useEffect(() => {
-      dispatch(getUser())
+      dispatch(getUsers())
    }, [dispatch]);
 
 

@@ -1,8 +1,8 @@
-
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
 import Navbar from './components/navbar/Navbar';
-import Home from './pages/home/Home';
+import Dashboard from './pages/dashboard/Dashboard';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import ForgotPassword from './pages/forgot-password/ForgotPassword';
@@ -13,11 +13,11 @@ import OneTimePassCode from './pages/otp/OneTimePassword';
 import Footer from './components/footer/Footer';
 import Protected from './components/protected/Protected'
 import './App.scss';
-import { useState } from 'react';
+
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(null)
 
   const logIn = () => {
     setIsLoggedIn(true)
@@ -26,43 +26,43 @@ function App() {
     setIsLoggedIn(false)
   }
 
+
+
+
+
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} />
-        <Navbar isLoggedIn={isLoggedIn} logOut={logOut} />
-
+        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
+        {isLoggedIn && <Navbar />}
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
               <Routes>
 
-                <Route path="/" index element={<Home isLoggedIn={isLoggedIn} />} />
-
-                <Route path="/home" element={
+                <Route path="/dashboard" element={
                   <Protected isLoggedIn={isLoggedIn}>
-                    <Home isLoggedIn={isLoggedIn} />
+                    <Dashboard />
                   </Protected>
                 } />
-
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login logIn={logIn} />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/otp" element={<OneTimePassCode />} />
-
                 <Route path="/change-password" element={
                   <Protected isLoggedIn={isLoggedIn}>
                     <ChangePassword />
                   </Protected>
                 } />
-
                 <Route path="/create" element={
                   <Protected isLoggedIn={isLoggedIn}>
                     <Create />
                   </Protected>
                 } />
 
+                <Route index element={<Login logIn={logIn} />} />
+                <Route path="/login" element={<Login logIn={logIn} />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/otp" element={<OneTimePassCode />} />
+                <Route path="*" element={<p>There's nothing here: 404!</p>} />
 
               </Routes>
             </div>

@@ -3,22 +3,25 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, updateUser } from '../../features/user/userSlice';
+//import { getUser, getUsers } from '../../features/user/userSlice';
+
+
 import bcrypt from "bcryptjs";
 
 function Login({ logIn }) {
 
-   const userData = useSelector((state) => state.idyUser.data);
+   // const userData = useSelector(state => state.idyUser.data);
    const dispatch = useDispatch();
+
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
-
-
+   const [id, setId] = useState();
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
+
 
    const validateForm = () => {
       let isValid = true;
@@ -30,16 +33,16 @@ function Login({ logIn }) {
          return regex.test(testcase);
       };
 
-
-      const isCheckUser = (email, password) => {
-         const isMatch = userData.some((user) => {
-            if (user.individual.email === email && bcrypt.compareSync(password, user.password)) {
-               return true
-            }
-            return false;
-         });
-         return isMatch;
-      };
+      // const isCheckUser = (email, password) => {
+      //    const isMatch = userData.some((user) => {
+      //       if (user.individual.email === email && bcrypt.compareSync(password, user.password)) {
+      //          setId(user._id);
+      //          return true
+      //       }
+      //       return false;
+      //    });
+      //    return isMatch;
+      // };
 
 
       //  Validate email
@@ -58,34 +61,30 @@ function Login({ logIn }) {
       }
 
       //Match User
-      if (!isCheckUser(formData.email, formData.password) && formData.password !== '' && formData.email !== '') {
-         errors.isCheckUser = 'Incorrect email or password';
-         isValid = false;
-      }
+      // if (!isCheckUser(formData.email, formData.password) && formData.password !== '' && formData.email !== '') {
+      //    errors.isCheckUser = 'Incorrect email or password';
+      //    isValid = false;
+      // }
 
       setErrors(errors);
       return isValid;
    };
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
+   const handleSubmit = () => {
       if (validateForm()) {
-         const isUser = userData.filter((user) => {
-            return user.individual.email === formData.email && bcrypt.compareSync(formData.password, user.password);
-         });
-         const updateData = { ...isUser[0], "isLoggedIn": true }         
-         dispatch(updateUser(updateData));
-         setFormData({ email: '', password: '' })
          logIn()
-         navigate('/home');
+         //console.log(userData)
+         // dispatch(getUser(id));
+         setFormData({ email: '', password: '' })
+         navigate('/create');
       }
    };
 
+   // useEffect(() => {
+   //    dispatch(getUsers())
+   // }, [dispatch]);
 
 
-   useEffect(() => {
-      dispatch(getUser())
-   }, [dispatch]);
 
    return (
       <div className='page-section small-page'>

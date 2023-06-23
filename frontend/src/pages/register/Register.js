@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { createUser } from '../../features/user/userSlice';
+
 import bcrypt from "bcryptjs";
-import { getUser } from '../../features/user/userSlice';
+
 
 function Register() {
-   const userData = useSelector((state) => { return state.idyUser.data });
+   const userData = useSelector(state => state.idyUser.data);
    const dispatch = useDispatch();
+
    const navigate = useNavigate();
 
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -21,17 +24,19 @@ function Register() {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      if (validateForm()) {
-         const hashedPassword = bcrypt.hashSync(formData.password, 10)
 
-         const registerUser = {
-            "password": hashedPassword,
-            "individual": {
-               "name": formData.name,
-               "email": formData.email,
-               "call": formData.mobile
-            }
+      const hashedPassword = bcrypt.hashSync(formData.password, 10)
+
+      const registerUser = {
+         "password": hashedPassword,
+         "individual": {
+            "name": formData.name,
+            "email": formData.email,
+            "call": formData.mobile
          }
+      }
+
+      if (validateForm()) {
 
          sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
@@ -58,10 +63,13 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegEmail = (email) => {
-         const isPresent = userData.some((user) => user.individual.email === email);
-         return isPresent;
-      };
+      const isRegdEmail = (email) => {
+         dispatch(createUser({ isRegd: email }))
+         if (userData === "Email Already Registred.") {
+            return true
+         }
+         return false;
+      }
 
       //  Validate name
       if (formData.name === '') {
@@ -76,8 +84,8 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegEmail(formData.email)) {
-         errors.email = 'Email Already Registred.';
+      } else if (!isRegdEmail(formData.email)) {
+         errors.email = 'Email Already Registred';
          isValid = false;
       }
 
@@ -108,13 +116,14 @@ function Register() {
          isValid = false;
       }
 
+
+
+
       setErrors(errors);
       return isValid;
    };
 
-   useEffect(() => {
-      dispatch(getUser())
-   }, [dispatch]);
+
 
    return (
       <div className='page-section small-page '>

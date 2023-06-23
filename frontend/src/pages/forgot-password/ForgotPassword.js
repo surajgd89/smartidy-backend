@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import './ForgotPassword.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../features/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { getUsers } from '../../features/user/userSlice';
+import { Link, useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
    const userData = useSelector((state) => state.idyUser.data);
@@ -66,7 +66,7 @@ function ForgotPassword() {
 
 
    useEffect(() => {
-      dispatch(getUser())
+      dispatch(getUsers())
    }, [dispatch]);
 
 
@@ -89,6 +89,7 @@ function ForgotPassword() {
                </div>
                <div className="panel-footer">
                   <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Reset Password</button>
+                  <Link to="/login" className='link'>Back to Login</Link>
                </div>
             </div>
          </div>

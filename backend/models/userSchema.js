@@ -7,7 +7,6 @@ const schemaUser = new Schema({
       default: Date.now
    },
    userId: { type: String, },
-   isLoggedIn: { type: Boolean, },
    status: { type: String },
    password: { type: String },
    individual: {

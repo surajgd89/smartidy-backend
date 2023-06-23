@@ -1,80 +1,80 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const serverError = {}
-
 const API_USER_URL = 'http://localhost:4000/user';
 
-//SEARCH USER
-export const searchUser = createAsyncThunk('user/search', async (searchQuery) => {
-   if (searchQuery !== undefined) {
+
+//SEARCH USERS
+export const searchUsers = createAsyncThunk('user/searchUsers', async (req) => {
+   if (req !== undefined) {
       try {
-         const response = await axios.get(`${API_USER_URL}${searchQuery}`);
-         return response.data;
-      } catch (error) {
-         throw new Error('Failed to searchUser');
+         const res = await axios.get(`${API_USER_URL}${req}`);
+         return res.data;
+      } catch (err) {
+         throw new Error('Failed to searchUsers');
       }
    }
 });
 
-//ID USER
-export const getIdUser = createAsyncThunk('user/id', async (id) => {
+//GET USERS
+export const getUsers = createAsyncThunk('user/getUsers', async () => {
    try {
-      const response = await axios.get(`${API_USER_URL}/${id}`);
-      return response.data;
-   } catch (error) {
+      const res = await axios.get(API_USER_URL);
+      return res.data;
+   } catch (err) {
+      throw new Error('Failed to getUsers');
+   }
+});
+
+
+
+//GET USER
+export const getUser = createAsyncThunk('user/getUser', async (id) => {
+   try {
+      const res = await axios.get(`${API_USER_URL}/${id}`);
+      return res.data;
+   } catch (err) {
       throw new Error('Failed to idUser');
    }
 });
 
-//GET USER
-export const getUser = createAsyncThunk('user/get', async () => {
-   try {
-      const response = await axios.get(API_USER_URL);
-      return response.data;
-   } catch (error) {
-      throw new Error('Failed to getUser');
-   }
-});
+
+
 
 //CREATE USER
-export const createUser = createAsyncThunk('user/create', async (userData) => {
+export const createUser = createAsyncThunk('user/createUser', async (req) => {
    try {
-      const response = await axios.post(`${API_USER_URL}`, userData);
-      return response.data;
-   } catch (error) {
-      if (error.response && error.response.data.error === 'Email is already registered') {
-         throw new Error('Email is already registered');
-      } else {
-         throw new Error('Failed to createUser');
-      }
+      const res = await axios.post(`${API_USER_URL}`, req);
+      console.log(res.data)
+      return res.data;
+   } catch (err) {
+      throw new Error('Failed to createUser');
    }
 });
 
 //UPDATE USER
-export const updateUser = createAsyncThunk('user/update', async (userData) => {
-   const id = userData._id;
+export const updateUser = createAsyncThunk('user/updateUser', async (req) => {
+   const id = req._id;
    try {
-      const response = await axios.put(`${API_USER_URL}/${id}`, userData);
-      if (response.data.token) {
-         sessionStorage.setItem("token", response.data.token)
+      const res = await axios.put(`${API_USER_URL}/${id}`, req);
+      if (res.data.token) {
+         sessionStorage.setItem("token", res.data.token)
       }
-      return response.data;
-   } catch (error) {
+      return res.data;
+   } catch (err) {
       throw new Error('Failed to updateUser');
    }
 });
 
 //DELETE USER
-export const deleteUser = createAsyncThunk('user/delete', async (id) => {
+export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
    try {
       await axios.delete(`${API_USER_URL}/${id}`);
       return id;
-   } catch (error) {
+   } catch (err) {
       throw new Error('Failed to deleteUser');
    }
 });
-
 
 //ACTIONS
 const userSlice = createSlice({
@@ -83,45 +83,47 @@ const userSlice = createSlice({
       data: [],
       loading: false,
       error: null,
+      isAuthenticated: true
    },
-
    reducers: {},
    extraReducers: builder => {
       builder
 
-
-         //SEARCH 
-         .addCase(searchUser.pending, state => {
+         //SEARCH USERS 
+         .addCase(searchUsers.pending, state => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(searchUser.fulfilled, (state, action) => {
+         .addCase(searchUsers.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
          })
-         .addCase(searchUser.rejected, (state, action) => {
+         .addCase(searchUsers.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
+         })
+
+
+         //GET USERS 
+         .addCase(getUsers.pending, state => {
+            state.loading = true;
+            state.error = null;
+         })
+         .addCase(getUsers.fulfilled, (state, action) => {
+            state.loading = false;
+            state.data = action.payload;
+         })
+         .addCase(getUsers.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
 
-         //ID USER 
-         .addCase(getIdUser.pending, state => {
-            state.loading = true;
-            state.error = null;
-         })
-         .addCase(getIdUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.data = action.payload;
-         })
-         .addCase(getIdUser.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message;
-         })
 
 
-         //GET 
+
+         //GET USER 
          .addCase(getUser.pending, state => {
             state.loading = true;
             state.error = null;
@@ -136,7 +138,7 @@ const userSlice = createSlice({
          })
 
 
-         //CREATE 
+         //CREATE USER 
          .addCase(createUser.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -151,7 +153,7 @@ const userSlice = createSlice({
          })
 
 
-         //UPDATE 
+         //UPDATE USER
          .addCase(updateUser.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -165,14 +167,13 @@ const userSlice = createSlice({
             }
             state.loading = false;
          })
-
          .addCase(updateUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })
 
 
-         //DELETE 
+         //DELETE USER
          .addCase(deleteUser.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -190,5 +191,6 @@ const userSlice = createSlice({
 
    },
 });
+
 
 export default userSlice.reducer;

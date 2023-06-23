@@ -1,9 +1,10 @@
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useLocation } from 'react-router-dom'
 
-function Protected({ isLoggedIn, children }) {
+function Protected({ isLoggedIn, redirectPath = '/login', children }) {
+
+
    if (!isLoggedIn) {
-      return <Navigate to="/" replace />
+      return <Navigate to={redirectPath} replace />
    }
    return children
 }
