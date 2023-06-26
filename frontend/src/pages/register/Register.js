@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { createUser } from '../../features/user/userSlice';
 
 import bcrypt from "bcryptjs";
 
 
 function Register() {
+
    const userData = useSelector(state => state.idyUser.data);
    const dispatch = useDispatch();
 
@@ -22,27 +24,32 @@ function Register() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
+
+
+
+
    const handleSubmit = (e) => {
       e.preventDefault();
 
-      const hashedPassword = bcrypt.hashSync(formData.password, 10)
-
-      const registerUser = {
-         "password": hashedPassword,
-         "individual": {
-            "name": formData.name,
-            "email": formData.email,
-            "call": formData.mobile
-         }
-      }
 
       if (validateForm()) {
-
+         const hashedPassword = bcrypt.hashSync(formData.password, 10);
+         const registerUser = {
+            "password": hashedPassword,
+            "individual": {
+               "name": formData.name,
+               "email": formData.email,
+               "call": formData.mobile
+            }
+         }
          sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate('/otp');
       }
+
    };
+
+
 
    const validateForm = () => {
       let isValid = true;
@@ -63,12 +70,9 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegdEmail = (email) => {
-         dispatch(createUser({ isRegd: email }))
-         if (userData === "Email Already Registred.") {
-            return true
-         }
-         return false;
+      const isRegdEmail = async (email) => {
+         dispatch(createUser({ individual: { email: email } }))
+         return userData.error;
       }
 
       //  Validate name
@@ -84,7 +88,7 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (!isRegdEmail(formData.email)) {
+      } else if (isRegdEmail) {
          errors.email = 'Email Already Registred';
          isValid = false;
       }
@@ -115,9 +119,6 @@ function Register() {
          errors.confirmPassword = 'Passwords do not match';
          isValid = false;
       }
-
-
-
 
       setErrors(errors);
       return isValid;

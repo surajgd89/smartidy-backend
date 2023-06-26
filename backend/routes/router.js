@@ -38,16 +38,15 @@ router.get('/user/:id', async (req, res) => {
 router.post('/user', async (req, res) => {
    try {
 
-      const existingUser = await userSchema.User.findOne({ 'individual.email': req.body.isRegd });
-
-
+      const existingUser = await userSchema.User.findOne({ 'individual.email': req.body.individual.email });
       if (existingUser) {
-         return res.send("Email Already Registred.");
+         return res.send({ error: true });
       }
 
       const data = new userSchema.User(req.body);
       await data.save();
       res.send(data);
+      console.log(req.body)
 
    } catch (err) {
       res.status(500).send(err);

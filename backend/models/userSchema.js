@@ -15,7 +15,7 @@ const schemaUser = new Schema({
       experties: { type: String },
       profilePic: { type: String },
       call: { type: String },
-      email: { type: String, },
+      email: { type: String },
       sms: { type: String },
       chat: [
          {

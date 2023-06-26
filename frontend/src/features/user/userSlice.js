@@ -26,8 +26,6 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
    }
 });
 
-
-
 //GET USER
 export const getUser = createAsyncThunk('user/getUser', async (id) => {
    try {
@@ -37,9 +35,6 @@ export const getUser = createAsyncThunk('user/getUser', async (id) => {
       throw new Error('Failed to idUser');
    }
 });
-
-
-
 
 //CREATE USER
 export const createUser = createAsyncThunk('user/createUser', async (req) => {
@@ -117,10 +112,6 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.error.message;
          })
-
-
-
-
 
 
          //GET USER 
