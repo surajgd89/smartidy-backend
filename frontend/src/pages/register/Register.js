@@ -2,35 +2,24 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { createUser } from '../../features/user/userSlice';
-
 import bcrypt from "bcryptjs";
+import { useDispatch, useSelector } from 'react-redux';
+import { checkRegdEmail } from '../../features/user/isRegEmailSlice';
 
 
 function Register() {
-
-   const userData = useSelector(state => state.idyUser.data);
+   const isRegdEmail = useSelector(state => state.isReg.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
-
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
-
    const [errors, setErrors] = useState({});
-
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-
-
-
-
    const handleSubmit = (e) => {
       e.preventDefault();
-
 
       if (validateForm()) {
          const hashedPassword = bcrypt.hashSync(formData.password, 10);
@@ -46,14 +35,13 @@ function Register() {
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate('/otp');
       }
-
    };
-
-
 
    const validateForm = () => {
       let isValid = true;
       let errors = {};
+
+      console.log(isRegdEmail)
 
       const isValidEmail = (testcase) => {
          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -70,10 +58,12 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegdEmail = async (email) => {
-         dispatch(createUser({ individual: { email: email } }))
-         return userData.error;
+
+      if (formData.email != '' && isValidEmail(formData.email)) {
+         dispatch(checkRegdEmail(formData.email))
       }
+
+
 
       //  Validate name
       if (formData.name === '') {
@@ -88,7 +78,9 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegdEmail) {
+      }
+
+      if (isRegdEmail) {
          errors.email = 'Email Already Registred';
          isValid = false;
       }
@@ -124,6 +116,9 @@ function Register() {
       return isValid;
    };
 
+   useEffect(() => {
+      dispatch(checkRegdEmail(formData.email))
+   }, [dispatch]);
 
 
    return (
@@ -173,6 +168,7 @@ function Register() {
                            </ul>
                         </div>
                      </div>
+
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label'>Confirm Password</label>

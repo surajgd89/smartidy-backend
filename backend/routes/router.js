@@ -4,8 +4,21 @@ const userSchema = require('../models/userSchema');
 
 require('dotenv/config')
 
-
 //=================USER=========================//
+
+//CHECK REGD EMAIL
+router.get('/user/checkEmail', async (req, res) => {
+   try {
+      const searchQuery = req.query;
+      const isExistEmail = await userSchema.User.findOne(searchQuery);
+      if (!isExistEmail) {
+         return res.send(false);
+      }
+      res.send(true);
+   } catch (err) {
+      res.status(500).send(err);
+   }
+});
 
 //GET USERS
 router.get('/user', async (req, res) => {
@@ -37,17 +50,9 @@ router.get('/user/:id', async (req, res) => {
 //CREATE USER
 router.post('/user', async (req, res) => {
    try {
-
-      const existingUser = await userSchema.User.findOne({ 'individual.email': req.body.individual.email });
-      if (existingUser) {
-         return res.send({ error: true });
-      }
-
       const data = new userSchema.User(req.body);
       await data.save();
       res.send(data);
-      console.log(req.body)
-
    } catch (err) {
       res.status(500).send(err);
    }

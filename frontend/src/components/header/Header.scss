@@ -12,7 +12,14 @@
     position: relative;
 
     .head-logo {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+
+        .brand-name {
+            font-size: 45px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+        }
     }
 
     .head-desc {

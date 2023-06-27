@@ -5,10 +5,10 @@ const API_USER_URL = 'http://localhost:4000/user';
 
 
 //SEARCH USERS
-export const searchUsers = createAsyncThunk('user/searchUsers', async (req) => {
-   if (req !== undefined) {
+export const searchUsers = createAsyncThunk('user/searchUsers', async (searchQuery) => {
+   if (searchQuery !== undefined) {
       try {
-         const res = await axios.get(`${API_USER_URL}${req}`);
+         const res = await axios.get(`${API_USER_URL}${searchQuery}`);
          return res.data;
       } catch (err) {
          throw new Error('Failed to searchUsers');
@@ -40,7 +40,6 @@ export const getUser = createAsyncThunk('user/getUser', async (id) => {
 export const createUser = createAsyncThunk('user/createUser', async (req) => {
    try {
       const res = await axios.post(`${API_USER_URL}`, req);
-      console.log(res.data)
       return res.data;
    } catch (err) {
       throw new Error('Failed to createUser');
@@ -52,9 +51,6 @@ export const updateUser = createAsyncThunk('user/updateUser', async (req) => {
    const id = req._id;
    try {
       const res = await axios.put(`${API_USER_URL}/${id}`, req);
-      if (res.data.token) {
-         sessionStorage.setItem("token", res.data.token)
-      }
       return res.data;
    } catch (err) {
       throw new Error('Failed to updateUser');
@@ -71,6 +67,8 @@ export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
    }
 });
 
+
+
 //ACTIONS
 const userSlice = createSlice({
    name: 'user',
@@ -78,7 +76,6 @@ const userSlice = createSlice({
       data: [],
       loading: false,
       error: null,
-      isAuthenticated: true
    },
    reducers: {},
    extraReducers: builder => {
@@ -97,6 +94,8 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.error.message;
          })
+
+
 
 
          //GET USERS 
@@ -182,6 +181,5 @@ const userSlice = createSlice({
 
    },
 });
-
 
 export default userSlice.reducer;
