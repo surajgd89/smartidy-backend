@@ -7,14 +7,14 @@ require('dotenv/config')
 //=================USER=========================//
 
 //CHECK REGD EMAIL
-router.get('/user/checkEmail', async (req, res) => {
+router.get('/user/isRegistredUser', async (req, res) => {
    try {
       const searchQuery = req.query;
-      const isExistEmail = await userSchema.User.findOne(searchQuery);
-      if (!isExistEmail) {
-         return res.send(false);
+      const isRegdUser = await userSchema.User.findOne(searchQuery);
+      if (isRegdUser) {
+         return res.send(true);
       }
-      res.send(true);
+      res.send(false);
    } catch (err) {
       res.status(500).send(err);
    }
