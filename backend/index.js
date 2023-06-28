@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const router = require("./routes/router");
+const IdyUserRouter = require("./routes/IdyUserRouter");
 const mongoose = require("mongoose");
 
 require('dotenv/config')
@@ -19,7 +19,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-app.use('/', router)
+app.use('/', IdyUserRouter)
 
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, dbOptions)

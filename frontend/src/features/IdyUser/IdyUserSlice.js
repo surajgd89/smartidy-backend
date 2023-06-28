@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_USER_URL = 'http://localhost:4000/user';
-
+const API_USER_URL = 'http://localhost:4000/IdyUser';
 
 //SEARCH USERS
-export const searchUsers = createAsyncThunk('user/searchUsers', async (searchQuery) => {
+export const searchUsers = createAsyncThunk('IdyUser/searchUsers', async (searchQuery) => {
    if (searchQuery !== undefined) {
       try {
          const res = await axios.get(`${API_USER_URL}${searchQuery}`);
@@ -17,7 +16,7 @@ export const searchUsers = createAsyncThunk('user/searchUsers', async (searchQue
 });
 
 //GET USERS
-export const getUsers = createAsyncThunk('user/getUsers', async () => {
+export const getUsers = createAsyncThunk('IdyUser/getUsers', async () => {
    try {
       const res = await axios.get(API_USER_URL);
       return res.data;
@@ -27,7 +26,7 @@ export const getUsers = createAsyncThunk('user/getUsers', async () => {
 });
 
 //GET USER
-export const getUser = createAsyncThunk('user/getUser', async (id) => {
+export const getUser = createAsyncThunk('IdyUser/getUser', async (id) => {
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`);
       return res.data;
@@ -37,7 +36,7 @@ export const getUser = createAsyncThunk('user/getUser', async (id) => {
 });
 
 //CREATE USER
-export const createUser = createAsyncThunk('user/createUser', async (req) => {
+export const createUser = createAsyncThunk('IdyUser/createUser', async (req) => {
    try {
       const res = await axios.post(`${API_USER_URL}`, req);
       return res.data;
@@ -47,7 +46,7 @@ export const createUser = createAsyncThunk('user/createUser', async (req) => {
 });
 
 //UPDATE USER
-export const updateUser = createAsyncThunk('user/updateUser', async (req) => {
+export const updateUser = createAsyncThunk('IdyUser/updateUser', async (req) => {
    const id = req._id;
    try {
       const res = await axios.put(`${API_USER_URL}/${id}`, req);
@@ -58,7 +57,7 @@ export const updateUser = createAsyncThunk('user/updateUser', async (req) => {
 });
 
 //DELETE USER
-export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
+export const deleteUser = createAsyncThunk('IdyUser/deleteUser', async (id) => {
    try {
       await axios.delete(`${API_USER_URL}/${id}`);
       return id;
@@ -68,10 +67,9 @@ export const deleteUser = createAsyncThunk('user/deleteUser', async (id) => {
 });
 
 
-
 //ACTIONS
-const userSlice = createSlice({
-   name: 'user',
+const IdyUserSlice = createSlice({
+   name: 'IdyUser',
    initialState: {
       data: [],
       loading: false,
@@ -182,4 +180,4 @@ const userSlice = createSlice({
    },
 });
 
-export default userSlice.reducer;
+export default IdyUserSlice.reducer;

@@ -2,19 +2,17 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUsers, updateUser } from '../../features/user/userSlice';
+import { searchUsers, updateUser } from '../../features/IdyUser/IdyUserSlice';
 import bcrypt from "bcryptjs";
 
 
 function ResetPassword() {
-   
-   const userData = useSelector((state) => {return state.idyUser.data[0]});
+
+   const userData = useSelector((state) => { return state.IdyUser.data[0] });
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
-
-
 
 
    const handleChange = (e) => {

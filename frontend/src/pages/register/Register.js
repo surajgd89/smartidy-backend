@@ -4,12 +4,11 @@ import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 import { useDispatch, useSelector } from 'react-redux';
-
-import { isRegistredUser } from '../../features/user/isRegistredUserSlice';
+import { RegistredUser } from '../../features/IdyUser/RegistredUserSlice';
 
 
 function Register() {
-   const isRegdUser = useSelector(state => state.isRegistredUser.data);
+   const isRegistredUser = useSelector(state => state.RegistredUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
@@ -38,11 +37,6 @@ function Register() {
          return regex.test(testcase);
       };
 
-      const isRegdUserResult = (email) => {
-         dispatch(isRegistredUser(email))
-         return isRegdUser
-      }
-
       //  Validate name
       if (formData.name === '') {
          errors.name = 'Name is required';
@@ -56,7 +50,7 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegdUserResult(formData.email)) {
+      } else if (isRegistredUser) {
          errors.email = 'Email Already Registred';
          isValid = false;
       }
@@ -113,6 +107,13 @@ function Register() {
    };
 
 
+   useEffect(() => {
+
+      if (formData.email != '') {
+         dispatch(RegistredUser(`?individual.email=${formData.email}`))
+      }
+
+   }, [dispatch, validateForm])
 
 
    return (

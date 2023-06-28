@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import ProfilePhotoDefault from '../../assets/images/profile-photo-default.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUsers } from '../../features/user/userSlice';
+import { getUsers } from '../../features/IdyUser/IdyUserSlice';
 
 import './Dashboard.scss'
 function Dashboard() {
 
-   const userData = useSelector(state => state.idyUser.data);
+   const userData = useSelector(state => state.IdyUser.data);
    const dispatch = useDispatch();
 
    const [searchValue, setSearchValue] = useState('');

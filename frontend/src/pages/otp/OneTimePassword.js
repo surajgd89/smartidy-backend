@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createUser } from '../../features/user/userSlice';
+import { createUser } from '../../features/IdyUser/IdyUserSlice';
 import { useNavigate } from 'react-router-dom';
 import Timer from '../../components/timer/Timer';
 import OtpGenerator from '../../components/otp-generator/OtpGenerator';
@@ -65,7 +65,7 @@ function OneTimePassword() {
       if (validateForm()) {
          if (sessionStorage.getItem('registerUser')) {
             dispatch(createUser(JSON.parse(registerUser)));
-            sessionStorage.removeItem("registerUser");            
+            sessionStorage.removeItem("registerUser");
             navigate('/login');
          }
          if (sessionStorage.getItem('regdEmail')) {

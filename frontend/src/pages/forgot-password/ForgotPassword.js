@@ -2,11 +2,11 @@
 import { useEffect, useState } from 'react';
 import './ForgotPassword.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../../features/user/userSlice';
+import { getUsers } from '../../features/IdyUser/IdyUserSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
-   const userData = useSelector((state) => state.idyUser.data);
+   const userData = useSelector((state) => state.IdyUser.data);
    const dispatch = useDispatch()
    const navigate = useNavigate();
 

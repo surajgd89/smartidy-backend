@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const schemaUser = new Schema({
+const IdyUserSchema = new Schema({
    entryDate: {
       type: Date,
       default: Date.now
@@ -114,8 +114,8 @@ const schemaUser = new Schema({
    }
 })
 
-const User = mongoose.model('User', schemaUser, 'user');
+const User = mongoose.model('User', IdyUserSchema, 'user');
 
-const SCH_User = { 'User': User, }
+const SCH_IdyUser = { 'User': User, }
 
-module.exports = SCH_User
+module.exports = SCH_IdyUser

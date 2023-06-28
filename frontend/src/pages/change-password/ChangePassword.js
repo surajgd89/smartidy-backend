@@ -2,11 +2,11 @@ import './ChangePassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, updateUser } from '../../features/user/userSlice';
+import { getUsers, updateUser } from '../../features/IdyUser/IdyUserSlice';
 import bcrypt from "bcryptjs";
 
 function ChangePassword() {
-   const userData = useSelector((state) => state.idyUser.data);
+   const userData = useSelector((state) => state.IdyUser.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });

@@ -3,20 +3,19 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-//import { getUser, getUsers } from '../../features/user/userSlice';
+import { LoggedUser } from '../../features/IdyUser/LoggedUserSlice';
 
 
 import bcrypt from "bcryptjs";
 
 function Login({ logIn }) {
 
-   // const userData = useSelector(state => state.idyUser.data);
+   const isLoggedUser = useSelector(state => state.LoggedUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
-   const [id, setId] = useState();
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,16 +32,14 @@ function Login({ logIn }) {
          return regex.test(testcase);
       };
 
-      // const isCheckUser = (email, password) => {
-      //    const isMatch = userData.some((user) => {
-      //       if (user.individual.email === email && bcrypt.compareSync(password, user.password)) {
-      //          setId(user._id);
-      //          return true
-      //       }
-      //       return false;
-      //    });
-      //    return isMatch;
-      // };
+      const isUser = (password) => {
+         if (isLoggedUser && bcrypt.compareSync(password, isLoggedUser.password)) {
+            console.log(isLoggedUser)
+            console.log(isLoggedUser._id)
+            return true
+         }
+         return false;
+      };
 
 
       //  Validate email
@@ -61,10 +58,10 @@ function Login({ logIn }) {
       }
 
       //Match User
-      // if (!isCheckUser(formData.email, formData.password) && formData.password !== '' && formData.email !== '') {
-      //    errors.isCheckUser = 'Incorrect email or password';
-      //    isValid = false;
-      // }
+      if (!isUser(formData.password) && formData.password !== '' && formData.email !== '') {
+         errors.isUser = 'Incorrect email or password';
+         isValid = false;
+      }
 
       setErrors(errors);
       return isValid;
@@ -73,17 +70,18 @@ function Login({ logIn }) {
    const handleSubmit = () => {
       if (validateForm()) {
          logIn()
-         //console.log(userData)
-         // dispatch(getUser(id));
          setFormData({ email: '', password: '' })
          navigate('/create');
       }
    };
 
-   // useEffect(() => {
-   //    dispatch(getUsers())
-   // }, [dispatch]);
 
+
+   useEffect(() => {
+      if (formData.email != '') {
+         dispatch(LoggedUser(`?individual.email=${formData.email}`))
+      }
+   }, [dispatch, validateForm])
 
 
    return (
