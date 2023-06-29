@@ -9,8 +9,8 @@ import Configuration from './Configuration';
 
 function Create() {
 
-   const [individualForm, setIndividualForm] = useState(true);
-   const [businessForm, setBusinessForm] = useState(true);
+   const [individualForm, setIndividualForm] = useState(false);
+   const [businessForm, setBusinessForm] = useState(false);
    const [configurationForm, setConfigurationForm] = useState(true);
 
 

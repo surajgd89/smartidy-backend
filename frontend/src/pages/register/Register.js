@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +17,8 @@ function Register() {
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
+
+
 
    const validateForm = () => {
       let isValid = true;
@@ -108,13 +110,8 @@ function Register() {
 
 
    useEffect(() => {
-
-      if (formData.email != '') {
-         dispatch(RegistredUser(`?individual.email=${formData.email}`))
-      }
-
-   }, [dispatch, validateForm])
-
+      dispatch(RegistredUser(`?individual.email=${formData.email}`))
+   }, [dispatch, formData.email])
 
    return (
       <div className='page-section small-page '>

@@ -13,14 +13,14 @@ IdyUserRouter.get('/IdyUser/LoggedUser', async (req, res) => {
    try {
       const searchQuery = req.query;
       const LoggedUser = await IdyUserSchema.User.findOne(searchQuery);
-      if (LoggedUser) {
 
+      if (LoggedUser) {
          const id = LoggedUser._id;
          const email = LoggedUser.individual.email;
-         const token = jwt.sign({ id, email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+         const token = jwt.sign({ id, email }, process.env.SECRET_KEY, { expiresIn: '5m' });
          return res.send({ token: token, user: LoggedUser });
-
       }
+
       res.send(false);
    } catch (err) {
       res.status(500).send(err);

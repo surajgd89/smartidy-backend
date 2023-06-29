@@ -28,8 +28,6 @@ function App() {
 
 
 
-
-
   return (
     <BrowserRouter>
       <div className="wrapper">
@@ -38,6 +36,7 @@ function App() {
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
+              
               <Routes>
 
                 <Route path="/dashboard" element={

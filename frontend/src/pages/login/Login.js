@@ -17,6 +17,8 @@ function Login({ logIn }) {
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
+
+
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
@@ -33,9 +35,7 @@ function Login({ logIn }) {
       };
 
       const isUser = (password) => {
-         if (isLoggedUser && bcrypt.compareSync(password, isLoggedUser.password)) {
-            console.log(isLoggedUser)
-            console.log(isLoggedUser._id)
+         if (isLoggedUser.user && bcrypt.compareSync(password, isLoggedUser.user.password)) {
             return true
          }
          return false;
@@ -69,19 +69,18 @@ function Login({ logIn }) {
 
    const handleSubmit = () => {
       if (validateForm()) {
+         sessionStorage.setItem("token", isLoggedUser.token)
          logIn()
          setFormData({ email: '', password: '' })
-         navigate('/create');
+         navigate('/dashboard');
       }
    };
 
 
 
    useEffect(() => {
-      if (formData.email != '') {
-         dispatch(LoggedUser(`?individual.email=${formData.email}`))
-      }
-   }, [dispatch, validateForm])
+      dispatch(LoggedUser(`?individual.email=${formData.email}`))
+   }, [dispatch, formData.email])
 
 
    return (
@@ -92,7 +91,7 @@ function Login({ logIn }) {
                <div className="panel-header">Login to Your Account</div>
 
                <div className="panel-body">
-                  {errors.isCheckUser && <div className="panel-error">{errors.isCheckUser}</div>}
+                  {errors.isUser && <div className="panel-error">{errors.isUser}</div>}
                   <div className="row">
                      <div className="col-12">
                         <div className='form-group'>
