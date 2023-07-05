@@ -3,8 +3,10 @@ import axios from 'axios';
 
 const API_USER_URL = 'http://localhost:4000/IdyUser';
 
-//SEARCH USERS
-export const searchUsers = createAsyncThunk('IdyUser/searchUsers', async (searchQuery) => {
+
+//GET USERS
+export const getUsers = createAsyncThunk('getUsers', async (searchQuery) => {
+
    if (searchQuery !== undefined) {
       try {
          const res = await axios.get(`${API_USER_URL}${searchQuery}`);
@@ -12,21 +14,20 @@ export const searchUsers = createAsyncThunk('IdyUser/searchUsers', async (search
       } catch (err) {
          throw new Error('Failed to searchUsers');
       }
+   } else {
+      try {
+         const res = await axios.get(API_USER_URL);
+         return res.data;
+      } catch (err) {
+         throw new Error('Failed to getUsers');
+      }
    }
-});
 
-//GET USERS
-export const getUsers = createAsyncThunk('IdyUser/getUsers', async () => {
-   try {
-      const res = await axios.get(API_USER_URL);
-      return res.data;
-   } catch (err) {
-      throw new Error('Failed to getUsers');
-   }
+
 });
 
 //GET USER
-export const getUser = createAsyncThunk('IdyUser/getUser', async (id) => {
+export const getUser = createAsyncThunk('getUser', async (id) => {
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`);
       return res.data;
@@ -36,7 +37,7 @@ export const getUser = createAsyncThunk('IdyUser/getUser', async (id) => {
 });
 
 //CREATE USER
-export const createUser = createAsyncThunk('IdyUser/createUser', async (req) => {
+export const createUser = createAsyncThunk('createUser', async (req) => {
    try {
       const res = await axios.post(`${API_USER_URL}`, req);
       return res.data;
@@ -46,7 +47,7 @@ export const createUser = createAsyncThunk('IdyUser/createUser', async (req) => 
 });
 
 //UPDATE USER
-export const updateUser = createAsyncThunk('IdyUser/updateUser', async (req) => {
+export const updateUser = createAsyncThunk('updateUser', async (req) => {
    const id = req._id;
    try {
       const res = await axios.put(`${API_USER_URL}/${id}`, req);
@@ -57,7 +58,7 @@ export const updateUser = createAsyncThunk('IdyUser/updateUser', async (req) => 
 });
 
 //DELETE USER
-export const deleteUser = createAsyncThunk('IdyUser/deleteUser', async (id) => {
+export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
    try {
       await axios.delete(`${API_USER_URL}/${id}`);
       return id;
@@ -65,7 +66,6 @@ export const deleteUser = createAsyncThunk('IdyUser/deleteUser', async (id) => {
       throw new Error('Failed to deleteUser');
    }
 });
-
 
 //ACTIONS
 const IdyUserSlice = createSlice({
@@ -78,23 +78,6 @@ const IdyUserSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
-
-         //SEARCH USERS 
-         .addCase(searchUsers.pending, state => {
-            state.loading = true;
-            state.error = null;
-         })
-         .addCase(searchUsers.fulfilled, (state, action) => {
-            state.loading = false;
-            state.data = action.payload;
-         })
-         .addCase(searchUsers.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message;
-         })
-
-
-
 
          //GET USERS 
          .addCase(getUsers.pending, state => {

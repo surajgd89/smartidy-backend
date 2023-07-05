@@ -4,11 +4,12 @@ import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 import { useDispatch, useSelector } from 'react-redux';
-import { RegistredUser } from '../../features/IdyUser/RegistredUserSlice';
+
+import { getUsers } from '../../features/IdyUser/IdyUserSlice';
 
 
 function Register() {
-   const isRegistredUser = useSelector(state => state.RegistredUser.data);
+   const isRegistredUser = useSelector(state => state.IdyUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
@@ -17,8 +18,6 @@ function Register() {
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
-
-
 
    const validateForm = () => {
       let isValid = true;
@@ -52,7 +51,7 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegistredUser) {
+      } else if (isRegistredUser.isRegistred) {
          errors.email = 'Email Already Registred';
          isValid = false;
       }
@@ -110,8 +109,8 @@ function Register() {
 
 
    useEffect(() => {
-      dispatch(RegistredUser(`?individual.email=${formData.email}`))
-   }, [dispatch, formData.email])
+      dispatch(getUsers(`?individual.email=${formData.email}`))
+   }, [dispatch])
 
    return (
       <div className='page-section small-page '>

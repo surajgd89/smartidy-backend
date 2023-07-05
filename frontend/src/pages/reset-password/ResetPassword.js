@@ -2,7 +2,7 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUsers, updateUser } from '../../features/IdyUser/IdyUserSlice';
+import { getUsers, updateUser } from '../../features/IdyUser/IdyUserSlice';
 import bcrypt from "bcryptjs";
 
 
@@ -77,7 +77,7 @@ function ResetPassword() {
 
    useEffect(() => {
       const searchQuery = `?individual.email=${sessionStorage.getItem('regdEmail')}`
-      dispatch(searchUsers(searchQuery))
+      dispatch(getUsers(searchQuery))
    }, [dispatch])
 
    return (

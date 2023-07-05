@@ -3,31 +3,26 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoggedUser } from '../../features/IdyUser/LoggedUserSlice';
+import { getUsers } from '../../features/IdyUser/IdyUserSlice';
 
 
 import bcrypt from "bcryptjs";
 
 function Login({ logIn }) {
-
-   const isLoggedUser = useSelector(state => state.LoggedUser.data);
+   const isRegistredUser = useSelector(state => state.IdyUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
-
-
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
 
       const isValidEmail = (testcase) => {
          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -35,12 +30,11 @@ function Login({ logIn }) {
       };
 
       const isUser = (password) => {
-         if (isLoggedUser.user && bcrypt.compareSync(password, isLoggedUser.user.password)) {
+         if (isRegistredUser && bcrypt.compareSync(password, isRegistredUser.password)) {
             return true
          }
          return false;
       };
-
 
       //  Validate email
       if (formData.email === '') {
@@ -69,18 +63,16 @@ function Login({ logIn }) {
 
    const handleSubmit = () => {
       if (validateForm()) {
-         sessionStorage.setItem("token", isLoggedUser.token)
-         logIn()
-         setFormData({ email: '', password: '' })
+         //sessionStorage.setItem("token", isRegistredUser.token);
+         logIn();
+         setFormData({ email: '', password: '' });
          navigate('/dashboard');
       }
    };
 
-
-
    useEffect(() => {
-      dispatch(LoggedUser(`?individual.email=${formData.email}`))
-   }, [dispatch, formData.email])
+      dispatch(getUsers(`?individual.email=${formData.email}`))
+   }, [dispatch, validateForm])
 
 
    return (
