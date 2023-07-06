@@ -30,44 +30,32 @@ require('dotenv/config')
 //=================REGISTER USER=========================//
 
 //CHECK IS REGISTER USER
-/* IdyUserRouter.get('/IdyUser/RegistredUser', async (req, res) => {
+IdyUserRouter.get('/IdyUser/registredUser', async (req, res) => {
+   const searchQuery = req.query;
    try {
-
-      const searchQuery = req.query;
-      const RegistredUser = await IdyUserSchema.User.findOne(searchQuery);
-      if (RegistredUser) {
-         RegistredUser.isRegistred = true;
+      if (Object.keys(searchQuery).length > 0) {
+         const registredUser = await IdyUserSchema.User.findOne(searchQuery);
+         if (registredUser) {
+            res.send(registredUser);
+         } else {
+            res.send(false);
+         }
       } else {
-         RegistredUser.isRegistred = false;
+         res.send("Enter searchQuery In URL =?individual.email=example@gmail.com");
       }
-
-      res.send(RegistredUser);
    } catch (err) {
       res.status(500).send(err);
    }
-}); */
+});
+
 //=================USER=========================//
 
 //GET USERS
 IdyUserRouter.get('/IdyUser', async (req, res) => {
    try {
       const searchQuery = req.query;
-      if (Object.keys(searchQuery).length === 0) {
-         const data = await IdyUserSchema.User.find(searchQuery);
-         res.send(data);
-      } else {
-         const RegistredUser = await IdyUserSchema.User.findOne(searchQuery);
-         if (RegistredUser) {
-            RegistredUser.isRegistred = true;
-            res.send(RegistredUser);
-            console.log('Yes')
-         } else {
-            RegistredUser.isRegistred = false;
-            res.send(RegistredUser);
-            console.log('No')
-         }
-
-      }
+      const data = await IdyUserSchema.User.find(searchQuery);
+      res.send(data);
    } catch (err) {
       res.status(500).send(err);
    }

@@ -5,25 +5,13 @@ const API_USER_URL = 'http://localhost:4000/IdyUser';
 
 
 //GET USERS
-export const getUsers = createAsyncThunk('getUsers', async (searchQuery) => {
-
-   if (searchQuery !== undefined) {
-      try {
-         const res = await axios.get(`${API_USER_URL}${searchQuery}`);
-         return res.data;
-      } catch (err) {
-         throw new Error('Failed to searchUsers');
-      }
-   } else {
-      try {
-         const res = await axios.get(API_USER_URL);
-         return res.data;
-      } catch (err) {
-         throw new Error('Failed to getUsers');
-      }
+export const getUsers = createAsyncThunk('getUsers', async () => {
+   try {
+      const res = await axios.get(API_USER_URL);
+      return res.data;
+   } catch (err) {
+      throw new Error('Failed to getUsers');
    }
-
-
 });
 
 //GET USER
@@ -67,7 +55,7 @@ export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
    }
 });
 
-//ACTIONS
+//IdyUserSlice ACTIONS
 const IdyUserSlice = createSlice({
    name: 'IdyUser',
    initialState: {
@@ -164,3 +152,8 @@ const IdyUserSlice = createSlice({
 });
 
 export default IdyUserSlice.reducer;
+
+
+
+
+

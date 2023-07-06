@@ -3,13 +3,11 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../../features/IdyUser/IdyUserSlice';
-
-
+import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
 import bcrypt from "bcryptjs";
 
 function Login({ logIn }) {
-   const isRegistredUser = useSelector(state => state.IdyUser.data);
+   const isRegistredUser = useSelector(state => state.RegistredUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
@@ -62,18 +60,20 @@ function Login({ logIn }) {
    };
 
    const handleSubmit = () => {
+
       if (validateForm()) {
-         //sessionStorage.setItem("token", isRegistredUser.token);
-         logIn();
+         //sessionStorage.setItem("token", isRegistredUser.token);   
+
+         logIn(isRegistredUser);
          setFormData({ email: '', password: '' });
          navigate('/dashboard');
       }
    };
 
-   useEffect(() => {
-      dispatch(getUsers(`?individual.email=${formData.email}`))
-   }, [dispatch, validateForm])
 
+   useEffect(() => {
+      dispatch(getRegistredUser(`?individual.email=${formData.email}`));
+   }, [validateForm])
 
    return (
       <div className='page-section small-page'>

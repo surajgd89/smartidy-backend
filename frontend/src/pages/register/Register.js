@@ -4,14 +4,11 @@ import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 import { useDispatch, useSelector } from 'react-redux';
-
-import { getUsers } from '../../features/IdyUser/IdyUserSlice';
-
+import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
 
 function Register() {
-   const isRegistredUser = useSelector(state => state.IdyUser.data);
+   const isRegistredUser = useSelector(state => state.RegistredUser.data);
    const dispatch = useDispatch();
-
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
    const [errors, setErrors] = useState({});
@@ -51,7 +48,7 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegistredUser.isRegistred) {
+      } else if (isRegistredUser) {
          errors.email = 'Email Already Registred';
          isValid = false;
       }
@@ -109,8 +106,8 @@ function Register() {
 
 
    useEffect(() => {
-      dispatch(getUsers(`?individual.email=${formData.email}`))
-   }, [dispatch])
+      dispatch(getRegistredUser(`?individual.email=${formData.email}`))
+   }, [handleSubmit])
 
    return (
       <div className='page-section small-page '>

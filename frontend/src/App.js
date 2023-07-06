@@ -18,9 +18,11 @@ import './App.scss';
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null)
+  const [logInUser, setLogInUser] = useState(null)
 
-  const logIn = () => {
+  const logIn = (user) => {
     setIsLoggedIn(true)
+    setLogInUser(user);
   }
   const logOut = () => {
     setIsLoggedIn(false)
@@ -31,17 +33,16 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
+        <Header isLoggedIn={isLoggedIn} logInUser={logInUser} logOut={logOut} />
         {isLoggedIn && <Navbar />}
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
-              
-              <Routes>
 
+              <Routes>
                 <Route path="/dashboard" element={
                   <Protected isLoggedIn={isLoggedIn}>
-                    <Dashboard />
+                    <Dashboard logInUser={logInUser} />
                   </Protected>
                 } />
                 <Route path="/change-password" element={

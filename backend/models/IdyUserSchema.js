@@ -6,8 +6,6 @@ const IdyUserSchema = new Schema({
       type: Date,
       default: Date.now
    },
-   isRegistred: { type: Boolean, },
-   token: { type: String, },
    userId: { type: String, },
    status: { type: String },
    password: { type: String },

@@ -2,11 +2,12 @@
 import { useEffect, useState } from 'react';
 import './ForgotPassword.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '../../features/IdyUser/IdyUserSlice';
+
 import { Link, useNavigate } from 'react-router-dom';
+import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
 
 function ForgotPassword() {
-   const userData = useSelector((state) => state.IdyUser.data);
+   const isRegistredUser = useSelector(state => state.RegistredUser.data);
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
@@ -37,16 +38,6 @@ function ForgotPassword() {
          return regex.test(testcase);
       };
 
-      const isRegEmail = (email) => {
-         const isPresent = userData.some((user) => {
-            const userEmail = user.individual.email;
-            if (userEmail) {
-               return userEmail === email
-            }
-         });
-         return isPresent;
-      };
-
 
       //  Validate email
       if (formData.email === '') {
@@ -55,8 +46,8 @@ function ForgotPassword() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (!isRegEmail(formData.email)) {
-         errors.email = 'Incorrect email address.';
+      } else if (!isRegistredUser) {
+         errors.email = 'Incorrect email address';
          isValid = false;
       }
 
@@ -66,8 +57,8 @@ function ForgotPassword() {
 
 
    useEffect(() => {
-      dispatch(getUsers())
-   }, [dispatch]);
+      dispatch(getRegistredUser(`?individual.email=${formData.email}`))
+   }, [dispatch, handleSubmit]);
 
 
 
