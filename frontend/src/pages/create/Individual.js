@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-function Individual() {
+function Individual({ nextStep }) {
 
    //Individual=============================================
    const [errors, setErrors] = useState({});
@@ -26,7 +26,9 @@ function Individual() {
    const handleChangeSms = (event) => {
       setSms(event.target.value);
    };
-   const handleClickIndividual = (event) => {
+
+   const handleSubmit = (event) => {
+      nextStep()
       event.preventDefault();
       const errors = {};
 
@@ -179,7 +181,7 @@ function Individual() {
          </div>
          <div className="panel-footer">
             <button type="reset" className='btn btn-secondary'>Reset</button>
-            <button type="submit" className='btn btn-primary' onClick={handleClickIndividual}>Save & Proceed </button>
+            <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Save & Proceed </button>
          </div>
       </div>
    )

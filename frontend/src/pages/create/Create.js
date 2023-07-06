@@ -9,40 +9,74 @@ import Configuration from './Configuration';
 
 function Create() {
 
-   const [individualForm, setIndividualForm] = useState(true);
-   const [businessForm, setBusinessForm] = useState(false);
-   const [configurationForm, setConfigurationForm] = useState(false);
+
+   const [currentStep, setCurrentStep] = useState(1);
+
+   const [individualStep, setIndividualStep] = useState(false);
+   const [businessStep, setBusinessStep] = useState(false);
+   const [configurationStep, setConfigurationStep] = useState(false);
+
+   const nextStep = () => {
+      setCurrentStep((nextStep) => nextStep + 1);
 
 
-   // if (individualForm) {
-   //    setBusinessForm(false)
-   //    setConfigurationForm(false)
-   // } else if (businessForm) {
-   //    setIndividualForm(false)
-   //    setConfigurationForm(false)
-   // } else if (configurationForm) {
-   //    setIndividualForm(false)
-   //    setBusinessForm(false)
-   // }
+
+      if (!businessStep && !configurationStep) {
+         setIndividualStep(true);
+      } else {
+         setIndividualStep(false);
+      }
+
+      if (individualStep) {
+         setBusinessStep(true)
+      } else {
+         setBusinessStep(false)
+      }
+
+      if (individualStep && businessStep) {
+         setConfigurationStep(true)
+      }
+
+   };
+
+   const prevStep = () => {
+      setCurrentStep((prevStep) => prevStep - 1);
+
+   };
+
+   const renderStep = () => {
+      switch (currentStep) {
+         case 1:
+            return <Individual nextStep={nextStep} />;
+         case 2:
+            return <Business nextStep={nextStep} prevStep={prevStep} />;
+         case 3:
+            return <Configuration prevStep={prevStep} setConfigurationStep={setConfigurationStep} />;
+         default:
+            return null;
+      }
+   };
+
+
 
    return (
       <div className='page-section small-page '>
          <h2 className='page-header'>Create SmartIDy</h2>
          <div className='page-body'>
             <div className='form-statusbar'>
-               <div className={`progress ${true ? 'complete' : ''}`}>
+               <div className={`progress ${individualStep ? 'complete' : ''}`}>
                   <span className='bar'>
                      <span>1</span>
                   </span>
                   <span className='title'>Individual</span>
                </div>
-               <div className={`progress ${true ? 'complete' : ''}`}>
+               <div className={`progress ${businessStep ? 'complete' : ''}`}>
                   <span className='bar'>
                      <span>2</span>
                   </span>
                   <span className='title'>Business</span>
                </div>
-               <div className={`progress ${true ? 'complete' : ''}`}>
+               <div className={`progress ${configurationStep ? 'complete' : ''}`}>
                   <span className='bar'>
                      <span>3</span>
                   </span>
@@ -50,9 +84,7 @@ function Create() {
                </div>
             </div>
 
-            <Individual />
-            <Business />
-            <Configuration />
+            {renderStep()}
 
          </div>
       </div>
