@@ -2,8 +2,11 @@ const express = require("express");
 const IdyUserRouter = express.Router();
 const IdyUserSchema = require('../models/IdyUserSchema');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 require('dotenv/config')
+
+
 
 
 //=================LOGIN USER=========================//
@@ -78,6 +81,8 @@ IdyUserRouter.get('/IdyUser/:id', async (req, res) => {
 //CREATE USER
 IdyUserRouter.post('/IdyUser', async (req, res) => {
    try {
+      const hash = bcrypt.hash(req.body.password, 10);
+      req.body.password = hash;
       const data = new IdyUserSchema.User(req.body);
       await data.save();
       res.send(data);

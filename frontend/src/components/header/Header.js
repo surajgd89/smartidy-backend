@@ -22,6 +22,7 @@ export default function Header({ isLoggedIn, logOut, logInUser }) {
 
          {isLoggedIn &&
             <div className='user-action'>
+               <Link to="/create" className='btn btn-primary'>Create SmartIDy</Link>
                <Link to="/change-password" className='btn btn-primary'>Change Password</Link>
                <button onClick={logOut} className='btn btn-primary'>Logout</button>
             </div>

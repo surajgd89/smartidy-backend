@@ -1,84 +1,99 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-function Individual({ nextStep }) {
+function Individual({ nextStep, setIndividualStep, logInUser }) {
 
    //Individual=============================================
    const [errors, setErrors] = useState({});
-   const [name, setName] = useState('');
-   const [experties, setExperties] = useState('');
-   const [call, setCall] = useState('');
-   const [email, setEmail] = useState('');
-   const [sms, setSms] = useState('');
 
-   const handleChangeName = (event) => {
-      setName(event.target.value);
+   const [profilePic, setProfilePic] = useState(logInUser.individual.profilePic);
+   const [name, setName] = useState(logInUser.individual.name);
+   const [experties, setExperties] = useState(logInUser.individual.experties);
+   const [call, setCall] = useState(logInUser.individual.call);
+   const [email, setEmail] = useState(logInUser.individual.email);
+   const [sms, setSms] = useState(logInUser.individual.sms);
+
+   const handleChange_ProfilePic = (e) => {
+      setProfilePic(e.target.files[0]);
    };
-   const handleChangeExperties = (event) => {
-      setExperties(event.target.value);
+   const handleChange_Name = (e) => {
+      setName(e.target.value);
    };
-   const handleChangeCall = (event) => {
-      setCall(event.target.value);
+   const handleChange_Experties = (e) => {
+      setExperties(e.target.value);
    };
-   const handleChangeEmail = (event) => {
-      setEmail(event.target.value);
+   const handleChange_Call = (e) => {
+      setCall(e.target.value);
    };
-   const handleChangeSms = (event) => {
-      setSms(event.target.value);
+   const handleChange_Email = (e) => {
+      setEmail(e.target.value);
+   };
+   const handleChange_Sms = (e) => {
+      setSms(e.target.value);
    };
 
-   const handleSubmit = (event) => {
-      nextStep()
-      event.preventDefault();
-      const errors = {};
+   const validateForm = () => {
+      let isValid = true;
+      let errors = {};
 
-      if (!name) {
+      if (profilePic === "" || experties === undefined) {
+         errors.profilePic = 'Profile Picture is required';
+         isValid = false;
+      }
+
+      if (name === "" || experties === undefined) {
          errors.name = 'Name is required';
+         isValid = false;
       }
 
-      if (!experties) {
+      if (experties === "" || experties === undefined) {
          errors.experties = 'Experties is required';
+         isValid = false;
       }
 
-      if (!call) {
+      if (call === "" || experties === undefined) {
          errors.call = 'Call is required';
+         isValid = false;
       }
 
-      if (!email) {
+      if (email === "" || experties === undefined) {
          errors.email = 'Email is required';
+         isValid = false;
       }
 
-      if (!sms) {
+      if (sms === "" || experties === undefined) {
          errors.sms = 'Sms is required';
+         isValid = false;
       }
 
       setErrors(errors);
+      return isValid;
+   };
 
-      if (Object.keys(errors).length === 0) {
-         // Submit the form
+   const handleSubmit = (e) => {
+      e.preventDefault();
 
-         axios.post('http://localhost:3000/users', {
+      if (validateForm()) {
+         nextStep()
+         setIndividualStep(true);
+         const formIndividual = {
             "individual": {
+               "profilePic": profilePic,
                "name": name,
                "experties": experties,
                "call": call,
-               "email": email,
+               "email": logInUser.individual.email,
                "sms": sms,
             }
-         }).then(response => {
-            setName('');
-            setExperties('');
-            setCall('');
-            setEmail('');
-            setSms('');
-         }).catch(error => {
-            console.log(error.response.data);
-         });
+         }
+         console.log(profilePic);
+         sessionStorage.setItem('formIndividual', JSON.stringify(formIndividual));
       }
+
    };
 
    return (
-      <div className="panel">
+      <div className="panel step step-1">
          <div className="panel-header">Individual Information</div>
          <div className="panel-body">
             <div className="row">
@@ -88,57 +103,57 @@ function Individual({ nextStep }) {
                         <div className='heading' >Profile Picture</div>
                         <div className='add-values-sec'>
                            <div className='form-group'>
-                              <label htmlFor="profilePic" className="drop-container">
+                              <label className="drop-container">
                                  <span className="drop-title">Upload Profile Picture</span>
-                                 <input type="file" id="profilePic" name='profilePic' accept="image/*" required />
+                                 <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept="image/*" />
                               </label>
-                              <span className='control-error'>Error Message</span>
+                              {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
                            </div>
                            <div className="action">
                               <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
                            </div>
                         </div>
-                        <ul className='list-values-sec'>
+                        {/* <ul className='list-values-sec'>
                            <li>
                               <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li>
-                        </ul>
+                        </ul> */}
                      </div>
                   </div>
                </div>
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Name</label>
-                     <input type="text" name='name' className='form-control' value={name} onChange={handleChangeName} />
+                     <input type="text" name='name' className='form-control' value={name} onChange={handleChange_Name} />
                      {errors.name && <div className="control-error">{errors.name}</div>}
                   </div>
                </div>
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Experties</label>
-                     <input type="text" name='experties' className='form-control' value={experties} onChange={handleChangeExperties} />
+                     <input type="text" name='experties' className='form-control' value={experties} onChange={handleChange_Experties} />
                      {errors.experties && <div className="control-error">{errors.experties}</div>}
                   </div>
                </div>
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Call</label>
-                     <input type="tel" name='call' className='form-control' value={call} onChange={handleChangeCall} />
+                     <input type="tel" name='call' className='form-control' value={call} onChange={handleChange_Call} />
                      {errors.call && <div className="control-error">{errors.call}</div>}
                   </div>
                </div>
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >Email</label>
-                     <input type="email" name='email' className='form-control' value={email} onChange={handleChangeEmail} />
+                     <input type="email" name='email' className='form-control' value={email} onChange={handleChange_Email} disabled />
                      {errors.email && <div className="control-error">{errors.email}</div>}
                   </div>
                </div>
                <div className="col-12">
                   <div className='form-group'>
                      <label className='control-label' >SMS</label>
-                     <input type="tel" name='sms' className='form-control' value={sms} onChange={handleChangeSms} />
+                     <input type="tel" name='sms' className='form-control' value={sms} onChange={handleChange_Sms} />
                      {errors.sms && <div className="control-error">{errors.sms}</div>}
                   </div>
                </div>
@@ -165,14 +180,14 @@ function Individual({ nextStep }) {
                            </div>
                         </div>
                         <ul className='list-values-sec'>
-                           <li>
+                           {/* <li>
                               <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li>
                            <li>
                               <span className='title'>Telegram</span>:<span className='value'>surajpatil@1989</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
-                           </li>
+                           </li> */}
                         </ul>
                      </div>
                   </div>
@@ -180,7 +195,6 @@ function Individual({ nextStep }) {
             </div>
          </div>
          <div className="panel-footer">
-            <button type="reset" className='btn btn-secondary'>Reset</button>
             <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Save & Proceed </button>
          </div>
       </div>

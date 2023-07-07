@@ -89,9 +89,9 @@ function Register() {
       e.preventDefault();
 
       if (validateForm()) {
-         const hashedPassword = bcrypt.hashSync(formData.password, 10);
+         //  const hashedPassword = bcrypt.hashSync(formData.password, 10);
          const registerUser = {
-            "password": hashedPassword,
+            "password": formData.password,
             "individual": {
                "name": formData.name,
                "email": formData.email,

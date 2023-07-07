@@ -7,8 +7,7 @@ import Configuration from './Configuration';
 
 
 
-function Create() {
-
+function Create({ logInUser }) {
 
    const [currentStep, setCurrentStep] = useState(1);
 
@@ -18,40 +17,20 @@ function Create() {
 
    const nextStep = () => {
       setCurrentStep((nextStep) => nextStep + 1);
-
-
-
-      if (!businessStep && !configurationStep) {
-         setIndividualStep(true);
-      } else {
-         setIndividualStep(false);
-      }
-
-      if (individualStep) {
-         setBusinessStep(true)
-      } else {
-         setBusinessStep(false)
-      }
-
-      if (individualStep && businessStep) {
-         setConfigurationStep(true)
-      }
-
    };
 
    const prevStep = () => {
       setCurrentStep((prevStep) => prevStep - 1);
-
    };
 
    const renderStep = () => {
       switch (currentStep) {
          case 1:
-            return <Individual nextStep={nextStep} />;
+            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} logInUser={logInUser} />;
          case 2:
-            return <Business nextStep={nextStep} prevStep={prevStep} />;
+            return <Business nextStep={nextStep} prevStep={prevStep} setBusinessStep={setBusinessStep} logInUser={logInUser} />;
          case 3:
-            return <Configuration prevStep={prevStep} setConfigurationStep={setConfigurationStep} />;
+            return <Configuration prevStep={prevStep} setConfigurationStep={setConfigurationStep} logInUser={logInUser} />;
          default:
             return null;
       }
@@ -61,7 +40,7 @@ function Create() {
 
    return (
       <div className='page-section small-page '>
-         <h2 className='page-header'>Create SmartIDy</h2>
+         <h2 className='page-header'>SmartIDy</h2>
          <div className='page-body'>
             <div className='form-statusbar'>
                <div className={`progress ${individualStep ? 'complete' : ''}`}>

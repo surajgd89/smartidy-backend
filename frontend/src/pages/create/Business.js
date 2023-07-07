@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
 
-function Business({ nextStep, prevStep }) {
+function Business({ nextStep, prevStep, setBusinessStep }) {
 
    //Business=============================================
    const [errors, setErrors] = useState({});
@@ -53,14 +53,15 @@ function Business({ nextStep, prevStep }) {
    const handle_bhFlag = () => { setBhFlag(!bhFlag) };
 
    const handleSubmit = (event) => {
-      
+
       event.preventDefault();
-      nextStep()
+      nextStep();
+      setBusinessStep(true)
    }
 
    return (
       <>
-         <div className="panel">
+         <div className="panel step step-2">
             <div className="panel-header">Business Information</div>
             <div className="panel-body">
                <div className="row">
@@ -731,11 +732,11 @@ function Business({ nextStep, prevStep }) {
                </div>
             </div>
             <div className="panel-footer">
-               <button type="reset" className='btn btn-secondary'>Reset</button>
+               <button type="reset" className='btn btn-secondary' onClick={prevStep} >Back</button>
                <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Save & Proceed</button>
             </div>
          </div>
-         <div class="page-link"><a class="link" onClick={prevStep}>Back to Individual Information</a></div>
+
       </>
    )
 }

@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/header/Header';
-import Navbar from './components/navbar/Navbar';
-import Dashboard from './pages/dashboard/Dashboard';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import ForgotPassword from './pages/forgot-password/ForgotPassword';
@@ -28,23 +26,15 @@ function App() {
     setIsLoggedIn(false)
   }
 
-
-
   return (
     <BrowserRouter>
       <div className="wrapper">
         <Header isLoggedIn={isLoggedIn} logInUser={logInUser} logOut={logOut} />
-        {isLoggedIn && <Navbar />}
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
 
               <Routes>
-                <Route path="/dashboard" element={
-                  <Protected isLoggedIn={isLoggedIn}>
-                    <Dashboard logInUser={logInUser} />
-                  </Protected>
-                } />
                 <Route path="/change-password" element={
                   <Protected isLoggedIn={isLoggedIn}>
                     <ChangePassword />
@@ -52,10 +42,9 @@ function App() {
                 } />
                 <Route path="/create" element={
                   <Protected isLoggedIn={isLoggedIn}>
-                    <Create />
+                    <Create logInUser={logInUser} />
                   </Protected>
                 } />
-
                 <Route index element={<Login logIn={logIn} />} />
                 <Route path="/login" element={<Login logIn={logIn} />} />
                 <Route path="/register" element={<Register />} />

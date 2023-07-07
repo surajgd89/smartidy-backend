@@ -19,7 +19,6 @@ function Configuration({ prevStep, setConfigurationStep }) {
 
    const handleSubmit = (event) => {
       event.preventDefault();
-
       setConfigurationStep(true)
 
       const errors = {};
@@ -43,7 +42,7 @@ function Configuration({ prevStep, setConfigurationStep }) {
 
    return (
       <>
-         <div className="panel">
+         <div className="panel step step-3">
             <div className="panel-header">SmartIDy Configuration</div>
             <div className="panel-body">
                <div className="row">
@@ -119,12 +118,12 @@ function Configuration({ prevStep, setConfigurationStep }) {
                </div>
             </div>
             <div className="panel-footer">
-               <button type="reset" className='btn btn-secondary'>Reset</button>
-               <button type="button" className='btn btn-primary' onClick={handleSubmit}>Submit</button>
+               <button type="reset" className='btn btn-secondary' onClick={prevStep} >Back</button>
+               <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Save</button>
                <button type="button" className='btn btn-primary'>Publish</button>
             </div>
          </div>
-         <div class="page-link"><a class="link" onClick={prevStep}>Back to Business Information</a></div>
+
       </>
    )
 }

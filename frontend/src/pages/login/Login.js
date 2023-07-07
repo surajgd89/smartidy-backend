@@ -66,7 +66,7 @@ function Login({ logIn }) {
 
          logIn(isRegistredUser);
          setFormData({ email: '', password: '' });
-         navigate('/dashboard');
+         navigate('/create');
       }
    };
 
