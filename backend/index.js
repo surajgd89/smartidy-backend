@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const IdyUserRouter = require("./routes/IdyUserRouter");
+const idyUserRouter = require("./routes/idyUserRouter");
 const mongoose = require("mongoose");
 
 require('dotenv/config')
@@ -18,9 +18,7 @@ const corsOptions = {
    optionSuccessStatus: 200,
 }
 app.use(cors(corsOptions))
-
-app.use('/', IdyUserRouter)
-
+app.use('/', idyUserRouter)
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, dbOptions)
    .then(() => console.log(`SmartIDyDB Connected = ${process.env.DB_URI}`))

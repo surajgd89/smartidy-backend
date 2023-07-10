@@ -4,10 +4,10 @@ import './ForgotPassword.scss'
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
+import { registredUser } from '../../features/idyUser/registredUserSlice';
 
 function ForgotPassword() {
-   const isRegistredUser = useSelector(state => state.RegistredUser.data);
+   const isRegistredUser = useSelector(state => state.registredUser.data);
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
@@ -57,7 +57,7 @@ function ForgotPassword() {
 
 
    useEffect(() => {
-      dispatch(getRegistredUser(`?individual.email=${formData.email}`))
+      dispatch(registredUser(`?individual.email=${formData.email}`))
    }, [dispatch, handleSubmit]);
 
 

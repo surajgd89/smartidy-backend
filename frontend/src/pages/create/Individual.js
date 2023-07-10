@@ -1,17 +1,16 @@
-import axios from 'axios';
 import { useState } from 'react';
 
-function Individual({ nextStep, setIndividualStep, logInUser }) {
+function Individual({ nextStep, setIndividualStep }) {
 
    //Individual=============================================
    const [errors, setErrors] = useState({});
 
-   const [profilePic, setProfilePic] = useState(logInUser.individual.profilePic);
-   const [name, setName] = useState(logInUser.individual.name);
-   const [experties, setExperties] = useState(logInUser.individual.experties);
-   const [call, setCall] = useState(logInUser.individual.call);
-   const [email, setEmail] = useState(logInUser.individual.email);
-   const [sms, setSms] = useState(logInUser.individual.sms);
+   const [profilePic, setProfilePic] = useState('');
+   const [name, setName] = useState('');
+   const [experties, setExperties] = useState('');
+   const [call, setCall] = useState('');
+   const [email, setEmail] = useState('');
+   const [sms, setSms] = useState('');
 
    const handleChange_ProfilePic = (e) => {
       setProfilePic(e.target.files[0]);
@@ -82,7 +81,7 @@ function Individual({ nextStep, setIndividualStep, logInUser }) {
                "name": name,
                "experties": experties,
                "call": call,
-               "email": logInUser.individual.email,
+               "email": email,
                "sms": sms,
             }
          }

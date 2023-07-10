@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_USER_URL = 'http://localhost:4000/IdyUser';
+const API_USER_URL = 'http://localhost:4000/idyUser';
 
 
 //GET USERS
@@ -55,9 +55,9 @@ export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
    }
 });
 
-//IdyUserSlice ACTIONS
-const IdyUserSlice = createSlice({
-   name: 'IdyUser',
+//idyUserSlice ACTIONS
+const idyUserSlice = createSlice({
+   name: 'idyUser',
    initialState: {
       data: [],
       loading: false,
@@ -151,7 +151,7 @@ const IdyUserSlice = createSlice({
    },
 });
 
-export default IdyUserSlice.reducer;
+export default idyUserSlice.reducer;
 
 
 

@@ -2,12 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
-import bcrypt from "bcryptjs";
 import { useDispatch, useSelector } from 'react-redux';
-import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
+import { registredUser } from '../../features/idyUser/registredUserSlice';
 
 function Register() {
-   const isRegistredUser = useSelector(state => state.RegistredUser.data);
+   const isRegistredUser = useSelector(state => state.registredUser.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -89,7 +88,6 @@ function Register() {
       e.preventDefault();
 
       if (validateForm()) {
-         //  const hashedPassword = bcrypt.hashSync(formData.password, 10);
          const registerUser = {
             "password": formData.password,
             "individual": {
@@ -106,7 +104,7 @@ function Register() {
 
 
    useEffect(() => {
-      dispatch(getRegistredUser(`?individual.email=${formData.email}`))
+      dispatch(registredUser(`?individual.email=${formData.email}`))
    }, [handleSubmit])
 
    return (

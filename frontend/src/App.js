@@ -12,15 +12,13 @@ import Footer from './components/footer/Footer';
 import Protected from './components/protected/Protected'
 import './App.scss';
 
-
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null)
-  const [logInUser, setLogInUser] = useState(null)
 
-  const logIn = (user) => {
+
+  const logIn = () => {
     setIsLoggedIn(true)
-    setLogInUser(user);
   }
   const logOut = () => {
     setIsLoggedIn(false)
@@ -29,22 +27,25 @@ function App() {
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} logInUser={logInUser} logOut={logOut} />
+        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
 
               <Routes>
+
                 <Route path="/change-password" element={
                   <Protected isLoggedIn={isLoggedIn}>
                     <ChangePassword />
                   </Protected>
                 } />
+
                 <Route path="/create" element={
                   <Protected isLoggedIn={isLoggedIn}>
-                    <Create logInUser={logInUser} />
+                    <Create />
                   </Protected>
                 } />
+
                 <Route index element={<Login logIn={logIn} />} />
                 <Route path="/login" element={<Login logIn={logIn} />} />
                 <Route path="/register" element={<Register />} />

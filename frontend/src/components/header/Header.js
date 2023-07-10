@@ -2,7 +2,7 @@ import './Header.scss'
 //import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
 
-export default function Header({ isLoggedIn, logOut, logInUser }) {
+export default function Header({ isLoggedIn, logOut }) {
 
    return (
       <div className="welcome-sec">
@@ -17,7 +17,7 @@ export default function Header({ isLoggedIn, logOut, logInUser }) {
          </div>
 
          <div className='welcome-user'>
-            Welcome {isLoggedIn ? logInUser.individual.name : 'Guest!'}
+            Welcome {isLoggedIn ? 'abcd' : 'Guest!'}
          </div>
 
          {isLoggedIn &&

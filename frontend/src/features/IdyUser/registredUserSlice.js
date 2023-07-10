@@ -1,21 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_REGISTRED_USER_URL = 'http://localhost:4000/IdyUser/registredUser';
+const API_REGISTRED_USER_URL = 'http://localhost:4000/idyUser/registredUser';
 
 //GET REGISTRED USER
-export const getRegistredUser = createAsyncThunk('getRegistredUser', async (searchQuery) => {
+export const registredUser = createAsyncThunk('registredUser', async (searchQuery) => {
    try {
       const res = await axios.get(`${API_REGISTRED_USER_URL}${searchQuery}`);
       return res.data;
    } catch (err) {
-      throw new Error('Failed to getRegistredUser');
+      throw new Error('Failed to registredUser');
    }
 });
 
-//IdyUserSlice ACTIONS
+//IdyRegistredUser ACTIONS
 const registredUserSlice = createSlice({
-   name: 'IdyRegistredUser',
+   name: 'registredUser',
    initialState: {
       data: [],
       loading: false,
@@ -24,16 +24,16 @@ const registredUserSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
-         //GET REGISTRED USER
-         .addCase(getRegistredUser.pending, state => {
+         //REGISTRED USER
+         .addCase(registredUser.pending, state => {
             state.loading = true;
             state.error = null;
          })
-         .addCase(getRegistredUser.fulfilled, (state, action) => {
+         .addCase(registredUser.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
          })
-         .addCase(getRegistredUser.rejected, (state, action) => {
+         .addCase(registredUser.rejected, (state, action) => {
             state.loading = false;
             state.error = action.error.message;
          })

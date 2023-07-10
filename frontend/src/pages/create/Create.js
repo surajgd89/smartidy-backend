@@ -7,7 +7,7 @@ import Configuration from './Configuration';
 
 
 
-function Create({ logInUser }) {
+function Create() {
 
    const [currentStep, setCurrentStep] = useState(1);
 
@@ -26,11 +26,11 @@ function Create({ logInUser }) {
    const renderStep = () => {
       switch (currentStep) {
          case 1:
-            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} logInUser={logInUser} />;
+            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} />;
          case 2:
-            return <Business nextStep={nextStep} prevStep={prevStep} setBusinessStep={setBusinessStep} logInUser={logInUser} />;
+            return <Business nextStep={nextStep} prevStep={prevStep} setBusinessStep={setBusinessStep} />;
          case 3:
-            return <Configuration prevStep={prevStep} setConfigurationStep={setConfigurationStep} logInUser={logInUser} />;
+            return <Configuration prevStep={prevStep} setConfigurationStep={setConfigurationStep} />;
          default:
             return null;
       }

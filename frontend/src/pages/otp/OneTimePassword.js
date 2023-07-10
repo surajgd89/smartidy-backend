@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { createUser } from '../../features/IdyUser/IdyUserSlice';
+import { createUser } from '../../features/idyUser/idyUserSlice';
 import { useNavigate } from 'react-router-dom';
 import Timer from '../../components/timer/Timer';
 import OtpGenerator from '../../components/otp-generator/OtpGenerator';

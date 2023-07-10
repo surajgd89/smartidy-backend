@@ -3,11 +3,10 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRegistredUser } from '../../features/IdyUser/registredUserSlice';
-import bcrypt from "bcryptjs";
+import { logInUser } from '../../features/idyUser/logInUserSlice';
 
 function Login({ logIn }) {
-   const isRegistredUser = useSelector(state => state.RegistredUser.data);
+   const islogInUser = useSelector(state => state.logInUser.data);
    const dispatch = useDispatch();
 
    const navigate = useNavigate();
@@ -27,12 +26,6 @@ function Login({ logIn }) {
          return regex.test(testcase);
       };
 
-      const isUser = (password) => {
-         if (isRegistredUser && bcrypt.compareSync(password, isRegistredUser.password)) {
-            return true
-         }
-         return false;
-      };
 
       //  Validate email
       if (formData.email === '') {
@@ -50,7 +43,7 @@ function Login({ logIn }) {
       }
 
       //Match User
-      if (!isUser(formData.password) && formData.password !== '' && formData.email !== '') {
+      if (!islogInUser && formData.password !== '' && formData.email !== '') {
          errors.isUser = 'Incorrect email or password';
          isValid = false;
       }
@@ -62,22 +55,17 @@ function Login({ logIn }) {
    const handleSubmit = () => {
 
       if (validateForm()) {
-         //sessionStorage.setItem("token", isRegistredUser.token);   
-
-         logIn(isRegistredUser);
+         dispatch(logInUser(formData));
+         logIn();
          setFormData({ email: '', password: '' });
          navigate('/create');
       }
    };
 
 
-   useEffect(() => {
-      dispatch(getRegistredUser(`?individual.email=${formData.email}`));
-   }, [validateForm])
 
    return (
       <div className='page-section small-page'>
-
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header">Login to Your Account</div>
@@ -109,7 +97,6 @@ function Login({ logIn }) {
             </div>
             <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
          </div>
-
       </div >
    );
 }
