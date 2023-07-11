@@ -4,6 +4,8 @@ const idyUserSchema = require('../models/idyUserSchema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const verifyUser = require('./authVerify')
+
 require('dotenv/config')
 
 //=================LOGIN USER=========================//
@@ -14,18 +16,20 @@ idyUserRouter.post('/idyUser/logInUser', async (req, res) => {
       const password = req.body.password;
 
       const registredUser = await idyUserSchema.User.findOne({ 'individual.email': email });
+
       if (!registredUser) {
-         return res.status(404).send(false);
+         return res.send({ success: false, message: "Incorrect email or password" });
       }
 
-      const isValidUser = await bcrypt.compare(password, registredUser.password);
+      const isMatch = await bcrypt.compare(password, registredUser.password);
 
-      if (!isValidUser) {
-         return res.status(401).send(false);
+      if (!isMatch) {
+         return res.send({ success: false, message: "Incorrect email or password" });
       }
+
       const id = registredUser._id;
-      const token = jwt.sign({ id, email }, process.env.SECRET_KEY, { expiresIn: '1h' });
-      res.send({ token });
+      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET);
+      res.header("Auth-Token", token).send({ success: true, token: token });
 
    } catch (err) {
       res.status(500).send(err);
@@ -39,16 +43,13 @@ idyUserRouter.post('/idyUser/logInUser', async (req, res) => {
 idyUserRouter.get('/idyUser/registredUser', async (req, res) => {
    const searchQuery = req.query;
    try {
-      if (Object.keys(searchQuery).length > 0) {
-         const registredUser = await idyUserSchema.User.findOne(searchQuery);
-         if (registredUser) {
-            res.send(registredUser);
-         } else {
-            res.send(false);
-         }
-      } else {
-         res.send("Enter searchQuery In URL =?individual.email=example@gmail.com");
+
+      const registredUser = await idyUserSchema.User.findOne(searchQuery);
+
+      if (!registredUser) {
+         return res.send({ success: false, message: "Email Already Registred" });
       }
+      res.send({ success: true, message: "Email Already Registred" });
    } catch (err) {
       res.status(500).send(err);
    }
@@ -57,7 +58,7 @@ idyUserRouter.get('/idyUser/registredUser', async (req, res) => {
 //=================USER=========================//
 
 //GET USERS
-idyUserRouter.get('/IdyUser', async (req, res) => {
+idyUserRouter.get('/IdyUser', verifyUser, async (req, res) => {
    try {
       const searchQuery = req.query;
       const data = await idyUserSchema.User.find(searchQuery);

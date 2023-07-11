@@ -47,8 +47,8 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegistredUser) {
-         errors.email = 'Email Already Registred';
+      } else if (isRegistredUser.success) {
+         errors.email = isRegistredUser.message;
          isValid = false;
       }
 
@@ -105,7 +105,7 @@ function Register() {
 
    useEffect(() => {
       dispatch(registredUser(`?individual.email=${formData.email}`))
-   }, [handleSubmit])
+   }, [formData])
 
    return (
       <div className='page-section small-page '>
@@ -114,7 +114,6 @@ function Register() {
                <div className="panel-header">Create Your Account</div>
                <div className="panel-body">
                   <div className="row">
-
                      <div className="col-12">
                         <div className='form-group'>
                            <label className='control-label'>Name</label>

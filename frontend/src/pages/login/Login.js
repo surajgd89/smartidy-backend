@@ -43,8 +43,8 @@ function Login({ logIn }) {
       }
 
       //Match User
-      if (!islogInUser && formData.password !== '' && formData.email !== '') {
-         errors.isUser = 'Incorrect email or password';
+      if (!islogInUser.success && formData.email !== '' && formData.password !== '') {
+         errors.isUser = islogInUser.message;
          isValid = false;
       }
 
@@ -52,17 +52,19 @@ function Login({ logIn }) {
       return isValid;
    };
 
-   const handleSubmit = () => {
 
+
+   const handleSubmit = () => {
       if (validateForm()) {
-         dispatch(logInUser(formData));
          logIn();
          setFormData({ email: '', password: '' });
          navigate('/create');
       }
    };
 
-
+   useEffect(() => {
+      dispatch(logInUser(formData))
+   }, [formData])
 
    return (
       <div className='page-section small-page'>

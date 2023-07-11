@@ -112,7 +112,8 @@ const idyUserSchema = new Schema({
          titleColor: { type: String },
       }
    }
-})
+});
+
 
 const User = mongoose.model('User', idyUserSchema, 'user');
 
