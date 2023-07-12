@@ -6,7 +6,7 @@ const API_LOGIN_USER_URL = 'http://localhost:4000/idyUser/loginRequest';
 
 export const loginRequest = createAsyncThunk('loginRequest', async (req) => {
    try {
-      const res = await axios.get(`${API_LOGIN_USER_URL}`, req);
+      const res = await axios.post(`${API_LOGIN_USER_URL}`, req);
       return res.data;
    } catch (err) {
       throw new Error('Failed to loginRequest');
