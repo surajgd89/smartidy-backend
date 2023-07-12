@@ -1,6 +1,6 @@
 const express = require("express");
-const idyUserRouter = express.Router();
-const idyUserSchema = require('../models/idyUserSchema');
+const router = express.Router();
+const schema = require('../models/schema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -8,14 +8,13 @@ const verifyUser = require('./authVerify')
 
 require('dotenv/config')
 
-//=================LOGIN USER=========================//
-
-idyUserRouter.post('/idyUser/logInUser', async (req, res) => {
+//LOGIN REQUEST
+router.post('/idyUser/loginRequest', async (req, res) => {
    try {
       const email = req.body.email;
       const password = req.body.password;
 
-      const registredUser = await idyUserSchema.User.findOne({ 'individual.email': email });
+      const registredUser = await schema.User.findOne({ 'individual.email': email });
 
       if (!registredUser) {
          return res.send({ success: false, message: "Incorrect email or password" });
@@ -31,37 +30,35 @@ idyUserRouter.post('/idyUser/logInUser', async (req, res) => {
       const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET);
       res.header("Auth-Token", token).send({ success: true, token: token });
 
+
    } catch (err) {
       res.status(500).send(err);
    }
-
 });
 
-
-//=================REGISTER USER=========================//
-
-idyUserRouter.get('/idyUser/registredUser', async (req, res) => {
-   const searchQuery = req.query;
+//REGISTER REQUEST
+router.get('/idyUser/registerRequest', async (req, res) => {
+   const query = req.query;
    try {
 
-      const registredUser = await idyUserSchema.User.findOne(searchQuery);
+      const registredUser = await schema.User.findOne(query);
 
       if (!registredUser) {
-         return res.send({ success: false, message: "Email Already Registred" });
+         return res.send({ success: false });
       }
+
       res.send({ success: true, message: "Email Already Registred" });
+
    } catch (err) {
       res.status(500).send(err);
    }
 });
 
-//=================USER=========================//
-
 //GET USERS
-idyUserRouter.get('/IdyUser', verifyUser, async (req, res) => {
+router.get('/IdyUser', async (req, res) => {
    try {
       const searchQuery = req.query;
-      const data = await idyUserSchema.User.find(searchQuery);
+      const data = await schema.User.find(searchQuery);
       res.send(data);
    } catch (err) {
       res.status(500).send(err);
@@ -69,9 +66,9 @@ idyUserRouter.get('/IdyUser', verifyUser, async (req, res) => {
 });
 
 //GET USER
-idyUserRouter.get('/idyUser/:id', async (req, res) => {
+router.get('/idyUser/:id', verifyUser, async (req, res) => {
    const id = req.params.id;
-   const data = await idyUserSchema.User.findById(id);
+   const data = await schema.User.findById(id);
    try {
       if (!data) {
          return res.status(404).send('User not found');
@@ -83,9 +80,9 @@ idyUserRouter.get('/idyUser/:id', async (req, res) => {
 });
 
 //CREATE USER
-idyUserRouter.post('/idyUser', async (req, res) => {
+router.post('/idyUser', async (req, res) => {
    try {
-      const data = new idyUserSchema.User(req.body);
+      const data = new schema.User(req.body);
       const password = req.body.password;
       const hashedPassword = await bcrypt.hash(password, 10);
       data.password = hashedPassword;
@@ -97,10 +94,10 @@ idyUserRouter.post('/idyUser', async (req, res) => {
 });
 
 //UPDATE USER
-idyUserRouter.put('/idyUser/:id', async (req, res) => {
+router.put('/idyUser/:id', verifyUser, async (req, res) => {
    try {
       const id = req.params.id;
-      const data = await idyUserSchema.User.findByIdAndUpdate(id, req.body, { new: true });
+      const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
       }
@@ -111,10 +108,10 @@ idyUserRouter.put('/idyUser/:id', async (req, res) => {
 });
 
 //DELETE USER
-idyUserRouter.delete('/idyUser/:id', async (req, res) => {
+router.delete('/idyUser/:id', verifyUser, async (req, res) => {
    try {
       const id = req.params.id;
-      const data = await idyUserSchema.User.findByIdAndDelete(id, req.body, { new: true });
+      const data = await schema.User.findByIdAndDelete(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
       }
@@ -124,4 +121,4 @@ idyUserRouter.delete('/idyUser/:id', async (req, res) => {
    }
 });
 
-module.exports = idyUserRouter
+module.exports = router

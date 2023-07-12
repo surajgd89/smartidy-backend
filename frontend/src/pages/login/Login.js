@@ -3,11 +3,11 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logInUser } from '../../features/idyUser/logInUserSlice';
+import { loginRequest } from '../../features/idyUser/loginSlice';
 
 function Login({ logIn }) {
-   const islogInUser = useSelector(state => state.logInUser.data);
    const dispatch = useDispatch();
+   const islogInUser = useSelector(state => state.loginRequest.data);
 
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
@@ -42,29 +42,31 @@ function Login({ logIn }) {
          isValid = false;
       }
 
-      //Match User
-      if (!islogInUser.success && formData.email !== '' && formData.password !== '') {
-         errors.isUser = islogInUser.message;
-         isValid = false;
-      }
+
 
       setErrors(errors);
       return isValid;
    };
 
-
-
    const handleSubmit = () => {
+
       if (validateForm()) {
-         logIn();
-         setFormData({ email: '', password: '' });
-         navigate('/create');
+         dispatch(loginRequest(formData));
+         if (!islogInUser.success) {
+            setErrors({ isUser: islogInUser.message });
+         } else {
+            setErrors({});
+            localStorage.setItem("token", islogInUser.token);
+            logIn();
+            setFormData({ email: '', password: '' });
+            navigate('/create');
+         }
+
       }
+
    };
 
-   useEffect(() => {
-      dispatch(logInUser(formData))
-   }, [formData])
+
 
    return (
       <div className='page-section small-page'>

@@ -55,8 +55,8 @@ export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
    }
 });
 
-//idyUserSlice ACTIONS
-const idyUserSlice = createSlice({
+
+const userSlice = createSlice({
    name: 'idyUser',
    initialState: {
       data: [],
@@ -151,7 +151,7 @@ const idyUserSlice = createSlice({
    },
 });
 
-export default idyUserSlice.reducer;
+export default userSlice.reducer;
 
 
 

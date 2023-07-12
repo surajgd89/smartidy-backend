@@ -14,15 +14,28 @@ import './App.scss';
 
 function App() {
 
-  const [isLoggedIn, setIsLoggedIn] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [user, setUser] = useState(null)
+
+
+  // const token = localStorage.getItem("token");
+  // const headers = {
+  //   "Auth-Token": token,
+  //   "Content-Type": "application/json",
+  //   Accept: "application/json",
+  // };
 
 
   const logIn = () => {
     setIsLoggedIn(true)
   }
+
   const logOut = () => {
     setIsLoggedIn(false)
+    console.log(isLoggedIn)
   }
+
+
 
   return (
     <BrowserRouter>

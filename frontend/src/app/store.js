@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import idyUserReducer from '../features/idyUser/idyUserSlice';
-import registredUserReducer from '../features/idyUser/registredUserSlice';
-import logInUserReducer from '../features/idyUser/logInUserSlice';
+import userReducer from '../features/idyUser/userSlice';
+import registerReducer from '../features/idyUser/registerSlice';
+import loginReducer from '../features/idyUser/loginSlice';
 
 export const store = configureStore({
    reducer: {
-      idyUser: idyUserReducer,
-      registredUser: registredUserReducer,
-      logInUser: logInUserReducer,
+      idyUser: userReducer,
+      registerRequest: registerReducer,
+      loginRequest: loginReducer,
    }
 })
 export default store;

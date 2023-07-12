@@ -2,7 +2,7 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, updateUser } from '../../features/idyUser/idyUserSlice';
+import { getUsers, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
 
 

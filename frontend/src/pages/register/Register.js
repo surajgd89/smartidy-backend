@@ -3,14 +3,15 @@ import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { registredUser } from '../../features/idyUser/registredUserSlice';
+import { registerRequest } from '../../features/idyUser/registerSlice';
 
 function Register() {
-   const isRegistredUser = useSelector(state => state.registredUser.data);
+   const isRegistredUser = useSelector(state => state.registerRequest.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
    const [errors, setErrors] = useState({});
+
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
@@ -47,9 +48,6 @@ function Register() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (isRegistredUser.success) {
-         errors.email = isRegistredUser.message;
-         isValid = false;
       }
 
       //  Validate mobile
@@ -84,28 +82,29 @@ function Register() {
 
    };
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
+   const handleSubmit = () => {
 
       if (validateForm()) {
-         const registerUser = {
-            "password": formData.password,
-            "individual": {
-               "name": formData.name,
-               "email": formData.email,
-               "call": formData.mobile
+         dispatch(registerRequest(`?individual.email=${formData.email}`))
+         if (isRegistredUser.success) {
+            setErrors({ email: isRegistredUser.message });
+         } else {
+            setErrors({});
+            const registerUser = {
+               "password": formData.password,
+               "individual": {
+                  "name": formData.name,
+                  "email": formData.email,
+                  "call": formData.mobile
+               }
             }
+            sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
+            setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
+            navigate('/otp');
          }
-         sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
-         setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
-         navigate('/otp');
       }
    };
 
-
-   useEffect(() => {
-      dispatch(registredUser(`?individual.email=${formData.email}`))
-   }, [formData])
 
    return (
       <div className='page-section small-page '>
