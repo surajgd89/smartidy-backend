@@ -1,14 +1,14 @@
-import { Link } from 'react-router-dom';
+
 import './Login.scss'
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
 
 function Login({ logIn }) {
-   const dispatch = useDispatch();
    const islogInUser = useSelector(state => state.loginRequest.data);
-
+   const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
@@ -42,7 +42,18 @@ function Login({ logIn }) {
          isValid = false;
       }
 
+      setErrors(errors);
+      return isValid;
+   };
 
+   const serverValidation = () => {
+      let isValid = true;
+      let errors = {};
+
+      if (!islogInUser.success) {
+         errors.isUser = islogInUser.message;
+         isValid = false;
+      }
 
       setErrors(errors);
       return isValid;
@@ -52,19 +63,23 @@ function Login({ logIn }) {
 
       if (validateForm()) {
          dispatch(loginRequest(formData));
-         if (!islogInUser.success) {
-            setErrors({ isUser: islogInUser.message });
-         } else {
-            setErrors({});
+
+         if (serverValidation()) {
+
             localStorage.setItem("token", islogInUser.token);
             logIn();
             setFormData({ email: '', password: '' });
             navigate('/create');
          }
 
-      }
 
-   };
+
+      }
+   }
+
+
+
+
 
 
 

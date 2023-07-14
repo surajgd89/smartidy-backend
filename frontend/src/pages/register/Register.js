@@ -82,14 +82,27 @@ function Register() {
 
    };
 
-   const handleSubmit = () => {
+   const serverValidation = () => {
+      let isValid = true;
+      let errors = {};
 
+      if (isRegistredUser.success) {
+         errors.email = isRegistredUser.message;
+         isValid = false;
+      }
+
+      setErrors(errors);
+      return isValid;
+   };
+
+
+
+   const handleSubmit = () => {
       if (validateForm()) {
-         dispatch(registerRequest(`?individual.email=${formData.email}`))
-         if (isRegistredUser.success) {
-            setErrors({ email: isRegistredUser.message });
-         } else {
-            setErrors({});
+
+         dispatch(registerRequest(`?individual.email=${formData.email}`));
+
+         if (serverValidation()) {
             const registerUser = {
                "password": formData.password,
                "individual": {
@@ -102,8 +115,12 @@ function Register() {
             setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
             navigate('/otp');
          }
+
       }
    };
+
+
+
 
 
    return (

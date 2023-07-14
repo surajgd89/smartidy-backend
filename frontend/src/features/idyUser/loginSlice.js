@@ -24,7 +24,6 @@ const loginSlice = createSlice({
    reducers: {},
    extraReducers: builder => {
       builder
-
          .addCase(loginRequest.pending, state => {
             state.loading = true;
             state.error = null;

@@ -3,9 +3,7 @@ const router = express.Router();
 const schema = require('../models/schema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-
 const verifyUser = require('./authVerify')
-
 require('dotenv/config')
 
 //LOGIN REQUEST
