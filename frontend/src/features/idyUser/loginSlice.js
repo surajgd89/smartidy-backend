@@ -13,7 +13,6 @@ export const loginRequest = createAsyncThunk('loginRequest', async (req) => {
    }
 });
 
-
 const loginSlice = createSlice({
    name: 'loginRequest',
    initialState: {

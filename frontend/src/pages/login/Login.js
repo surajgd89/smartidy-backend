@@ -1,17 +1,26 @@
 
 import './Login.scss'
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, useStore } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
 
 function Login({ logIn }) {
-   const islogInUser = useSelector(state => state.loginRequest.data);
+
+   //const islogInUser = useSelector(state => state.loginRequest.data);
+   const { success, token, message } = useSelector((state) => ({
+      success: state.loginRequest.data.success,
+      message: state.loginRequest.data.message,
+      token: state.loginRequest.data.token,
+   }))
+
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
+
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +34,6 @@ function Login({ logIn }) {
          const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
          return regex.test(testcase);
       };
-
 
       //  Validate email
       if (formData.email === '') {
@@ -50,8 +58,8 @@ function Login({ logIn }) {
       let isValid = true;
       let errors = {};
 
-      if (!islogInUser.success) {
-         errors.isUser = islogInUser.message;
+      if (!success) {
+         errors.isUser = message;
          isValid = false;
       }
 
@@ -59,28 +67,20 @@ function Login({ logIn }) {
       return isValid;
    };
 
+
    const handleSubmit = () => {
-
       if (validateForm()) {
+         console.log('first')
          dispatch(loginRequest(formData));
-
          if (serverValidation()) {
-
-            localStorage.setItem("token", islogInUser.token);
+            console.log('second')
+            localStorage.setItem("token", token);
             logIn();
             setFormData({ email: '', password: '' });
             navigate('/create');
          }
-
-
-
       }
    }
-
-
-
-
-
 
 
    return (
