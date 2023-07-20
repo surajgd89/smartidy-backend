@@ -77,14 +77,6 @@ function Register() {
          isValid = false;
       }
 
-      setErrors(errors);
-      return isValid;
-
-   };
-
-   const serverValidation = () => {
-      let isValid = true;
-      let errors = {};
 
       if (isRegistredUser.success) {
          errors.email = isRegistredUser.message;
@@ -93,31 +85,37 @@ function Register() {
 
       setErrors(errors);
       return isValid;
+
    };
+
+
 
 
 
    const handleSubmit = () => {
       if (validateForm()) {
 
-         dispatch(registerRequest(`?individual.email=${formData.email}`));
-
-         if (serverValidation()) {
-            const registerUser = {
-               "password": formData.password,
-               "individual": {
-                  "name": formData.name,
-                  "email": formData.email,
-                  "call": formData.mobile
-               }
+         const registerUser = {
+            "password": formData.password,
+            "individual": {
+               "name": formData.name,
+               "email": formData.email,
+               "call": formData.mobile
             }
-            sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
-            setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
-            navigate('/otp');
          }
+         sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
+         setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
+         navigate('/otp');
 
       }
    };
+
+   useEffect(() => {
+      if (formData.email != '') {
+         dispatch(registerRequest(`?individual.email=${formData.email}`));
+      }
+   }, [formData])
+
 
 
 

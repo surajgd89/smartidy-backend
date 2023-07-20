@@ -1,6 +1,6 @@
 
 import './Login.scss'
-import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector, useStore } from 'react-redux';
@@ -8,13 +8,7 @@ import { loginRequest } from '../../features/idyUser/loginSlice';
 
 function Login({ logIn }) {
 
-   //const islogInUser = useSelector(state => state.loginRequest.data);
-   const { success, token, message } = useSelector((state) => ({
-      success: state.loginRequest.data.success,
-      message: state.loginRequest.data.message,
-      token: state.loginRequest.data.token,
-   }))
-
+   const isLoggedUser = useSelector((state) => state.loginRequest.data);
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -50,16 +44,8 @@ function Login({ logIn }) {
          isValid = false;
       }
 
-      setErrors(errors);
-      return isValid;
-   };
-
-   const serverValidation = () => {
-      let isValid = true;
-      let errors = {};
-
-      if (!success) {
-         errors.isUser = message;
+      if (!isLoggedUser.success) {
+         errors.isUser = isLoggedUser.message;
          isValid = false;
       }
 
@@ -67,21 +53,20 @@ function Login({ logIn }) {
       return isValid;
    };
 
-
    const handleSubmit = () => {
       if (validateForm()) {
-         console.log('first')
-         dispatch(loginRequest(formData));
-         if (serverValidation()) {
-            console.log('second')
-            localStorage.setItem("token", token);
-            logIn();
-            setFormData({ email: '', password: '' });
-            navigate('/create');
-         }
+         localStorage.setItem("token", isLoggedUser.token);
+         setFormData({ email: '', password: '' });
+         logIn();
+         navigate('/create');
       }
    }
 
+   useEffect(() => {
+      if (formData.email != '' && formData.password != '') {
+         dispatch(loginRequest(formData));
+      }
+   }, [formData])
 
    return (
       <div className='page-section small-page'>
