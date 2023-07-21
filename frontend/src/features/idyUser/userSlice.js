@@ -3,6 +3,12 @@ import axios from 'axios';
 
 const API_USER_URL = 'http://localhost:4000/idyUser';
 
+const token = localStorage.getItem('token');
+const headers = {
+   "Auth-Token": token,
+   "Content-Type": "application/json",
+   "Accept": "application/json",
+}
 
 //GET USERS
 export const getUsers = createAsyncThunk('getUsers', async () => {
@@ -14,15 +20,6 @@ export const getUsers = createAsyncThunk('getUsers', async () => {
    }
 });
 
-//GET USER
-export const getUser = createAsyncThunk('getUser', async (id) => {
-   try {
-      const res = await axios.get(`${API_USER_URL}/${id}`);
-      return res.data;
-   } catch (err) {
-      throw new Error('Failed to idUser');
-   }
-});
 
 //CREATE USER
 export const createUser = createAsyncThunk('createUser', async (req) => {
@@ -34,11 +31,21 @@ export const createUser = createAsyncThunk('createUser', async (req) => {
    }
 });
 
+//GET USER
+export const getUser = createAsyncThunk('getUser', async (id) => {
+   try {
+      const res = await axios.get(`${API_USER_URL}/${id}`, { headers: headers });
+      return res.data;
+   } catch (err) {
+      throw new Error('Failed to idUser');
+   }
+});
+
 //UPDATE USER
 export const updateUser = createAsyncThunk('updateUser', async (req) => {
    const id = req._id;
    try {
-      const res = await axios.put(`${API_USER_URL}/${id}`, req);
+      const res = await axios.put(`${API_USER_URL} / ${id}`, req, { headers: headers });
       return res.data;
    } catch (err) {
       throw new Error('Failed to updateUser');
@@ -48,7 +55,7 @@ export const updateUser = createAsyncThunk('updateUser', async (req) => {
 //DELETE USER
 export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
    try {
-      await axios.delete(`${API_USER_URL}/${id}`);
+      await axios.delete(`${API_USER_URL} / ${id}`, { headers: headers });
       return id;
    } catch (err) {
       throw new Error('Failed to deleteUser');

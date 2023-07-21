@@ -1,5 +1,5 @@
 import './Header.scss'
-//import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
+import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
 
 export default function Header({ isLoggedIn, logOut }) {
@@ -7,8 +7,8 @@ export default function Header({ isLoggedIn, logOut }) {
    return (
       <div className="welcome-sec">
          <div className="head-logo">
-            {/* <img src={HeaderLogo} alt="" /> */}
-            <div className='brand-name'>Smart ID</div>
+            <img src={HeaderLogo} alt="" />
+            {/* <div className='brand-name'>Smart ID</div> */}
          </div>
          <div className="head-desc">
             SmartIDy is a mini website for your personal and professional use whose look and feel is like a digital

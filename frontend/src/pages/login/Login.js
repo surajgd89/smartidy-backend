@@ -57,7 +57,7 @@ function Login({ logIn }) {
       if (validateForm()) {
          localStorage.setItem("token", isLoggedUser.token);
          setFormData({ email: '', password: '' });
-         logIn();
+         logIn(isLoggedUser.token);
          navigate('/create');
       }
    }

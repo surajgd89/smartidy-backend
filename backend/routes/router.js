@@ -6,6 +6,24 @@ const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify')
 require('dotenv/config')
 
+//REGISTER REQUEST
+router.get('/idyUser/registerRequest', async (req, res) => {
+   const query = req.query;
+   try {
+
+      const registredUser = await schema.User.findOne(query);
+
+      if (!registredUser) {
+         return res.send({ success: false });
+      }
+
+      res.send({ success: true, message: "Email Already Registred" });
+
+   } catch (err) {
+      res.status(500).send(err);
+   }
+});
+
 //LOGIN REQUEST
 router.post('/idyUser/loginRequest', async (req, res) => {
    try {
@@ -34,43 +52,11 @@ router.post('/idyUser/loginRequest', async (req, res) => {
    }
 });
 
-//REGISTER REQUEST
-router.get('/idyUser/registerRequest', async (req, res) => {
-   const query = req.query;
-   try {
-
-      const registredUser = await schema.User.findOne(query);
-
-      if (!registredUser) {
-         return res.send({ success: false });
-      }
-
-      res.send({ success: true, message: "Email Already Registred" });
-
-   } catch (err) {
-      res.status(500).send(err);
-   }
-});
-
 //GET USERS
 router.get('/IdyUser', async (req, res) => {
    try {
       const searchQuery = req.query;
       const data = await schema.User.find(searchQuery);
-      res.send(data);
-   } catch (err) {
-      res.status(500).send(err);
-   }
-});
-
-//GET USER
-router.get('/idyUser/:id', verifyUser, async (req, res) => {
-   const id = req.params.id;
-   const data = await schema.User.findById(id);
-   try {
-      if (!data) {
-         return res.status(404).send('User not found');
-      }
       res.send(data);
    } catch (err) {
       res.status(500).send(err);
@@ -85,6 +71,20 @@ router.post('/idyUser', async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       data.password = hashedPassword;
       await data.save();
+      res.send(data);
+   } catch (err) {
+      res.status(500).send(err);
+   }
+});
+
+//GET USER
+router.get('/idyUser/:id', verifyUser, async (req, res) => {
+   const id = req.params.id;
+   const data = await schema.User.findById(id);
+   try {
+      if (!data) {
+         return res.status(404).send('User not found');
+      }
       res.send(data);
    } catch (err) {
       res.status(500).send(err);
