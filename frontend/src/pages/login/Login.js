@@ -11,7 +11,7 @@ function Login({ logIn }) {
    const isLoggedUser = useSelector((state) => state.loginRequest.data);
 
    const dispatch = useDispatch();
-   const navigate = useNavigate();
+   
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
@@ -56,9 +56,8 @@ function Login({ logIn }) {
    const handleSubmit = () => {
       if (validateForm()) {
          localStorage.setItem("token", isLoggedUser.token);
+         logIn();
          setFormData({ email: '', password: '' });
-         logIn(isLoggedUser.token);
-         navigate('/create');
       }
    }
 

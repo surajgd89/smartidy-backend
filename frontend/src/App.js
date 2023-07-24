@@ -11,24 +11,24 @@ import OneTimePassCode from './pages/otp/OneTimePassword';
 import Footer from './components/footer/Footer';
 import Protected from './components/protected/Protected'
 import './App.scss';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from "./features/idyUser/userSlice";
 
+
 function App() {
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.idyUser.data);
+  const userData = useSelector((state) => state.idyUser.data);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
 
-  const logIn = (token) => {
-    setToken(token)
-    setIsLoggedIn(true)
+  const logIn = () => {
+    setIsLoggedIn(true);
   }
 
   const logOut = () => {
+    localStorage.removeItem('token');
     setIsLoggedIn(false)
-    localStorage.removeItem("token");
   }
 
   function getIdFromToken(token) {
@@ -43,21 +43,28 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const id = getIdFromToken(token);
+      dispatch(getUser(id));
+      setIsLoggedIn(true)
+    }
+  }, []);
+
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log(token)
-      const id = getIdFromToken(token)
-      console.log(id)
-      //dispatch(getUser(id));
+      setUser(userData);
     }
-  }, [dispatch])
+  }, [userData]);
+
 
 
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
+        <Header isLoggedIn={isLoggedIn} logOut={logOut} user={user} />
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">

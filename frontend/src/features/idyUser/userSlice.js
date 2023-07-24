@@ -4,6 +4,7 @@ import axios from 'axios';
 const API_USER_URL = 'http://localhost:4000/idyUser';
 
 const token = localStorage.getItem('token');
+
 const headers = {
    "Auth-Token": token,
    "Content-Type": "application/json",

@@ -1,8 +1,19 @@
 import './Header.scss'
 import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
-export default function Header({ isLoggedIn, logOut }) {
+
+export default function Header({ isLoggedIn, logOut, user }) {
+
+
+   const [name, setName] = useState('')
+
+
+   useEffect(() => {
+      setName(user.individual.name)
+      console.log(user.individual.name)
+   }, [])
 
    return (
       <div className="welcome-sec">
@@ -17,7 +28,7 @@ export default function Header({ isLoggedIn, logOut }) {
          </div>
 
          <div className='welcome-user'>
-            Welcome {isLoggedIn ? 'abcd' : 'Guest!'}
+            Welcome {isLoggedIn ? name : 'Guest!'}
          </div>
 
          {isLoggedIn &&

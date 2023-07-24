@@ -53,7 +53,7 @@ router.post('/idyUser/loginRequest', async (req, res) => {
 });
 
 //GET USERS
-router.get('/IdyUser', async (req, res) => {
+router.get('/idyUser', async (req, res) => {
    try {
       const searchQuery = req.query;
       const data = await schema.User.find(searchQuery);
