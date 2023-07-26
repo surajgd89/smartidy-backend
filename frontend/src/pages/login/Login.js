@@ -11,7 +11,7 @@ function Login({ logIn }) {
    const isLoggedUser = useSelector((state) => state.loginRequest.data);
 
    const dispatch = useDispatch();
-   
+
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
@@ -53,10 +53,24 @@ function Login({ logIn }) {
       return isValid;
    };
 
+   function getIdFromToken(token) {
+      try {
+         const tokenParts = token.split('.');
+         const decodedPayload = JSON.parse(atob(tokenParts[1]));
+         const id = decodedPayload.id;
+         return id;
+      } catch (error) {
+         console.error('Error decoding token:', error);
+         return null;
+      }
+   }
+
+
    const handleSubmit = () => {
       if (validateForm()) {
          localStorage.setItem("token", isLoggedUser.token);
-         logIn();
+         const id = getIdFromToken(isLoggedUser.token);
+         logIn(id);
          setFormData({ email: '', password: '' });
       }
    }

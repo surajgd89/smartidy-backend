@@ -8,7 +8,6 @@ function Protected({ isLoggedIn, redirectPath = '/login', children }) {
       return <Navigate to={redirectPath} replace />
    }
 
-
    return children
 }
 export default Protected

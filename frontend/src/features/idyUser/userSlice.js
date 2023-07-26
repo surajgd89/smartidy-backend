@@ -3,13 +3,7 @@ import axios from 'axios';
 
 const API_USER_URL = 'http://localhost:4000/idyUser';
 
-const token = localStorage.getItem('token');
 
-const headers = {
-   "Auth-Token": token,
-   "Content-Type": "application/json",
-   "Accept": "application/json",
-}
 
 //GET USERS
 export const getUsers = createAsyncThunk('getUsers', async () => {
@@ -34,6 +28,12 @@ export const createUser = createAsyncThunk('createUser', async (req) => {
 
 //GET USER
 export const getUser = createAsyncThunk('getUser', async (id) => {
+   const token = localStorage.getItem('token');
+   const headers = {
+      "Auth-Token": token,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+   }
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`, { headers: headers });
       return res.data;
@@ -45,6 +45,12 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
 //UPDATE USER
 export const updateUser = createAsyncThunk('updateUser', async (req) => {
    const id = req._id;
+   const token = localStorage.getItem('token');
+   const headers = {
+      "Auth-Token": token,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+   }
    try {
       const res = await axios.put(`${API_USER_URL} / ${id}`, req, { headers: headers });
       return res.data;
@@ -55,6 +61,12 @@ export const updateUser = createAsyncThunk('updateUser', async (req) => {
 
 //DELETE USER
 export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
+   const token = localStorage.getItem('token');
+   const headers = {
+      "Auth-Token": token,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+   }
    try {
       await axios.delete(`${API_USER_URL} / ${id}`, { headers: headers });
       return id;

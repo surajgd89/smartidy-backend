@@ -12,59 +12,39 @@ import Footer from './components/footer/Footer';
 import Protected from './components/protected/Protected'
 import './App.scss';
 
-import { useDispatch, useSelector } from 'react-redux';
+
 import { getUser } from "./features/idyUser/userSlice";
+import { useDispatch } from 'react-redux';
 
 
 function App() {
-  const dispatch = useDispatch();
-  const userData = useSelector((state) => state.idyUser.data);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
 
-  const logIn = () => {
+  const dispatch = useDispatch();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [id, setId] = useState('');
+
+
+  const logIn = (id) => {
     setIsLoggedIn(true);
+    setId(id)
   }
 
   const logOut = () => {
-    localStorage.removeItem('token');
     setIsLoggedIn(false)
+    localStorage.removeItem("token");
   }
 
-  function getIdFromToken(token) {
-    try {
-      const tokenParts = token.split('.');
-      const decodedPayload = JSON.parse(atob(tokenParts[1]));
-      const id = decodedPayload.id;
-      return id;
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const id = getIdFromToken(token);
+    if (id) {
       dispatch(getUser(id));
-      setIsLoggedIn(true)
     }
   }, []);
-
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      setUser(userData);
-    }
-  }, [userData]);
-
-
 
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} logOut={logOut} user={user} />
+        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
