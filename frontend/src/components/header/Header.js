@@ -1,25 +1,25 @@
 import './Header.scss'
 import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 export default function Header({ isLoggedIn, logOut }) {
-   const userData = useSelector((state) => state.idyUser.data);
+   const name = useSelector((state) => {
+      const { individual } = state.idyUser.data;
+      const { name } = individual;
+      return name;
+   });
 
-   useEffect(() => {
-
-      console.log(isLoggedIn);
-      //console.log(userData);
-
-   }, [])
 
    return (
       <div className="welcome-sec">
+
          <div className="head-logo">
             <img src={HeaderLogo} alt="" />
             {/* <div className='brand-name'>Smart ID</div> */}
          </div>
+
          <div className="head-desc">
             SmartIDy is a mini website for your personal and professional use whose look and feel is like a digital
             business card.
@@ -27,7 +27,7 @@ export default function Header({ isLoggedIn, logOut }) {
          </div>
 
          <div className='welcome-user'>
-            Welcome {isLoggedIn ? 'name' : 'Guest!'}
+            Welcome {isLoggedIn ? name : 'Guest!'}
          </div>
 
          {isLoggedIn &&
@@ -37,7 +37,6 @@ export default function Header({ isLoggedIn, logOut }) {
                <button onClick={logOut} className='btn btn-primary'>Logout</button>
             </div>
          }
-
       </div>
    )
 }

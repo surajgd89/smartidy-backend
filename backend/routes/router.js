@@ -44,7 +44,7 @@ router.post('/idyUser/loginRequest', async (req, res) => {
 
       const id = registredUser._id;
       const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET);
-      res.header("Auth-Token", token).send({ success: true, token: token });
+      res.header("Auth-Token", token).send({ success: true, token: token, id: id });
 
 
    } catch (err) {
@@ -79,7 +79,7 @@ router.post('/idyUser', async (req, res) => {
 
 //GET USER
 router.get('/idyUser/:id', verifyUser, async (req, res) => {
-   const id = req.params.id;
+   const id = res.user.id;
    const data = await schema.User.findById(id);
    try {
       if (!data) {
@@ -94,7 +94,7 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 //UPDATE USER
 router.put('/idyUser/:id', verifyUser, async (req, res) => {
    try {
-      const id = req.params.id;
+      const id = res.user.id;
       const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
@@ -108,7 +108,7 @@ router.put('/idyUser/:id', verifyUser, async (req, res) => {
 //DELETE USER
 router.delete('/idyUser/:id', verifyUser, async (req, res) => {
    try {
-      const id = req.params.id;
+      const id = res.user.id;
       const data = await schema.User.findByIdAndDelete(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');

@@ -12,34 +12,28 @@ import Footer from './components/footer/Footer';
 import Protected from './components/protected/Protected'
 import './App.scss';
 
-
 import { getUser } from "./features/idyUser/userSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 
 function App() {
-
   const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [id, setId] = useState('');
 
 
   const logIn = (id) => {
+    goLogin(id)
     setIsLoggedIn(true);
-    setId(id)
+  }
+
+  const goLogin = (id) => {
+    dispatch(getUser(id));
   }
 
   const logOut = () => {
-    setIsLoggedIn(false)
-    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    localStorage.clear()
   }
-
-
-  useEffect(() => {
-    if (id) {
-      dispatch(getUser(id));
-    }
-  }, []);
 
   return (
     <BrowserRouter>

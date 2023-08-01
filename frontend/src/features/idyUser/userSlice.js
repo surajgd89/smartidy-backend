@@ -36,6 +36,7 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
    }
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`, { headers: headers });
+            
       return res.data;
    } catch (err) {
       throw new Error('Failed to idUser');
@@ -52,7 +53,7 @@ export const updateUser = createAsyncThunk('updateUser', async (req) => {
       "Accept": "application/json",
    }
    try {
-      const res = await axios.put(`${API_USER_URL} / ${id}`, req, { headers: headers });
+      const res = await axios.put(`${API_USER_URL}/${id}`, req, { headers: headers });
       return res.data;
    } catch (err) {
       throw new Error('Failed to updateUser');
@@ -68,7 +69,7 @@ export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
       "Accept": "application/json",
    }
    try {
-      await axios.delete(`${API_USER_URL} / ${id}`, { headers: headers });
+      await axios.delete(`${API_USER_URL}/${id}`, { headers: headers });
       return id;
    } catch (err) {
       throw new Error('Failed to deleteUser');
