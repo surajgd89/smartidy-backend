@@ -95,6 +95,9 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 router.put('/idyUser/:id', verifyUser, async (req, res) => {
    try {
       const id = res.user.id;
+      const password = req.body.password;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      data.password = hashedPassword;
       const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');

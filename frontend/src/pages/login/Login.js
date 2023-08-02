@@ -3,13 +3,13 @@ import './Login.scss'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
 
 function Login({ logIn }) {
    const isLoggedUser = useSelector((state) => state.loginRequest.data);
    const dispatch = useDispatch();
-
+   const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
@@ -57,6 +57,7 @@ function Login({ logIn }) {
          localStorage.setItem("token", isLoggedUser.token);
          const id = isLoggedUser.id;
          logIn(id);
+         navigate("/create");
          setFormData({ email: '', password: '' });
       }
    }

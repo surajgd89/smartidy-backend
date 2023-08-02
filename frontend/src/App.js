@@ -13,20 +13,15 @@ import Protected from './components/protected/Protected'
 import './App.scss';
 
 import { getUser } from "./features/idyUser/userSlice";
-import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
+  const user = useSelector(state => state.idyUser.data);
   const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
   const logIn = (id) => {
-    goLogin(id)
     setIsLoggedIn(true);
-  }
-
-  const goLogin = (id) => {
     dispatch(getUser(id));
   }
 
@@ -35,17 +30,18 @@ function App() {
     localStorage.clear()
   }
 
+
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header isLoggedIn={isLoggedIn} logOut={logOut} />
+        <Header isLoggedIn={isLoggedIn} logOut={logOut} user={user} />
         <div className='content-sec'>
           <div className="container-fluid">
             <div className="container">
               <Routes>
                 <Route path="/change-password" element={
                   <Protected isLoggedIn={isLoggedIn}>
-                    <ChangePassword />
+                    <ChangePassword user={user} />
                   </Protected>
                 } />
                 <Route path="/create" element={

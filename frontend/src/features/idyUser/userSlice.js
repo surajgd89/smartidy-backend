@@ -36,7 +36,7 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
    }
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`, { headers: headers });
-            
+
       return res.data;
    } catch (err) {
       throw new Error('Failed to idUser');

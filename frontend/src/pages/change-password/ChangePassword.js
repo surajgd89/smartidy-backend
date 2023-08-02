@@ -1,33 +1,19 @@
 import './ChangePassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, updateUser } from '../../features/idyUser/userSlice';
+import { updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
+import { useDispatch } from 'react-redux';
 
-function ChangePassword() {
-   const userData = useSelector((state) => state.idyUser.data);
-   const dispatch = useDispatch();
+function ChangePassword({ user }) {
    const navigate = useNavigate();
+   const dispatch = useDispatch();
    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
    const [userUpdate, setUserUpdate] = useState({});
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-   };
-
-   const handleSubmit = (e) => {
-      e.preventDefault();
-
-      if (validateForm()) {
-         const updateData = { ...userUpdate, "changePass": true }
-         dispatch(updateUser(updateData));
-         setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
-         sessionStorage.removeItem("regdEmail");
-         alert('Change Password Successfully');
-         navigate('/home');
-      }
    };
 
    const validateForm = () => {
@@ -39,21 +25,18 @@ function ChangePassword() {
          return regex.test(testcase);
       };
 
-      const isCheckUser = (email, currentPassword) => {
-         return userData.some((user) => {
-            if (user.individual.email === email && bcrypt.compareSync(currentPassword, user.password)) {
-               setUserUpdate(user);
-               return true
-            }
-            return false
-         });
+      const isCheckUser = (currentPassword) => {
+         if (bcrypt.compareSync(currentPassword, user.password)) {
+            return true
+         }
+         return false
       };
 
       //  Current password
       if (formData.currentPassword === '') {
          errors.currentPassword = 'Password is required';
          isValid = false;
-      } else if (!isCheckUser(sessionStorage.getItem('regdEmail'), formData.currentPassword)) {
+      } else if (!isCheckUser(formData.currentPassword)) {
          errors.currentPassword = 'Incorrect Password';
          isValid = false;
       }
@@ -80,10 +63,25 @@ function ChangePassword() {
       return isValid;
    };
 
-   useEffect(() => {
-      dispatch(getUsers())
-   }, [dispatch]);
+   const handleSubmit = (e) => {
+      e.preventDefault();
 
+      if (validateForm()) {
+         const updateData = { ...user, "password": formData.newPassword }
+
+         setUserUpdate(updateData)
+         setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
+         alert('Change Password Successfully');
+         navigate('/create');
+      }
+   };
+
+   useEffect(() => {
+      if (formData.confirmNewPassword != '') {
+         console.log(userUpdate)
+         dispatch(updateUser(userUpdate));
+      }
+   }, [formData])
 
    return (
 

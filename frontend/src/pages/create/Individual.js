@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function Individual({ nextStep, setIndividualStep }) {
 
    //Individual=============================================
    const [errors, setErrors] = useState({});
-
    const [profilePic, setProfilePic] = useState('');
-   const [name, setName] = useState('');
+   const [name, setName] = useState();
    const [experties, setExperties] = useState('');
    const [call, setCall] = useState('');
    const [email, setEmail] = useState('');
@@ -90,6 +89,8 @@ function Individual({ nextStep, setIndividualStep }) {
       }
 
    };
+
+
 
    return (
       <div className="panel step step-1">

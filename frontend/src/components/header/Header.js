@@ -1,15 +1,16 @@
 import './Header.scss'
 import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
+export default function Header({ isLoggedIn, logOut, user }) {
 
-export default function Header({ isLoggedIn, logOut }) {
-   const name = useSelector((state) => {
-      const { individual } = state.idyUser.data;
-      const { name } = individual;
-      return name;
-   });
+   const [name, setName] = useState('');
+
+   useEffect(() => {
+      if (isLoggedIn) {
+         setName(user.individual.name)
+      }
+   }, [user]);
 
 
    return (

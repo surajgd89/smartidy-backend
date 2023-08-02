@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Create.scss'
 
 import Individual from './Individual';
@@ -35,7 +35,6 @@ function Create() {
             return null;
       }
    };
-
 
 
    return (
