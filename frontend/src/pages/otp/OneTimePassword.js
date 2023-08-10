@@ -25,8 +25,6 @@ function OneTimePassword() {
    const registerUser = sessionStorage.getItem('registerUser');
    const regdEmail = sessionStorage.getItem('regdEmail');
 
-
-
    const handleTimerEnd = () => {
       setShowResend(true);
       setshowTimer(false);

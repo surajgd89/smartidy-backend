@@ -98,7 +98,7 @@ function App() {
                 </IsSession>
               } />
 
-              <Route path="/otp" element={
+              <Route path="/otp:id" element={
                 <IsSession isLoggedIn={isLoggedIn}>
                   <OneTimePassCode />
                 </IsSession>

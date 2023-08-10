@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, updateUser } from '../../features/idyUser/userSlice';
-
 import bcrypt from "bcryptjs";
 
 
@@ -58,21 +57,15 @@ function ResetPassword() {
       e.preventDefault();
 
       if (validateForm()) {
-
-         const hashedPassword = bcrypt.hashSync(formData.password, 10);
-
+         const hashedPassword = bcrypt.hashSync(formData.newPassword, 10);
          const updateData = { ...user, "password": hashedPassword }
          dispatch(updateUser(updateData));
-
-
          setFormData({ newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
          alert('Reset Password Successfully');
          navigate('/login');
       }
    };
-
-
 
 
    useEffect(() => {

@@ -1,6 +1,10 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 function IsSession({ isLoggedIn, children }) {
+
+   const { search } = useLocation();
+
+   console.log(search)
 
    if (isLoggedIn) {
       return <Navigate to='/create' replace />;

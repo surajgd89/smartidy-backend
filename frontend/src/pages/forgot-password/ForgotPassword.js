@@ -48,10 +48,9 @@ function ForgotPassword() {
 
    const handleSubmit = () => {
       if (validateForm()) {
-
          sessionStorage.setItem('regdEmail', formData.email);
          setFormData({ email: '' })
-         navigate('/otp');
+         navigate(`/otp?id=${isRegistredUser.user._id}`);
       }
    }
 

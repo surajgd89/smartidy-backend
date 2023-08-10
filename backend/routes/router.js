@@ -17,7 +17,7 @@ router.get('/idyUser/registerRequest', async (req, res) => {
          return res.send({ success: false, message: "Email Address is not Registered" });
       }
 
-      res.send({ success: true, message: "Email Already Registred" });
+      res.send({ success: true, message: "Email Already Registred", user: registredUser });
 
    } catch (err) {
       res.status(500).send(err);
@@ -39,7 +39,7 @@ router.post('/idyUser/loginRequest', async (req, res) => {
       const isMatch = await bcrypt.compare(password, registredUser.password);
 
       if (!isMatch) {
-         return res.send({ success: false, message: "Incorrect email or password" });
+         return res.send({ success: false, message: "Incorrect email or password", });
       }
 
       const id = registredUser._id;
@@ -89,10 +89,9 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', verifyUser, async (req, res) => {
-
+router.put('/idyUser/:id', async (req, res) => {
    try {
-      const id = res.user.id;
+      const id = req.body._id;
       const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
@@ -104,9 +103,9 @@ router.put('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //DELETE USER
-router.delete('/idyUser/:id', verifyUser, async (req, res) => {
+router.delete('/idyUser/:id', async (req, res) => {
    try {
-      const id = res.user.id;
+      const id = req.body._id;
       const data = await schema.User.findByIdAndDelete(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
