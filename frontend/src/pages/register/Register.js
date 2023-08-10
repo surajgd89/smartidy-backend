@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerRequest } from '../../features/idyUser/registerSlice';
+import bcrypt from "bcryptjs";
 
 function Register() {
    const isRegistredUser = useSelector(state => state.registerRequest.data);
@@ -94,9 +95,9 @@ function Register() {
 
    const handleSubmit = () => {
       if (validateForm()) {
-
+         const hashedPassword = bcrypt.hashSync(formData.password, 10);
          const registerUser = {
-            "password": formData.password,
+            "password": hashedPassword,
             "individual": {
                "name": formData.name,
                "email": formData.email,
@@ -139,7 +140,6 @@ function Register() {
                            <label className='control-label'>Email</label>
                            <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
-
                         </div>
                      </div>
 

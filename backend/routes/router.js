@@ -14,7 +14,7 @@ router.get('/idyUser/registerRequest', async (req, res) => {
       const registredUser = await schema.User.findOne(query);
 
       if (!registredUser) {
-         return res.send({ success: false });
+         return res.send({ success: false, message: "Email Address is not Registered" });
       }
 
       res.send({ success: true, message: "Email Already Registred" });
@@ -55,8 +55,8 @@ router.post('/idyUser/loginRequest', async (req, res) => {
 //GET USERS
 router.get('/idyUser', async (req, res) => {
    try {
-      const searchQuery = req.query;
-      const data = await schema.User.find(searchQuery);
+      const query = req.query;
+      const data = await schema.User.find(query);
       res.send(data);
    } catch (err) {
       res.status(500).send(err);
@@ -67,9 +67,6 @@ router.get('/idyUser', async (req, res) => {
 router.post('/idyUser', async (req, res) => {
    try {
       const data = new schema.User(req.body);
-      const password = req.body.password;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      data.password = hashedPassword;
       await data.save();
       res.send(data);
    } catch (err) {
@@ -93,11 +90,9 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 
 //UPDATE USER
 router.put('/idyUser/:id', verifyUser, async (req, res) => {
+
    try {
       const id = res.user.id;
-      const password = req.body.password;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      data.password = hashedPassword;
       const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');

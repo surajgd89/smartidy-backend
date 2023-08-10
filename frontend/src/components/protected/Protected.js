@@ -1,11 +1,8 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-function Protected({ isLoggedIn, redirectPath = '/login', children }) {
-
-   const { pathname } = useLocation();
-
+function Protected({ isLoggedIn, children }) {
    if (!isLoggedIn) {
-      return <Navigate to={redirectPath} replace />
+      return <Navigate to='/login' replace />
    }
 
    return children

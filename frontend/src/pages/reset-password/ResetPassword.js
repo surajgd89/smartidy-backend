@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, updateUser } from '../../features/idyUser/userSlice';
+
 import bcrypt from "bcryptjs";
 
 
 function ResetPassword() {
 
-   const userData = useSelector((state) => { return state.IdyUser.data[0] });
+   const user = useSelector((state) => state.idyUser.data[0]);
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
@@ -17,28 +19,6 @@ function ResetPassword() {
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-   };
-
-   const handleSubmit = (e) => {
-      e.preventDefault();
-
-      if (validateForm()) {
-
-         const hashedPassword = bcrypt.hashSync(formData.newPassword, 10)
-
-         const user = {
-            ...userData,
-            "password": hashedPassword,
-         };
-
-         dispatch(updateUser(user));
-
-         setFormData({ newPassword: '', confirmNewPassword: '' });
-         sessionStorage.removeItem("regdEmail");
-         alert('Reset Password Successfully');
-         navigate('/login');
-      }
-
    };
 
    const validateForm = () => {
@@ -58,10 +38,10 @@ function ResetPassword() {
       } else if (!isValidPassword(formData.newPassword)) {
          errors.newPassword = 'Password is invalid.';
          isValid = false;
-      }
-
-      //  Validate Confirm password
-      if (formData.confirmNewPassword === '') {
+      } else if (formData.currentPassword === formData.newPassword) {
+         errors.newPassword = 'New password cannot be the same as your old password';
+         isValid = false;
+      } else if (formData.confirmNewPassword === '') {
          errors.confirmNewPassword = 'Confirm Password is required';
          isValid = false;
       } else if (formData.newPassword !== formData.confirmNewPassword) {
@@ -74,11 +54,32 @@ function ResetPassword() {
       return isValid;
    };
 
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      if (validateForm()) {
+
+         const hashedPassword = bcrypt.hashSync(formData.password, 10);
+
+         const updateData = { ...user, "password": hashedPassword }
+         dispatch(updateUser(updateData));
+
+
+         setFormData({ newPassword: '', confirmNewPassword: '' });
+         sessionStorage.removeItem("regdEmail");
+         alert('Reset Password Successfully');
+         navigate('/login');
+      }
+   };
+
+
+
 
    useEffect(() => {
-      const searchQuery = `?individual.email=${sessionStorage.getItem('regdEmail')}`
-      dispatch(getUsers(searchQuery))
-   }, [dispatch])
+      const email = sessionStorage.getItem('regdEmail');
+      const query = `?individual.email=${email}`
+      dispatch(getUsers(query))
+   }, [])
 
    return (
       <div className='page-section small-page'>
@@ -107,6 +108,9 @@ function ResetPassword() {
                         </div>
                      </div>
                   </div>
+
+
+
                </div>
                <div className="panel-footer">
                   <button type="button" className='btn btn-primary btn-block' onClick={handleSubmit}>Update Password</button>

@@ -2,15 +2,22 @@ import './Header.scss'
 import HeaderLogo from '../../assets/images/SmartIDy_logo.png'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+
 export default function Header({ isLoggedIn, logOut, user }) {
 
    const [name, setName] = useState('');
+
+
+
+
 
    useEffect(() => {
       if (isLoggedIn) {
          setName(user.individual.name)
       }
    }, [user]);
+
+
 
 
    return (
@@ -35,7 +42,7 @@ export default function Header({ isLoggedIn, logOut, user }) {
             <div className='user-action'>
                <Link to="/create" className='btn btn-primary'>Create SmartIDy</Link>
                <Link to="/change-password" className='btn btn-primary'>Change Password</Link>
-               <button onClick={logOut} className='btn btn-primary'>Logout</button>
+               <Link onClick={logOut} to="/login" className='btn btn-primary'>Logout</Link>
             </div>
          }
       </div>

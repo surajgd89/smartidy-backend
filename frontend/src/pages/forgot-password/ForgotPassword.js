@@ -18,17 +18,6 @@ function ForgotPassword() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   const handleSubmit = (e) => {
-      e.preventDefault();
-
-      if (validateForm()) {
-         sessionStorage.setItem('regdEmail', formData.email);
-         setFormData({ email: '' })
-         navigate('/otp');
-      }
-   }
-
-
    const validateForm = () => {
       let isValid = true;
       let errors = {};
@@ -38,7 +27,6 @@ function ForgotPassword() {
          return regex.test(testcase);
       };
 
-
       //  Validate email
       if (formData.email === '') {
          errors.email = 'Email is required';
@@ -46,20 +34,33 @@ function ForgotPassword() {
       } else if (!isValidEmail(formData.email)) {
          errors.email = 'Invalid email address';
          isValid = false;
-      } else if (!isRegistredUser) {
-         errors.email = 'Incorrect email address';
+      } else if (!isRegistredUser.success) {
+         console.log(isRegistredUser)
+         errors.email = isRegistredUser.message;
          isValid = false;
       }
+
 
       setErrors(errors);
       return isValid;
    };
 
 
-   useEffect(() => {
-      dispatch(registerRequest(`?individual.email=${formData.email}`))
-   }, [dispatch, handleSubmit]);
+   const handleSubmit = () => {
+      if (validateForm()) {
 
+         sessionStorage.setItem('regdEmail', formData.email);
+         setFormData({ email: '' })
+         navigate('/otp');
+      }
+   }
+
+
+   useEffect(() => {
+      if (formData.email != '') {
+         dispatch(registerRequest(`?individual.email=${formData.email}`));
+      }
+   }, [formData])
 
 
    return (
@@ -69,13 +70,17 @@ function ForgotPassword() {
                <div className="panel-header"> Forgot Password</div>
                <div className="panel-body">
                   <div className="row">
+
+
+
                      <div className="col-12">
-                        <div className="form-group">
-                           <label className="control-label">Email</label>
-                           <input type="text" value={formData.email} className="form-control" name="email" onChange={handleChange} />
+                        <div className='form-group'>
+                           <label className='control-label'>Email</label>
+                           <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
                            {errors.email && <div className="control-error">{errors.email}</div>}
                         </div>
                      </div>
+
                   </div>
                </div>
                <div className="panel-footer">

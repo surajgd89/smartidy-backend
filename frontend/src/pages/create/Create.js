@@ -7,10 +7,9 @@ import Configuration from './Configuration';
 
 
 
-function Create() {
+function Create({ user }) {
 
    const [currentStep, setCurrentStep] = useState(1);
-
    const [individualStep, setIndividualStep] = useState(false);
    const [businessStep, setBusinessStep] = useState(false);
    const [configurationStep, setConfigurationStep] = useState(false);
@@ -26,7 +25,7 @@ function Create() {
    const renderStep = () => {
       switch (currentStep) {
          case 1:
-            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} />;
+            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} user={user} />;
          case 2:
             return <Business nextStep={nextStep} prevStep={prevStep} setBusinessStep={setBusinessStep} />;
          case 3:
@@ -35,7 +34,6 @@ function Create() {
             return null;
       }
    };
-
 
    return (
       <div className='page-section small-page '>

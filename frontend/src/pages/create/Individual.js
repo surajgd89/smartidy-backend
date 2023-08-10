@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
 
-function Individual({ nextStep, setIndividualStep }) {
+function Individual({ nextStep, setIndividualStep, user }) {
+
+   const { individual } = user;
+
 
    //Individual=============================================
    const [errors, setErrors] = useState({});
    const [profilePic, setProfilePic] = useState('');
-   const [name, setName] = useState();
+   const [name, setName] = useState('');
    const [experties, setExperties] = useState('');
    const [call, setCall] = useState('');
    const [email, setEmail] = useState('');
    const [sms, setSms] = useState('');
+
 
    const handleChange_ProfilePic = (e) => {
       setProfilePic(e.target.files[0]);
@@ -84,12 +88,20 @@ function Individual({ nextStep, setIndividualStep }) {
                "sms": sms,
             }
          }
-         console.log(profilePic);
          sessionStorage.setItem('formIndividual', JSON.stringify(formIndividual));
       }
-
    };
 
+   useEffect(() => {
+      if (individual) {
+         setProfilePic(individual.profilePic);
+         setName(individual.name);
+         setExperties(individual.experties);
+         setCall(individual.call);
+         setEmail(individual.email);
+         setSms(individual.sms);
+      }
+   }, [individual]);
 
 
    return (

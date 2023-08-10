@@ -10,7 +10,6 @@ function ChangePassword({ user }) {
    const dispatch = useDispatch();
    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
-   const [userUpdate, setUserUpdate] = useState({});
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,21 +66,14 @@ function ChangePassword({ user }) {
       e.preventDefault();
 
       if (validateForm()) {
-         const updateData = { ...user, "password": formData.newPassword }
-
-         setUserUpdate(updateData)
+         const hashedPassword = bcrypt.hashSync(formData.newPassword, 10);
+         const updateData = { ...user, "password": hashedPassword }
+         dispatch(updateUser(updateData));
          setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
          alert('Change Password Successfully');
          navigate('/create');
       }
    };
-
-   useEffect(() => {
-      if (formData.confirmNewPassword != '') {
-         console.log(userUpdate)
-         dispatch(updateUser(userUpdate));
-      }
-   }, [formData])
 
    return (
 
