@@ -24,6 +24,7 @@ function OneTimePassword() {
 
    const registerUser = sessionStorage.getItem('registerUser');
    const regdEmail = sessionStorage.getItem('regdEmail');
+   const isSendOtp = sessionStorage.getItem('isSendOtp');
 
    const handleTimerEnd = () => {
       setShowResend(true);
@@ -61,14 +62,17 @@ function OneTimePassword() {
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
-         if (sessionStorage.getItem('registerUser')) {
+
+         if (registerUser && isSendOtp === 'true') {
             dispatch(createUser(JSON.parse(registerUser)));
             sessionStorage.removeItem("registerUser");
             navigate('/login');
          }
-         if (sessionStorage.getItem('regdEmail')) {
+
+         if (regdEmail && isSendOtp === 'true') {
             navigate('/reset-password');
          }
+
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
@@ -77,10 +81,10 @@ function OneTimePassword() {
 
    useEffect(() => {
       handleResendOTP();
-      if (sessionStorage.getItem('registerUser')) {
+      if (registerUser) {
          setSendEmail(JSON.parse(registerUser).individual.email)
       }
-      if (sessionStorage.getItem('regdEmail')) {
+      if (regdEmail) {
          setSendEmail(regdEmail)
       }
    }, [])

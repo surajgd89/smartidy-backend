@@ -1,15 +1,17 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-function IsSession({ isLoggedIn, children }) {
-
-   const { search } = useLocation();
-
-   console.log(search)
+function IsSession({ isLoggedIn, isSendOtp, children }) {
 
    if (isLoggedIn) {
       return <Navigate to='/create' replace />;
    }
 
+
+   if (isSendOtp === 'false') {
+      return <Navigate to='/login' replace />;
+   }
+
    return children;
 }
+
 export default IsSession

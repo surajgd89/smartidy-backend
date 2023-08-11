@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
+import bcrypt from "bcryptjs";
 
 function Login({ logIn }) {
    const isLoggedUser = useSelector((state) => state.loginRequest.data);
@@ -63,6 +64,7 @@ function Login({ logIn }) {
    }
 
    useEffect(() => {
+
       if (formData.email != '' && formData.password != '') {
          dispatch(loginRequest(formData));
       }

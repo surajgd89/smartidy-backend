@@ -105,6 +105,7 @@ function Register() {
             }
          }
          sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
+         sessionStorage.setItem('isSendOtp', true);
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate('/otp');
 
@@ -112,6 +113,7 @@ function Register() {
    };
 
    useEffect(() => {
+      
       if (formData.email != '') {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }

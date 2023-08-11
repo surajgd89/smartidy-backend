@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { registerRequest } from '../../features/idyUser/registerSlice';
+import bcrypt from "bcryptjs";
 
 function ForgotPassword() {
    const isRegistredUser = useSelector(state => state.registerRequest.data);
@@ -49,8 +50,11 @@ function ForgotPassword() {
    const handleSubmit = () => {
       if (validateForm()) {
          sessionStorage.setItem('regdEmail', formData.email);
+
+         sessionStorage.setItem('isSendOtp', true);
+
          setFormData({ email: '' })
-         navigate(`/otp?id=${isRegistredUser.user._id}`);
+         navigate(`/otp`);
       }
    }
 
@@ -69,8 +73,6 @@ function ForgotPassword() {
                <div className="panel-header"> Forgot Password</div>
                <div className="panel-body">
                   <div className="row">
-
-
 
                      <div className="col-12">
                         <div className='form-group'>

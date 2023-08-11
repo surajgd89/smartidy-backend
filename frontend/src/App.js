@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Header from './components/header/Header';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -25,6 +25,11 @@ function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [forgotOtp, setForgotOtp] = useState(false);
+  const [registerOtp, setRegisterOtp] = useState(false);
+
+  const isSendOtp = sessionStorage.getItem('isSendOtp');
+
 
   const logIn = (pathname, id) => {
     dispatch(getUser(id));
@@ -38,8 +43,8 @@ function App() {
     navigate("/login");
   }
 
-
   useEffect(() => {
+    sessionStorage.setItem('isSendOtp', false);
     const token = sessionStorage.getItem('token');
     if (token) {
       logIn(pathname, user._id);
@@ -81,7 +86,7 @@ function App() {
               } />
 
               <Route path="/register" element={
-                <IsSession isLoggedIn={isLoggedIn} pathname={pathname}>
+                <IsSession isLoggedIn={isLoggedIn}>
                   <Register />
                 </IsSession>
               } />
@@ -93,13 +98,13 @@ function App() {
               } />
 
               <Route path="/reset-password" element={
-                <IsSession isLoggedIn={isLoggedIn}>
+                <IsSession isLoggedIn={isLoggedIn} forgotOtp={forgotOtp}>
                   <ResetPassword />
                 </IsSession>
               } />
 
-              <Route path="/otp:id" element={
-                <IsSession isLoggedIn={isLoggedIn}>
+              <Route path="/otp" element={
+                <IsSession isLoggedIn={isLoggedIn} forgotOtp={forgotOtp} registerOtp={registerOtp}>
                   <OneTimePassCode />
                 </IsSession>
               } />
