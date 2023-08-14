@@ -95,25 +95,14 @@ function Register() {
 
    const handleSubmit = () => {
       if (validateForm()) {
-         const hashedPassword = bcrypt.hashSync(formData.password, 10);
-         const registerUser = {
-            "password": hashedPassword,
-            "individual": {
-               "name": formData.name,
-               "email": formData.email,
-               "call": formData.mobile
-            }
-         }
-         sessionStorage.setItem('registerUser', JSON.stringify(registerUser));
-         sessionStorage.setItem('isSendOtp', true);
+         const hashed = bcrypt.hashSync(formData.password, 10);
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
-         navigate('/otp');
-
+         navigate(`/otp?name=${formData.name}&email=${formData.email}&call=${formData.mobile}&password=${hashed}`);
       }
    };
 
    useEffect(() => {
-      
+
       if (formData.email != '') {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }

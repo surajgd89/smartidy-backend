@@ -52,7 +52,6 @@ function App() {
   }, []);
 
 
-
   return (
 
     <div className="wrapper">
@@ -67,6 +66,7 @@ function App() {
                   <ChangePassword user={user} />
                 </Protected>
               } />
+
               <Route path="/create" element={
                 <Protected isLoggedIn={isLoggedIn}>
                   <Create user={user} />
