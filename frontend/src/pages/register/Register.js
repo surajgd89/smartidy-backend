@@ -4,10 +4,12 @@ import './Register.scss'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerRequest } from '../../features/idyUser/registerSlice';
+
 import bcrypt from "bcryptjs";
 
-function Register() {
+function Register({ setSendOTP }) {
    const isRegistredUser = useSelector(state => state.registerRequest.data);
+   
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -89,26 +91,22 @@ function Register() {
 
    };
 
-
-
-
-
    const handleSubmit = () => {
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.password, 10);
-         setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
          navigate(`/otp?name=${formData.name}&email=${formData.email}&call=${formData.mobile}&password=${hashed}`);
+
+         setSendOTP(true);
+
+         setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
       }
    };
 
    useEffect(() => {
-
       if (formData.email != '') {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }
    }, [formData])
-
-
 
 
    return (

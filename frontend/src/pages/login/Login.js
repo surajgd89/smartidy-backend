@@ -64,7 +64,6 @@ function Login({ logIn }) {
    }
 
    useEffect(() => {
-
       if (formData.email != '' && formData.password != '') {
          dispatch(loginRequest(formData));
       }

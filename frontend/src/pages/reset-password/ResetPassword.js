@@ -29,7 +29,6 @@ function ResetPassword() {
          return regex.test(testcase);
       };
 
-
       //  Validate new password
       if (formData.newPassword === '') {
          errors.newPassword = 'Password is required';
@@ -47,7 +46,6 @@ function ResetPassword() {
          errors.confirmNewPassword = 'Passwords do not match';
          isValid = false;
       }
-
 
       setErrors(errors);
       return isValid;

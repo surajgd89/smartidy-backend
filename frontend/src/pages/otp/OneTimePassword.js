@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../features/idyUser/userSlice';
+import { verifyEmail } from '../../features/idyUser/emailSlice';
+
 import { useNavigate } from 'react-router-dom';
 import Timer from '../../components/timer/Timer';
 import OtpGenerator from '../../components/otp-generator/OtpGenerator';
@@ -10,6 +12,8 @@ function OneTimePassword() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
+   const isVerifyEmail = useSelector(state => state.verifyEmail.data);
+
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
    const [otp, setOTP] = useState('');
@@ -17,10 +21,16 @@ function OneTimePassword() {
    const [showTimer, setshowTimer] = useState(false);
 
 
+   const queryParameters = new URLSearchParams(window.location.search)
+   const name = queryParameters.get("name");
+   const email = queryParameters.get("email");
+   const call = queryParameters.get("call");
+   const password = queryParameters.get("password");
+
+
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
-
 
    const handleTimerEnd = () => {
       setShowResend(true);
@@ -60,19 +70,19 @@ function OneTimePassword() {
       if (validateForm()) {
 
          const registerUser = {
-            "password": hashed,
+            "password": password,
             "individual": {
-               "name": formData.name,
-               "email": formData.email,
-               "call": formData.mobile
+               "name": name,
+               "email": email,
+               "call": call,
             }
          }
 
          if (registerUser) {
-            dispatch(createUser(JSON.parse(registerUser)));
-            sessionStorage.removeItem("registerUser");
+            dispatch(createUser(registerUser));
             navigate('/login');
          }
+         console.log(isVerifyEmail)
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
@@ -81,7 +91,8 @@ function OneTimePassword() {
 
    useEffect(() => {
       handleResendOTP();
-   }, [])
+      dispatch(verifyEmail({ "email": email, "otp": otp }));
+   }, [dispatch])
 
    return (
       <div className='page-section small-page'>
@@ -89,7 +100,7 @@ function OneTimePassword() {
             <div className="panel">
                <div className="panel-header">
                   <div>One Time Password {otp}</div>
-                  <small>A OTP has been sent to your email :  <strong>{sendEmail}</strong></small>
+                  <small>A OTP has been sent to your email :  <strong>{email}</strong></small>
                </div>
                <div className="panel-body">
                   <div className="row">

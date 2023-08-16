@@ -3,8 +3,46 @@ const router = express.Router();
 const schema = require('../models/schema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const verifyUser = require('./authVerify')
+const verifyUser = require('./authVerify');
+const nodemailer = require('nodemailer');
 require('dotenv/config')
+
+
+
+//VERIFY EMAIL
+router.post('/idyUser/verifyEmail', async (req, res) => {
+   const { email, otp } = req.body;
+   try {
+
+      let transporter = nodemailer.createTransport({
+         service: 'gmail',
+         auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+         }
+      });
+
+      const mailOptions = {
+         from: process.env.EMAIL,
+         to: email,
+         subject: 'SmartIDy Registration :: Email Address Verification via OTP',
+         text: `OTP is ${otp}`,
+      };
+
+      transporter.sendMail(mailOptions, function (err, info) {
+         if (err) {
+            console.log("Error", err);
+         } else {
+            console.log("Email sent" + info.response);
+            res.send({ success: true, info: info });
+         }
+      });
+
+   } catch (err) {
+      res.status(500).send(err);
+   }
+});
+
 
 //REGISTER REQUEST
 router.get('/idyUser/registerRequest', async (req, res) => {

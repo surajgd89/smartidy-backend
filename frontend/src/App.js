@@ -25,10 +25,8 @@ function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [forgotOtp, setForgotOtp] = useState(false);
-  const [registerOtp, setRegisterOtp] = useState(false);
-
-  const isSendOtp = sessionStorage.getItem('isSendOtp');
+  const [sendResetPassLink, setSendResetPassLink] = useState(false);
+  const [sendOTP, setSendOTP] = useState(false);
 
 
   const logIn = (pathname, id) => {
@@ -44,7 +42,7 @@ function App() {
   }
 
   useEffect(() => {
-    sessionStorage.setItem('isSendOtp', false);
+
     const token = sessionStorage.getItem('token');
     if (token) {
       logIn(pathname, user._id);
@@ -87,7 +85,7 @@ function App() {
 
               <Route path="/register" element={
                 <IsSession isLoggedIn={isLoggedIn}>
-                  <Register />
+                  <Register setSendOTP={setSendOTP} />
                 </IsSession>
               } />
 
@@ -98,13 +96,13 @@ function App() {
               } />
 
               <Route path="/reset-password" element={
-                <IsSession isLoggedIn={isLoggedIn} forgotOtp={forgotOtp}>
+                <IsSession isLoggedIn={isLoggedIn} sendResetPassLink={sendResetPassLink}>
                   <ResetPassword />
                 </IsSession>
               } />
 
               <Route path="/otp" element={
-                <IsSession isLoggedIn={isLoggedIn} forgotOtp={forgotOtp} registerOtp={registerOtp}>
+                <IsSession isLoggedIn={isLoggedIn} sendOTP={sendOTP}>
                   <OneTimePassCode />
                 </IsSession>
               } />
