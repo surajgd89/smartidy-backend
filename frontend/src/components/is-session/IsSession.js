@@ -10,9 +10,7 @@ function IsSession({ isLoggedIn, sendResetPassLink, sendOTP, children }) {
       return <Navigate to='/login' replace />;
    }
 
-   if (sendResetPassLink === false) {
-      return <Navigate to='/login' replace />;
-   }
+
 
    return children;
 }

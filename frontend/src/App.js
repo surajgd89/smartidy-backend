@@ -25,7 +25,7 @@ function App() {
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [sendResetPassLink, setSendResetPassLink] = useState(false);
+
   const [sendOTP, setSendOTP] = useState(false);
 
 
@@ -96,7 +96,7 @@ function App() {
               } />
 
               <Route path="/reset-password" element={
-                <IsSession isLoggedIn={isLoggedIn} sendResetPassLink={sendResetPassLink}>
+                <IsSession isLoggedIn={isLoggedIn} >
                   <ResetPassword />
                 </IsSession>
               } />

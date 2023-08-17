@@ -5,10 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { registerRequest } from '../../features/idyUser/registerSlice';
+import { resetPassword } from '../../features/idyUser/resetPasswordSlice';
 
 
 function ForgotPassword() {
    const isRegistredUser = useSelector(state => state.registerRequest.data);
+
+   const isResetPassword = useSelector(state => state.resetPassword.data);
+
    const dispatch = useDispatch()
    const navigate = useNavigate();
 
@@ -18,8 +22,6 @@ function ForgotPassword() {
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
-
-
 
 
    const validateForm = () => {
@@ -51,13 +53,20 @@ function ForgotPassword() {
 
    const handleSubmit = () => {
       if (validateForm()) {
+
+         dispatch(resetPassword({ "email": formData.email }));
+
+         console.log(isResetPassword);
+
+         if (isResetPassword.success) {
+            alert("Reset Password Link Send Successfully")
+         }
+
+         navigate('/login')
+
          setFormData({ email: '' })
-         navigate(`/reset-password?email=${formData.email}`);
       }
    }
-
-
-
 
 
    useEffect(() => {

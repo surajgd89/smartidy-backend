@@ -39,6 +39,8 @@ function OneTimePassword() {
 
    const handleResendOTP = () => {
       setOTP(OtpGenerator())
+      dispatch(verifyEmail({ "email": email, "otp": otp }));
+      alert("Email Verify OTP Send SuccessFully")
       setshowTimer(true);
       setShowResend(false);
    };
@@ -78,21 +80,17 @@ function OneTimePassword() {
             }
          }
 
-         if (registerUser) {
+         if (isVerifyEmail.success) {
             dispatch(createUser(registerUser));
             navigate('/login');
          }
-         console.log(isVerifyEmail)
+
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
       }
    };
 
-   useEffect(() => {
-      handleResendOTP();
-      dispatch(verifyEmail({ "email": email, "otp": otp }));
-   }, [dispatch])
 
    return (
       <div className='page-section small-page'>
@@ -100,7 +98,7 @@ function OneTimePassword() {
             <div className="panel">
                <div className="panel-header">
                   <div>One Time Password {otp}</div>
-                  <small>A OTP has been sent to your email :  <strong>{email}</strong></small>
+                  <small>A OTP has been sent to your email {showTimer && <strong>{email}</strong>}</small>
                </div>
                <div className="panel-body">
                   <div className="row">
@@ -109,14 +107,15 @@ function OneTimePassword() {
                            <label className='control-label'>Enter OTP</label>
                            <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
                            {errors.otp && <div className="control-error">{errors.otp}</div>}
-                           {showTimer && <div className='control-note'>The code will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
+                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
                         </div>
                      </div>
                   </div>
                </div>
                <div className="panel-footer">
-                  <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Verify</button>
-                  {showResend && <button className='link' onClick={handleResendOTP}>Resend Code</button>}
+                  <button onClick={handleResendOTP} type="button" className='btn btn-secondary'>Send OTP</button>
+                  {showTimer && <button onClick={handleSubmit} type="button" className='btn btn-primary'>Verify</button>}
+                  {showResend && <button className='link' onClick={handleResendOTP}>Resend OTP</button>}
                </div>
             </div>
          </div>

@@ -95,9 +95,7 @@ function Register({ setSendOTP }) {
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.password, 10);
          navigate(`/otp?name=${formData.name}&email=${formData.email}&call=${formData.mobile}&password=${hashed}`);
-
          setSendOTP(true);
-
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
       }
    };

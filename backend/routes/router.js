@@ -7,7 +7,46 @@ const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
 require('dotenv/config')
 
+//FORGOT PASSWORD
+router.post('/idyUser/resetPassword', async (req, res) => {
+   const { email } = req.body;
+   try {
+      const registredUser = await schema.User.findOne({ 'individual.email': email });
+      const id = registredUser._id;
+      const mail = registredUser.individual.email;
+      const resetToken = jwt.sign({ mail, id }, process.env.TOKEN_SECRET, { expiresIn: '10m' });
+      const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
+      console.log(resetLink);
+
+      let transporter = nodemailer.createTransport({
+         service: 'gmail',
+         auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD,
+         }
+      });
+
+      const mailOptions = {
+         from: process.env.EMAIL,
+         to: email,
+         subject: 'SmartIDy Reset Password',
+         html: `link is <a href="${resetLink}">Reset Your Password Click Here</a>`,
+      };
+
+      transporter.sendMail(mailOptions, function (err, info) {
+         if (err) {
+            console.log("Error", err);
+         } else {
+            console.log("Email sent" + info.response);
+            res.send({ success: true, info: info });
+         }
+      });
+
+   } catch (err) {
+      res.status(500).send(err);
+   }
+});
 
 //VERIFY EMAIL
 router.post('/idyUser/verifyEmail', async (req, res) => {
@@ -25,8 +64,8 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
       const mailOptions = {
          from: process.env.EMAIL,
          to: email,
-         subject: 'SmartIDy Registration :: Email Address Verification via OTP',
-         text: `OTP is ${otp}`,
+         subject: 'SmartIDy Verify Email',
+         html: `OTP is <strong>${otp}</strong>`,
       };
 
       transporter.sendMail(mailOptions, function (err, info) {
@@ -42,7 +81,6 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
       res.status(500).send(err);
    }
 });
-
 
 //REGISTER REQUEST
 router.get('/idyUser/registerRequest', async (req, res) => {
@@ -81,7 +119,7 @@ router.post('/idyUser/loginRequest', async (req, res) => {
       }
 
       const id = registredUser._id;
-      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET);
+      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
       res.header("Auth-Token", token).send({ success: true, token: token, id: id });
 
 

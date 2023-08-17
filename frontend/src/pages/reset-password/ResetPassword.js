@@ -2,19 +2,22 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, updateUser } from '../../features/idyUser/userSlice';
+import { getUser, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
+import jwt_decode from "jwt-decode";
 
 
 function ResetPassword() {
 
-   const user = useSelector((state) => state.idyUser.data[0]);
+   const user = useSelector(state => state.idyUser.data);
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
 
+   const queryParameters = new URLSearchParams(window.location.search)
+   const resetToken = queryParameters.get("token");
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,9 +70,8 @@ function ResetPassword() {
 
 
    useEffect(() => {
-      const email = sessionStorage.getItem('regdEmail');
-      const query = `?individual.email=${email}`
-      dispatch(getUsers(query))
+      var { id } = jwt_decode(resetToken);
+      dispatch(getUser(id));
    }, [])
 
    return (
@@ -77,6 +79,7 @@ function ResetPassword() {
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header"> Reset Password </div>
+
                <div className="panel-body">
 
                   <div className="row">
@@ -99,8 +102,6 @@ function ResetPassword() {
                         </div>
                      </div>
                   </div>
-
-
 
                </div>
                <div className="panel-footer">
