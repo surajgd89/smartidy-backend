@@ -39,8 +39,6 @@ function OneTimePassword() {
 
    const handleResendOTP = () => {
       setOTP(OtpGenerator())
-      dispatch(verifyEmail({ "email": email, "otp": otp }));
-      alert("Email Verify OTP Send SuccessFully")
       setshowTimer(true);
       setShowResend(false);
    };
@@ -90,6 +88,13 @@ function OneTimePassword() {
          setshowTimer(false);
       }
    };
+
+
+   useEffect(() => {
+      if (showTimer) {
+         dispatch(verifyEmail({ "email": email, "otp": otp }));
+      }
+   }, [showTimer])
 
 
    return (

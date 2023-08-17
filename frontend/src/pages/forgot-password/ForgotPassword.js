@@ -41,7 +41,6 @@ function ForgotPassword() {
          errors.email = 'Invalid email address';
          isValid = false;
       } else if (!isRegistredUser.success) {
-         console.log(isRegistredUser)
          errors.email = isRegistredUser.message;
          isValid = false;
       }
@@ -56,13 +55,10 @@ function ForgotPassword() {
 
          dispatch(resetPassword({ "email": formData.email }));
 
-         console.log(isResetPassword);
-
          if (isResetPassword.success) {
             alert("Reset Password Link Send Successfully")
+            navigate('/login')
          }
-
-         navigate('/login')
 
          setFormData({ email: '' })
       }
@@ -74,6 +70,8 @@ function ForgotPassword() {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }
    }, [formData])
+
+
 
 
    return (

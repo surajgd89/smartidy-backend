@@ -17,13 +17,17 @@ router.post('/idyUser/resetPassword', async (req, res) => {
       const resetToken = jwt.sign({ mail, id }, process.env.TOKEN_SECRET, { expiresIn: '10m' });
       const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
-      console.log(resetLink);
 
       let transporter = nodemailer.createTransport({
-         service: 'gmail',
+         host: "smtp.gmail.com",
+         port: 587,
+         secure: false,
          auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
+         },
+         tls: {
+            rejectUnauthorized: false
          }
       });
 
@@ -54,10 +58,15 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
    try {
 
       let transporter = nodemailer.createTransport({
-         service: 'gmail',
+         host: "smtp.gmail.com",
+         port: 587,
+         secure: false,
          auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
+         },
+         tls: {
+            rejectUnauthorized: false
          }
       });
 

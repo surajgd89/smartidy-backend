@@ -57,8 +57,9 @@ function ResetPassword() {
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
-         const hashedPassword = bcrypt.hashSync(formData.newPassword, 10);
-         const updateData = { ...user, "password": hashedPassword }
+         const hashed = bcrypt.hashSync(formData.newPassword, 10);
+         const updateData = { ...user, "password": hashed }
+         console.log(user)
          dispatch(updateUser(updateData));
          setFormData({ newPassword: '', confirmNewPassword: '' });
          sessionStorage.removeItem("regdEmail");
