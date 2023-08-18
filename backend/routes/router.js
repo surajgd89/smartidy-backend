@@ -14,6 +14,8 @@ router.post('/idyUser/resetPassword', async (req, res) => {
       const registredUser = await schema.User.findOne({ 'individual.email': email });
       const id = registredUser._id;
       const mail = registredUser.individual.email;
+
+
       const resetToken = jwt.sign({ mail, id }, process.env.TOKEN_SECRET, { expiresIn: '10m' });
       const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
@@ -42,8 +44,9 @@ router.post('/idyUser/resetPassword', async (req, res) => {
          if (err) {
             console.log("Error", err);
          } else {
+            console.log(resetLink);
             console.log("Email sent" + info.response);
-            res.send({ success: true, info: info });
+            res.send({ success: true, response: info.response });
          }
       });
 
@@ -82,7 +85,7 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
             console.log("Error", err);
          } else {
             console.log("Email sent" + info.response);
-            res.send({ success: true, info: info });
+            res.send({ success: true, response: info.response });
          }
       });
 

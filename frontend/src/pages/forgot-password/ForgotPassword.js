@@ -9,12 +9,12 @@ import { resetPassword } from '../../features/idyUser/resetPasswordSlice';
 
 
 function ForgotPassword() {
-   const isRegistredUser = useSelector(state => state.registerRequest.data);
-
-   const isResetPassword = useSelector(state => state.resetPassword.data);
 
    const dispatch = useDispatch()
    const navigate = useNavigate();
+
+   const isRegistredUser = useSelector(state => state.registerRequest.data);
+   const isResetPassword = useSelector(state => state.resetPassword.data);
 
    const [formData, setFormData] = useState({ email: '' });
    const [errors, setErrors] = useState({});
@@ -55,6 +55,7 @@ function ForgotPassword() {
 
          dispatch(resetPassword({ "email": formData.email }));
 
+
          if (isResetPassword.success) {
             alert("Reset Password Link Send Successfully")
             navigate('/login')
@@ -65,6 +66,7 @@ function ForgotPassword() {
    }
 
 
+
    useEffect(() => {
       if (formData.email != '') {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
@@ -72,6 +74,11 @@ function ForgotPassword() {
    }, [formData])
 
 
+   useEffect(() => {
+      if (isRegistredUser.success) {
+         dispatch(resetPassword({ "email": formData.email }));
+      }
+   }, [dispatch])
 
 
    return (
