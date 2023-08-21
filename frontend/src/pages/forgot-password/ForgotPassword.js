@@ -24,14 +24,16 @@ function ForgotPassword() {
    };
 
 
+   const isValidEmail = (testcase) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(testcase);
+   };
+
    const validateForm = () => {
       let isValid = true;
       let errors = {};
 
-      const isValidEmail = (testcase) => {
-         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-         return regex.test(testcase);
-      };
+
 
       //  Validate email
       if (formData.email === '') {
@@ -52,14 +54,7 @@ function ForgotPassword() {
 
    const handleSubmit = () => {
       if (validateForm()) {
-
          dispatch(resetPassword({ "email": formData.email }));
-
-
-         if (isResetPassword.success) {
-            alert("Reset Password Link Send Successfully")
-            navigate('/login')
-         }
 
          setFormData({ email: '' })
       }
@@ -68,17 +63,18 @@ function ForgotPassword() {
 
 
    useEffect(() => {
-      if (formData.email != '') {
+      if (isValidEmail(formData.email)) {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }
    }, [formData])
 
-
    useEffect(() => {
-      if (isRegistredUser.success) {
-         dispatch(resetPassword({ "email": formData.email }));
+      if (isResetPassword.success) {
+         navigate('/login')
       }
-   }, [dispatch])
+   }, [isResetPassword])
+
+
 
 
    return (

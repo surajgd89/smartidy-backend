@@ -2,14 +2,14 @@ import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, updateUser } from '../../features/idyUser/userSlice';
+import { getUsers, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
 import jwt_decode from "jwt-decode";
 
 
 function ResetPassword() {
 
-   const user = useSelector(state => state.idyUser.data);
+   const user = useSelector(state => state.idyUser.data[0]);
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -59,19 +59,16 @@ function ResetPassword() {
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.newPassword, 10);
          const updateData = { ...user, "password": hashed }
-         console.log(user)
          dispatch(updateUser(updateData));
          setFormData({ newPassword: '', confirmNewPassword: '' });
-         sessionStorage.removeItem("regdEmail");
          alert('Reset Password Successfully');
          navigate('/login');
       }
    };
 
-
    useEffect(() => {
-      var { id } = jwt_decode(resetToken);
-      dispatch(getUser(id));
+      var { mail } = jwt_decode(resetToken);
+      dispatch(getUsers(`?individual.email=${mail}`));
    }, [])
 
    return (
