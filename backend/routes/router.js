@@ -5,7 +5,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
+const handlebars = require('nodemailer-express-handlebars');
 require('dotenv/config')
+
 
 //FORGOT PASSWORD
 router.post('/idyUser/resetPassword', async (req, res) => {
@@ -27,24 +29,35 @@ router.post('/idyUser/resetPassword', async (req, res) => {
          auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
-         },
-         tls: {
-            rejectUnauthorized: false
          }
       });
 
-      const mailOptions = {
+      transporter.use('compile', handlebars({
+         viewEngine: {
+            extname: '.hbs',
+            layoutsDir: 'views',
+            defaultLayout: 'email-reset-password',
+         },
+         viewPath: 'views',
+         extName: '.hbs'
+      }));
+
+      const message = {
          from: process.env.EMAIL,
          to: email,
-         subject: 'SmartIDy Reset Password',
-         html: `link is <a href="${resetLink}">Reset Your Password Click Here</a>`,
+         subject: 'SmartIDy Reset Password Link',
+         template: 'email-reset-password',
+         context: {
+            email: email,
+            resetLink: resetLink,
+         }
       };
 
-      transporter.sendMail(mailOptions, function (err, info) {
+      transporter.sendMail(message, function (err, info) {
          if (err) {
             console.log("Error", err);
          } else {
-            console.log(resetLink);
+            console.log("resetLink=" + resetLink);
             console.log("Email sent" + info.response);
             res.send({ success: true, response: info.response });
          }
@@ -67,23 +80,36 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
          auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD,
-         },
-         tls: {
-            rejectUnauthorized: false
          }
       });
 
-      const mailOptions = {
+      transporter.use('compile', handlebars({
+         viewEngine: {
+            extname: '.hbs',
+            layoutsDir: 'views',
+            defaultLayout: 'email-verify-otp',
+         },
+         viewPath: 'views',
+         extName: '.hbs'
+      }));
+
+
+      const message = {
          from: process.env.EMAIL,
          to: email,
-         subject: 'SmartIDy Verify Email',
-         html: `OTP is <strong>${otp}</strong>`,
+         subject: 'SmartIDy Verify Email OTP',
+         template: 'email-verify-otp',
+         context: {
+            email: email,
+            otp: otp,
+         }
       };
 
-      transporter.sendMail(mailOptions, function (err, info) {
+      transporter.sendMail(message, function (err, info) {
          if (err) {
             console.log("Error", err);
          } else {
+            console.log("OTP=" + otp);
             console.log("Email sent" + info.response);
             res.send({ success: true, response: info.response });
          }
@@ -93,6 +119,7 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
       res.status(500).send(err);
    }
 });
+
 
 //REGISTER REQUEST
 router.get('/idyUser/registerRequest', async (req, res) => {

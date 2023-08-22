@@ -55,7 +55,6 @@ function ForgotPassword() {
    const handleSubmit = () => {
       if (validateForm()) {
          dispatch(resetPassword({ "email": formData.email }));
-
          setFormData({ email: '' })
       }
    }
@@ -73,8 +72,6 @@ function ForgotPassword() {
          navigate('/login')
       }
    }, [isResetPassword])
-
-
 
 
    return (

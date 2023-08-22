@@ -9,7 +9,7 @@ import bcrypt from "bcryptjs";
 
 function Register({ setSendOTP }) {
    const isRegistredUser = useSelector(state => state.registerRequest.data);
-   
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -19,24 +19,25 @@ function Register({ setSendOTP }) {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
+   const isValidEmail = (testcase) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(testcase);
+   };
+
+   const isValidMobile = (testcase) => {
+      const regex = /^[0-9]{10}$/;
+      return regex.test(testcase);
+   };
+
+   const isValidPassword = (testcase) => {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      return regex.test(testcase);
+   };
+
+
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
-      const isValidEmail = (testcase) => {
-         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-         return regex.test(testcase);
-      };
-
-      const isValidMobile = (testcase) => {
-         const regex = /^[0-9]{10}$/;
-         return regex.test(testcase);
-      };
-
-      const isValidPassword = (testcase) => {
-         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-         return regex.test(testcase);
-      };
 
       //  Validate name
       if (formData.name === '') {
@@ -101,7 +102,7 @@ function Register({ setSendOTP }) {
    };
 
    useEffect(() => {
-      if (formData.email != '') {
+      if (isValidEmail(formData.email)) {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }
    }, [formData])

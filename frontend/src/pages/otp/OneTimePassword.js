@@ -102,8 +102,8 @@ function OneTimePassword() {
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header">
-                  <div>One Time Password {otp}</div>
-                  <small>A OTP has been sent to your email {showTimer && <strong>{email}</strong>}</small>
+                  <div>One Time Password</div>
+                  <small>A OTP has been sent to your email <strong>{email}</strong></small>
                </div>
                <div className="panel-body">
                   <div className="row">
@@ -112,14 +112,14 @@ function OneTimePassword() {
                            <label className='control-label'>Enter OTP</label>
                            <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
                            {errors.otp && <div className="control-error">{errors.otp}</div>}
-                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
+                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={60} onTimerEnd={handleTimerEnd} /></strong></div>}
                         </div>
                      </div>
                   </div>
                </div>
                <div className="panel-footer">
                   <button onClick={handleResendOTP} type="button" className='btn btn-secondary'>Send OTP</button>
-                  {showTimer && <button onClick={handleSubmit} type="button" className='btn btn-primary'>Verify</button>}
+                  <button onClick={handleSubmit} type="button" className='btn btn-primary'>Verify</button>
                   {showResend && <button className='link' onClick={handleResendOTP}>Resend OTP</button>}
                </div>
             </div>
