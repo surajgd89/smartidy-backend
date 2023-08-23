@@ -13,8 +13,11 @@ import Protected from './components/protected/Protected'
 import IsSession from './components/is-session/IsSession'
 import './App.scss';
 
+
 import { getUser } from "./features/idyUser/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
+
+
 
 
 
@@ -24,8 +27,6 @@ function App() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-
   const [sendOTP, setSendOTP] = useState(false);
 
 
@@ -41,13 +42,18 @@ function App() {
     navigate("/login");
   }
 
-  useEffect(() => {
 
+
+  useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (token) {
       logIn(pathname, user._id);
     }
+
   }, []);
+
+
+
 
 
   return (
@@ -118,6 +124,7 @@ function App() {
         </div>
       </div>
       <Footer />
+
     </div>
 
   );

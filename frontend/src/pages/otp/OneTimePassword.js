@@ -4,20 +4,24 @@ import { createUser } from '../../features/idyUser/userSlice';
 import { verifyEmail } from '../../features/idyUser/emailSlice';
 
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import Timer from '../../components/timer/Timer';
 import OtpGenerator from '../../components/otp-generator/OtpGenerator';
 import './OneTimePassword.scss'
+import { useRef } from 'react';
 
 function OneTimePassword() {
    const dispatch = useDispatch()
    const navigate = useNavigate();
+
+   const refElm_BtnOTP = useRef();
+   const refElm_BtnVerify = useRef();
 
    const isVerifyEmail = useSelector(state => state.verifyEmail.data);
 
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
    const [otp, setOTP] = useState('');
-   const [showResend, setShowResend] = useState(false);
    const [showTimer, setshowTimer] = useState(false);
 
 
@@ -33,14 +37,27 @@ function OneTimePassword() {
    };
 
    const handleTimerEnd = () => {
-      setShowResend(true);
       setshowTimer(false);
    };
+
+
+   const notifyRegisterSuccess = () => toast.success('Registration Successfully Completed', {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      onClose: () => navigate('/login')
+   });
+
 
    const handleResendOTP = () => {
       setOTP(OtpGenerator())
       setshowTimer(true);
-      setShowResend(false);
+
    };
 
    const validateForm = () => {
@@ -79,10 +96,9 @@ function OneTimePassword() {
          }
 
          if (isVerifyEmail.success) {
+            notifyRegisterSuccess()
             dispatch(createUser(registerUser));
-            navigate('/login');
          }
-
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
@@ -91,11 +107,11 @@ function OneTimePassword() {
 
 
    useEffect(() => {
-      if (showTimer) {
+
+      if (otp != '') {
          dispatch(verifyEmail({ "email": email, "otp": otp }));
       }
-   }, [showTimer])
-
+   }, [otp])
 
    return (
       <div className='page-section small-page'>
@@ -118,14 +134,13 @@ function OneTimePassword() {
                   </div>
                </div>
                <div className="panel-footer">
-                  <button onClick={handleResendOTP} type="button" className='btn btn-secondary'>Send OTP</button>
-                  <button onClick={handleSubmit} type="button" className='btn btn-primary'>Verify</button>
-                  {showResend && <button className='link' onClick={handleResendOTP}>Resend OTP</button>}
+                  <button onClick={handleResendOTP} ref={refElm_BtnOTP} type="button" className='btn btn-secondary'>Send OTP</button>
+                  <button onClick={handleSubmit} ref={refElm_BtnVerify} type="button" className='btn btn-primary' disabled={true}>Verify</button>
                </div>
             </div>
          </div>
+         <ToastContainer />
       </div>
    )
 }
-
 export default OneTimePassword;

@@ -59,8 +59,6 @@ function ForgotPassword() {
       }
    }
 
-
-
    useEffect(() => {
       if (isValidEmail(formData.email)) {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
@@ -72,7 +70,6 @@ function ForgotPassword() {
          navigate('/login')
       }
    }, [isResetPassword])
-
 
    return (
       <div className='page-section small-page '>

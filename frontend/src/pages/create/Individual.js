@@ -103,7 +103,6 @@ function Individual({ nextStep, setIndividualStep, user }) {
       }
    }, [individual]);
 
-
    return (
       <div className="panel step step-1">
          <div className="panel-header">Individual Information</div>

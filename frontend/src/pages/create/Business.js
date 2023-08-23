@@ -53,7 +53,6 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
    const handle_bhFlag = () => { setBhFlag(!bhFlag) };
 
    const handleSubmit = (event) => {
-
       event.preventDefault();
       nextStep();
       setBusinessStep(true)

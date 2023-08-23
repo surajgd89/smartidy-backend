@@ -1,10 +1,10 @@
-
 import './Login.scss'
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
-import bcrypt from "bcryptjs";
+
+
 
 function Login({ logIn }) {
    const isLoggedUser = useSelector((state) => state.loginRequest.data);
@@ -13,20 +13,20 @@ function Login({ logIn }) {
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
-
-
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
+   };
+
+   
+
+   const isValidEmail = (testcase) => {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(testcase);
    };
 
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
-      const isValidEmail = (testcase) => {
-         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-         return regex.test(testcase);
-      };
 
       //  Validate email
       if (formData.email === '') {
@@ -71,6 +71,8 @@ function Login({ logIn }) {
 
 
 
+
+
    return (
       <div className='page-section small-page'>
          <div className='page-body'>
@@ -103,6 +105,7 @@ function Login({ logIn }) {
                </div>
             </div>
             <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
+            
          </div>
       </div >
    );
