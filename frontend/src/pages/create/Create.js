@@ -5,8 +5,6 @@ import Individual from './Individual';
 import Business from './Business';
 import Configuration from './Configuration';
 
-
-
 function Create({ user }) {
 
    const [currentStep, setCurrentStep] = useState(1);

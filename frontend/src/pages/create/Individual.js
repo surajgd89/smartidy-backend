@@ -4,7 +4,6 @@ function Individual({ nextStep, setIndividualStep, user }) {
 
    const { individual } = user;
 
-
    //Individual=============================================
    const [errors, setErrors] = useState({});
    const [profilePic, setProfilePic] = useState('');
@@ -94,7 +93,7 @@ function Individual({ nextStep, setIndividualStep, user }) {
 
    useEffect(() => {
       if (individual) {
-         setProfilePic(individual.profilePic);
+         //setProfilePic(individual.profilePic);
          setName(individual.name);
          setExperties(individual.experties);
          setCall(individual.call);

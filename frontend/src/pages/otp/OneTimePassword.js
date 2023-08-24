@@ -4,7 +4,7 @@ import { createUser } from '../../features/idyUser/userSlice';
 import { verifyEmail } from '../../features/idyUser/emailSlice';
 
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Timer from '../../components/timer/Timer';
 import OtpGenerator from '../../components/otp-generator/OtpGenerator';
 import './OneTimePassword.scss'
@@ -25,6 +25,7 @@ function OneTimePassword() {
    const [showTimer, setshowTimer] = useState(false);
 
 
+
    const queryParameters = new URLSearchParams(window.location.search)
    const name = queryParameters.get("name");
    const email = queryParameters.get("email");
@@ -41,23 +42,14 @@ function OneTimePassword() {
    };
 
 
-   const notifyRegisterSuccess = () => toast.success('Registration Successfully Completed', {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      onClose: () => navigate('/login')
-   });
-
+   const notify_OTPSend = () => toast.success('OTP Send Successfully');
+   const notify_Registred = () => toast.success('Registration Successful');
 
    const handleResendOTP = () => {
       setOTP(OtpGenerator())
+      notify_OTPSend();
       setshowTimer(true);
-
+      btnDisable();
    };
 
    const validateForm = () => {
@@ -95,10 +87,13 @@ function OneTimePassword() {
             }
          }
 
+
          if (isVerifyEmail.success) {
-            notifyRegisterSuccess()
             dispatch(createUser(registerUser));
          }
+
+         notify_Registred();
+         navigate('/login')
          setFormData({ otp: '' });
          setOTP('');
          setshowTimer(false);
@@ -106,12 +101,32 @@ function OneTimePassword() {
    };
 
 
-   useEffect(() => {
+   const btnDisable = () => {
+      if (refElm_BtnOTP.current) {
+         refElm_BtnOTP.current.disabled = true;
+         refElm_BtnVerify.current.disabled = false;
+      }
+   };
 
+   useEffect(() => {
+      if (showTimer === false) {
+         refElm_BtnOTP.current.disabled = false;
+         refElm_BtnVerify.current.disabled = true;
+      }
+
+      if (showTimer) {
+         refElm_BtnOTP.current.innerText = "Resend OTP";
+      }
+
+
+   }, [showTimer]);
+
+
+   useEffect(() => {
       if (otp != '') {
          dispatch(verifyEmail({ "email": email, "otp": otp }));
       }
-   }, [otp])
+   }, [otp]);
 
    return (
       <div className='page-section small-page'>
@@ -119,7 +134,7 @@ function OneTimePassword() {
             <div className="panel">
                <div className="panel-header">
                   <div>One Time Password</div>
-                  <small>A OTP has been sent to your email <strong>{email}</strong></small>
+                  {showTimer && <small>A OTP has been sent to your email <strong>{email}</strong></small>}
                </div>
                <div className="panel-body">
                   <div className="row">
@@ -128,18 +143,18 @@ function OneTimePassword() {
                            <label className='control-label'>Enter OTP</label>
                            <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
                            {errors.otp && <div className="control-error">{errors.otp}</div>}
-                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={60} onTimerEnd={handleTimerEnd} /></strong></div>}
+                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
                         </div>
                      </div>
                   </div>
                </div>
                <div className="panel-footer">
                   <button onClick={handleResendOTP} ref={refElm_BtnOTP} type="button" className='btn btn-secondary'>Send OTP</button>
-                  <button onClick={handleSubmit} ref={refElm_BtnVerify} type="button" className='btn btn-primary' disabled={true}>Verify</button>
+                  <button onClick={handleSubmit} ref={refElm_BtnVerify} type="button" className='btn btn-primary'>Verify</button>
                </div>
             </div>
          </div>
-         <ToastContainer />
+
       </div>
    )
 }

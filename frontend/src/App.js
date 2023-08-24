@@ -13,7 +13,7 @@ import Protected from './components/protected/Protected'
 import IsSession from './components/is-session/IsSession'
 import './App.scss';
 
-
+import { ToastContainer } from 'react-toastify';
 import { getUser } from "./features/idyUser/userSlice";
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -51,8 +51,6 @@ function App() {
     }
 
   }, []);
-
-
 
 
 
@@ -124,7 +122,7 @@ function App() {
         </div>
       </div>
       <Footer />
-
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={true} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
     </div>
 
   );

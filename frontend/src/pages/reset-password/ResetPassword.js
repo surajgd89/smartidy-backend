@@ -1,10 +1,11 @@
 import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
 import jwt_decode from "jwt-decode";
+import { toast } from 'react-toastify';
 
 
 function ResetPassword() {
@@ -18,6 +19,8 @@ function ResetPassword() {
 
    const queryParameters = new URLSearchParams(window.location.search)
    const resetToken = queryParameters.get("token");
+
+   const { token } = useParams();
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,6 +57,8 @@ function ResetPassword() {
       return isValid;
    };
 
+   const notify_passwordChanged = () => toast.success('Password Changed Successfully');
+
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
@@ -61,12 +66,13 @@ function ResetPassword() {
          const updateData = { ...user, "password": hashed }
          dispatch(updateUser(updateData));
          setFormData({ newPassword: '', confirmNewPassword: '' });
-         alert('Reset Password Successfully');
+         notify_passwordChanged();
          navigate('/login');
       }
    };
 
    useEffect(() => {
+      console.log(token)
       var { mail } = jwt_decode(resetToken);
       dispatch(getUsers(`?individual.email=${mail}`));
    }, [])

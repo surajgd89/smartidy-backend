@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { registerRequest } from '../../features/idyUser/registerSlice';
 import { resetPassword } from '../../features/idyUser/resetPasswordSlice';
+import { toast } from 'react-toastify';
 
 
 function ForgotPassword() {
@@ -34,7 +35,6 @@ function ForgotPassword() {
       let errors = {};
 
 
-
       //  Validate email
       if (formData.email === '') {
          errors.email = 'Email is required';
@@ -51,11 +51,13 @@ function ForgotPassword() {
       return isValid;
    };
 
+   const notify_linkSend = () => toast.success('We have e-mailed your password reset link !');
 
    const handleSubmit = () => {
       if (validateForm()) {
          dispatch(resetPassword({ "email": formData.email }));
-         setFormData({ email: '' })
+         setFormData({ email: '' });
+         notify_linkSend();
       }
    }
 
@@ -65,11 +67,13 @@ function ForgotPassword() {
       }
    }, [formData])
 
+
    useEffect(() => {
-      if (isResetPassword.success) {
+      if (isResetPassword.success === true) {
          navigate('/login')
       }
-   }, [isResetPassword])
+   }, [isResetPassword, dispatch])
+
 
    return (
       <div className='page-section small-page '>
