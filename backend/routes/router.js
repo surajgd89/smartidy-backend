@@ -17,7 +17,7 @@ router.post('/idyUser/resetPassword', async (req, res) => {
       const id = registredUser._id;
       const mail = registredUser.individual.email;
 
-      const resetToken = jwt.sign({ mail, id }, process.env.TOKEN_SECRET, { expiresIn: '5m' });
+      const resetToken = jwt.sign({ mail, id }, process.env.TOKEN_SECRET, { expiresIn: '300s' });
       const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
 
 

@@ -1,6 +1,6 @@
 import './ResetPassword.scss'
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
@@ -17,10 +17,8 @@ function ResetPassword() {
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
 
-   const queryParameters = new URLSearchParams(window.location.search)
-   const resetToken = queryParameters.get("token");
+   const { search } = useLocation()
 
-   const { token } = useParams();
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,9 +70,17 @@ function ResetPassword() {
    };
 
    useEffect(() => {
-      console.log(token)
-      var { mail } = jwt_decode(resetToken);
-      dispatch(getUsers(`?individual.email=${mail}`));
+
+      const resetToken = search.split("=")[1];
+      var { exp, iat, id, mail } = jwt_decode(resetToken);
+
+      if (Date.now() >= exp * 1000) {
+         console.log("Expired")
+         navigate('/login')
+      } else {
+         console.log("Working")
+         dispatch(getUsers(`?individual.email=${mail}`));
+      }
    }, [])
 
    return (
