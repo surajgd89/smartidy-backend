@@ -6,8 +6,8 @@ export default function Footer() {
       <div className="footer-sec">
          <div className="footer-hd">Connect With Us</div>
          <div className="contact-info"><a
-            href="mailto:mail.smartidy@gmail.com">mail.shreeshadigital@gmail.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;+91
-            8450959594
+            href="mailto:smartidy.app@gmail.com">smartidy.app@gmail.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;+91
+            9594415153
          </div>
          <div className="social-info">
             <a href="#" className="soc-lnk facebook"></a>
