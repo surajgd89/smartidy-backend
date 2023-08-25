@@ -56,6 +56,7 @@ function ResetPassword() {
    };
 
    const notify_passwordChanged = () => toast.success('Password Changed Successfully');
+   const notify_tokenExpired = () => toast.error('Reset Password link Expired');
 
    const handleSubmit = (e) => {
       e.preventDefault();
@@ -72,15 +73,16 @@ function ResetPassword() {
    useEffect(() => {
 
       const resetToken = search.split("=")[1];
-      var { exp, iat, id, mail } = jwt_decode(resetToken);
+      var { exp, iat, id, mail, now } = jwt_decode(resetToken);
 
       if (Date.now() >= exp * 1000) {
-         console.log("Expired")
+         notify_tokenExpired()
          navigate('/login')
       } else {
          console.log("Working")
          dispatch(getUsers(`?individual.email=${mail}`));
       }
+
    }, [])
 
    return (
