@@ -9,6 +9,10 @@ const userSchema = new Schema({
    userId: { type: String, },
    status: { type: String },
    password: { type: String },
+   passUpdate: {
+      type: Date,
+      default: Date.now
+   },
    individual: {
       name: { type: String },
       dob: { type: Date },
@@ -115,7 +119,5 @@ const userSchema = new Schema({
 });
 
 const User = mongoose.model('User', userSchema, 'user');
-
 const schema = { 'User': User }
-
 module.exports = schema

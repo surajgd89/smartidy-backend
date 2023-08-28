@@ -12,12 +12,15 @@ function ResetPassword() {
 
    const user = useSelector(state => state.idyUser.data[0]);
 
+
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
 
-   const { search } = useLocation()
+   const { search } = useLocation();
+   const resetToken = search.split("=")[1];
+   var { exp, mail, iat } = jwt_decode(resetToken);
 
 
    const handleChange = (e) => {
@@ -56,13 +59,14 @@ function ResetPassword() {
    };
 
    const notify_passwordChanged = () => toast.success('Password Changed Successfully');
-   const notify_tokenExpired = () => toast.error('Reset Password link Expired');
+   const notify_tokenExpired = () => toast.error('Reset Password Link Expired');
+
 
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.newPassword, 10);
-         const updateData = { ...user, "password": hashed }
+         const updateData = { ...user, "password": hashed, "passUpdate": Date.now() }
          dispatch(updateUser(updateData));
          setFormData({ newPassword: '', confirmNewPassword: '' });
          notify_passwordChanged();
@@ -70,29 +74,48 @@ function ResetPassword() {
       }
    };
 
+
+
+   useEffect(() => {
+      dispatch(getUsers(`?individual.email=${mail}`));
+   }, [])
+
+
    useEffect(() => {
 
-      const resetToken = search.split("=")[1];
-      var { exp, iat, id, mail, now } = jwt_decode(resetToken);
+      if (user) {
 
-      if (Date.now() >= exp * 1000) {
-         notify_tokenExpired()
-         navigate('/login')
-      } else {
-         console.log("Working")
-         dispatch(getUsers(`?individual.email=${mail}`));
+         if (Date.now() >= (exp * 1000)) {
+            notify_tokenExpired()
+            const updateData = { ...user, "passCount": 0 }
+            dispatch(updateUser(updateData));
+            navigate('/login')
+         }
+
+         const diff = Date.now() - Date.now(user.passUpdate)
+
+         if (diff < Date.now(600000)) {
+            notify_tokenExpired()
+            navigate('/login')
+         }
+
+         // if (user.passUpdate === 1) {
+         //    notify_tokenUsed()
+         //    navigate('/login')
+         // }
+
       }
+   }, [user])
 
-   }, [])
+
+
 
    return (
       <div className='page-section small-page'>
          <div className='page-body'>
             <div className="panel">
                <div className="panel-header"> Reset Password </div>
-
                <div className="panel-body">
-
                   <div className="row">
                      <div className="col-12">
                         <div className='form-group'>
@@ -113,15 +136,12 @@ function ResetPassword() {
                         </div>
                      </div>
                   </div>
-
                </div>
                <div className="panel-footer">
                   <button type="button" className='btn btn-primary btn-block' onClick={handleSubmit}>Update Password</button>
                </div>
             </div>
-
          </div>
-
       </div>
    );
 }
