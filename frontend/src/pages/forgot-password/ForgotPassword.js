@@ -24,7 +24,6 @@ function ForgotPassword() {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-
    const isValidEmail = (testcase) => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return regex.test(testcase);
@@ -33,7 +32,6 @@ function ForgotPassword() {
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
 
       //  Validate email
       if (formData.email === '') {
@@ -51,7 +49,7 @@ function ForgotPassword() {
       return isValid;
    };
 
-   const notify_linkSend = () => toast.success('We have e-mailed your password reset link !');
+   const notify_linkSend = () => toast.success('We have e-mailed your reset password link !');
 
    const handleSubmit = () => {
       if (validateForm()) {
@@ -72,7 +70,7 @@ function ForgotPassword() {
       if (isResetPassword.success === true) {
          navigate('/login')
       }
-   }, [isResetPassword, dispatch])
+   }, [dispatch, isResetPassword])
 
 
    return (

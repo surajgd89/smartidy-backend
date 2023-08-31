@@ -17,11 +17,12 @@ function ResetPassword() {
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
+   const [token, setToken] = useState("");
 
    const { search } = useLocation();
-   const resetToken = search.split("=")[1];
-   var { exp, mail, iat } = jwt_decode(resetToken);
-
+   const queryParams = new URLSearchParams(search)
+   const email = queryParams.get("email")
+   const resetToken = queryParams.get("token");
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,6 +61,7 @@ function ResetPassword() {
 
    const notify_passwordChanged = () => toast.success('Password Changed Successfully');
    const notify_tokenExpired = () => toast.error('Reset Password Link Expired');
+   const notify_tokenRetry = () => toast.error('Just Password update. Retry after some time');
 
 
    const handleSubmit = (e) => {
@@ -77,33 +79,30 @@ function ResetPassword() {
 
 
    useEffect(() => {
-      dispatch(getUsers(`?individual.email=${mail}`));
+      dispatch(getUsers(`?individual.email=${email}`));
    }, [])
 
 
    useEffect(() => {
-
       if (user) {
+         try {
+            const decoded = jwt_decode(resetToken);
+            setToken(decoded);
 
-         if (Date.now() >= (exp * 1000)) {
-            notify_tokenExpired()
-            const updateData = { ...user, "passCount": 0 }
-            dispatch(updateUser(updateData));
-            navigate('/login')
+            if (Date.now() >= (token.exp * 1000)) {
+               notify_tokenExpired()
+               navigate('/login')
+            }
+
+            const diff = Date.now() - Date.now(user.passUpdate)
+            if (diff < Date.now(600000)) {
+               notify_tokenRetry()
+               navigate('/login')
+            }
+
+         } catch (err) {
+            console.log("token error:", err);
          }
-
-         const diff = Date.now() - Date.now(user.passUpdate)
-
-         if (diff < Date.now(600000)) {
-            notify_tokenExpired()
-            navigate('/login')
-         }
-
-         // if (user.passUpdate === 1) {
-         //    notify_tokenUsed()
-         //    navigate('/login')
-         // }
-
       }
    }, [user])
 

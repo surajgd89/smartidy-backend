@@ -16,11 +16,10 @@ router.post('/idyUser/resetPassword', async (req, res) => {
       const registredUser = await schema.User.findOne({ 'individual.email': email });
       const id = registredUser._id;
       const mail = registredUser.individual.email;
-      
       const now = Date.now();
 
       const resetToken = jwt.sign({ mail, id, now }, process.env.TOKEN_SECRET, { expiresIn: '300s' });
-      const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
+      const resetLink = `http://localhost:3000/reset-password?email=${email}&token=${resetToken}`;
 
 
       let transporter = nodemailer.createTransport({
