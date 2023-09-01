@@ -9,10 +9,6 @@ const userSchema = new Schema({
    userId: { type: String, },
    status: { type: String },
    password: { type: String },
-   passUpdate: {
-      type: Date,
-      default: Date.now
-   },
    individual: {
       name: { type: String },
       dob: { type: Date },

@@ -12,16 +12,16 @@ function ResetPassword() {
 
    const user = useSelector(state => state.idyUser.data[0]);
 
-
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
-   const [token, setToken] = useState("");
+
+   const [expired, setExpired] = useState(false);
+   const [invalid, setInvalid] = useState(false);
 
    const { search } = useLocation();
    const queryParams = new URLSearchParams(search)
-   const email = queryParams.get("email")
    const resetToken = queryParams.get("token");
 
    const handleChange = (e) => {
@@ -61,16 +61,16 @@ function ResetPassword() {
 
    const notify_passwordChanged = () => toast.success('Password Changed Successfully');
    const notify_tokenExpired = () => toast.error('Reset Password Link Expired');
-   const notify_tokenRetry = () => toast.error('Just Password update. Retry after some time');
-
+   const notify_InvalidLink = () => toast.error('Invalid Reset Password Link');
 
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.newPassword, 10);
-         const updateData = { ...user, "password": hashed, "passUpdate": Date.now() }
+         const updateData = { ...user, "password": hashed }
          dispatch(updateUser(updateData));
          setFormData({ newPassword: '', confirmNewPassword: '' });
+         setExpired(true)
          notify_passwordChanged();
          navigate('/login');
       }
@@ -79,33 +79,32 @@ function ResetPassword() {
 
 
    useEffect(() => {
-      dispatch(getUsers(`?individual.email=${email}`));
-   }, [])
 
+      try {
+         const decoded = jwt_decode(resetToken);
 
-   useEffect(() => {
-      if (user) {
-         try {
-            const decoded = jwt_decode(resetToken);
-            setToken(decoded);
+         dispatch(getUsers(`?individual.email=${decoded.mail}`));
 
-            if (Date.now() >= (token.exp * 1000)) {
-               notify_tokenExpired()
-               navigate('/login')
-            }
-
-            const diff = Date.now() - Date.now(user.passUpdate)
-            if (diff < Date.now(600000)) {
-               notify_tokenRetry()
-               navigate('/login')
-            }
-
-         } catch (err) {
-            console.log("token error:", err);
+         if (Date.now() >= Number(decoded.exp * 1000)) {
+            setExpired(true)
          }
-      }
-   }, [user])
 
+      } catch (error) {
+         setInvalid(true)
+      }
+
+      if (expired === true) {
+         notify_tokenExpired();
+         navigate('/login')
+      }
+
+      if (invalid === true) {
+         notify_InvalidLink();
+         navigate('/login')
+      }
+
+
+   }, [expired, invalid])
 
 
 
