@@ -1,10 +1,6 @@
-import { useEffect } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
-
+import { Navigate } from 'react-router-dom';
 
 function IsSession({ isLoggedIn, sendOTP, children }) {
-
-   const location = useLocation()
 
    if (isLoggedIn) {
       return <Navigate to='/create' replace />;

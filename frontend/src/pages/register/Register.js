@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Register.scss'
 import { useNavigate } from 'react-router-dom';
+import bcrypt from "bcryptjs";
 import { useDispatch, useSelector } from 'react-redux';
 import { registerRequest } from '../../features/idyUser/registerSlice';
-
-import bcrypt from "bcryptjs";
+import './Register.scss'
 
 function Register({ setSendOTP }) {
-   const isRegistredUser = useSelector(state => state.registerRequest.data);
 
+   const isRegistredUser = useSelector(state => state.registerRequest.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const [formData, setFormData] = useState({ name: '', email: '', mobile: '', password: '', confirmPassword: '' });
@@ -33,7 +32,6 @@ function Register({ setSendOTP }) {
       const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       return regex.test(testcase);
    };
-
 
    const validateForm = () => {
       let isValid = true;
@@ -95,7 +93,7 @@ function Register({ setSendOTP }) {
    const handleSubmit = () => {
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.password, 10);
-         navigate(`/otp?name=${formData.name}&email=${formData.email}&call=${formData.mobile}&password=${hashed}`);
+         navigate('/otp', { state: { ...formData, "password": hashed } });
          setSendOTP(true);
          setFormData({ name: '', email: '', mobile: '', password: '', confirmPassword: '' })
       }
@@ -106,7 +104,6 @@ function Register({ setSendOTP }) {
          dispatch(registerRequest(`?individual.email=${formData.email}`));
       }
    }, [formData])
-
 
    return (
       <div className='page-section small-page '>

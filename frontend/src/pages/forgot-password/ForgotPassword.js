@@ -1,24 +1,19 @@
-
 import { useEffect, useState } from 'react';
-import './ForgotPassword.scss'
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Link, useNavigate } from 'react-router-dom';
 import { registerRequest } from '../../features/idyUser/registerSlice';
 import { resetPassword } from '../../features/idyUser/resetPasswordSlice';
-import { toast } from 'react-toastify';
-
+import './ForgotPassword.scss'
 
 function ForgotPassword() {
-
-   const dispatch = useDispatch()
-   const navigate = useNavigate();
-
    const isRegistredUser = useSelector(state => state.registerRequest.data);
    const isResetPassword = useSelector(state => state.resetPassword.data);
-
+   const dispatch = useDispatch()
+   const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '' });
    const [errors, setErrors] = useState({});
+   const notify_linkSend = () => toast.success('We have e-mailed your reset password link !');
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -32,7 +27,6 @@ function ForgotPassword() {
    const validateForm = () => {
       let isValid = true;
       let errors = {};
-
       //  Validate email
       if (formData.email === '') {
          errors.email = 'Email is required';
@@ -49,8 +43,6 @@ function ForgotPassword() {
       return isValid;
    };
 
-   const notify_linkSend = () => toast.success('We have e-mailed your reset password link !');
-
    const handleSubmit = () => {
       if (validateForm()) {
          dispatch(resetPassword({ "email": formData.email }));
@@ -65,13 +57,11 @@ function ForgotPassword() {
       }
    }, [formData])
 
-
    useEffect(() => {
       if (isResetPassword.success === true) {
          navigate('/login')
       }
    }, [dispatch, isResetPassword])
-
 
    return (
       <div className='page-section small-page '>
@@ -99,7 +89,6 @@ function ForgotPassword() {
          </div>
       </div>
    )
-
 }
 
 export default ForgotPassword;

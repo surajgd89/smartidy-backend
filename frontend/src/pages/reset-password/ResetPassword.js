@@ -6,28 +6,23 @@ import { getUsers, updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
 import jwt_decode from "jwt-decode";
 import { toast } from 'react-toastify';
-
-
 function ResetPassword() {
-
    const user = useSelector(state => state.idyUser.data[0]);
-
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   const notify_passwordChanged = () => toast.success('Password Changed Successfully');
+   const notify_tokenExpired = () => toast.error('Reset Password Link Expired');
+   const notify_InvalidLink = () => toast.error('Invalid Reset Password Link');
    const [formData, setFormData] = useState({ newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
-
    const [expired, setExpired] = useState(false);
    const [invalid, setInvalid] = useState(false);
-
    const { search } = useLocation();
    const queryParams = new URLSearchParams(search)
    const resetToken = queryParams.get("token");
-
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
-
    const validateForm = () => {
       let isValid = true;
       let errors = {};
@@ -58,11 +53,6 @@ function ResetPassword() {
       setErrors(errors);
       return isValid;
    };
-
-   const notify_passwordChanged = () => toast.success('Password Changed Successfully');
-   const notify_tokenExpired = () => toast.error('Reset Password Link Expired');
-   const notify_InvalidLink = () => toast.error('Invalid Reset Password Link');
-
    const handleSubmit = (e) => {
       e.preventDefault();
       if (validateForm()) {
@@ -75,9 +65,6 @@ function ResetPassword() {
          navigate('/login');
       }
    };
-
-
-
    useEffect(() => {
 
       try {
@@ -105,9 +92,6 @@ function ResetPassword() {
 
 
    }, [expired, invalid])
-
-
-
    return (
       <div className='page-section small-page'>
          <div className='page-body'>
@@ -143,5 +127,4 @@ function ResetPassword() {
       </div>
    );
 }
-
 export default ResetPassword;

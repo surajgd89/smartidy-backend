@@ -1,23 +1,20 @@
-import './Login.scss'
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
-
-
+import './Login.scss'
 
 function Login({ logIn }) {
-   const isLoggedUser = useSelector((state) => state.loginRequest.data);
-   const dispatch = useDispatch();
 
+   const { id, token, success, message } = useSelector((state) => state.loginRequest.data);
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
    const [formData, setFormData] = useState({ email: '', password: '' });
    const [errors, setErrors] = useState({});
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
    };
-
-   
 
    const isValidEmail = (testcase) => {
       const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -43,8 +40,8 @@ function Login({ logIn }) {
          isValid = false;
       }
 
-      if (!isLoggedUser.success) {
-         errors.isUser = isLoggedUser.message;
+      if (!success) {
+         errors.isUser = message;
          isValid = false;
       }
 
@@ -52,11 +49,10 @@ function Login({ logIn }) {
       return isValid;
    };
 
-
    const handleSubmit = () => {
       if (validateForm()) {
-         sessionStorage.setItem('token', isLoggedUser.token);
-         const id = isLoggedUser.id;
+         navigate("/create", { state: { id: id, token: token } })
+         sessionStorage.setItem('token', token);
          const pathname = "/create"
          logIn(pathname, id);
          setFormData({ email: '', password: '' });
@@ -68,10 +64,6 @@ function Login({ logIn }) {
          dispatch(loginRequest(formData));
       }
    }, [formData])
-
-
-
-
 
    return (
       <div className='page-section small-page'>
@@ -105,10 +97,9 @@ function Login({ logIn }) {
                </div>
             </div>
             <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
-            
+
          </div>
       </div >
    );
 }
-
 export default Login;

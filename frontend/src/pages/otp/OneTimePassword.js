@@ -1,37 +1,28 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useRef } from 'react';
+import Timer from '../../components/timer/Timer';
+import OtpGenerator from '../../components/otp-generator/OtpGenerator';
 import { useDispatch, useSelector } from 'react-redux';
 import { createUser } from '../../features/idyUser/userSlice';
 import { verifyEmail } from '../../features/idyUser/emailSlice';
-
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Timer from '../../components/timer/Timer';
-import OtpGenerator from '../../components/otp-generator/OtpGenerator';
 import './OneTimePassword.scss'
-import { useRef } from 'react';
 
 function OneTimePassword() {
+   const isVerifyEmail = useSelector(state => state.verifyEmail.data);
    const dispatch = useDispatch()
    const navigate = useNavigate();
-
+   const { state } = useLocation()
+   const { name, email, mobile, password } = state;
    const refElm_BtnOTP = useRef();
    const refElm_BtnVerify = useRef();
-
-   const isVerifyEmail = useSelector(state => state.verifyEmail.data);
-
    const [formData, setFormData] = useState({ otp: '' });
    const [errors, setErrors] = useState({});
    const [otp, setOTP] = useState('');
    const [showTimer, setshowTimer] = useState(false);
-
-
-
-   const queryParameters = new URLSearchParams(window.location.search)
-   const name = queryParameters.get("name");
-   const email = queryParameters.get("email");
-   const call = queryParameters.get("call");
-   const password = queryParameters.get("password");
-
+   const notify_OTPSend = () => toast.success('OTP Send Successfully');
+   const notify_Registred = () => toast.success('Registration Successful');
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -40,10 +31,6 @@ function OneTimePassword() {
    const handleTimerEnd = () => {
       setshowTimer(false);
    };
-
-
-   const notify_OTPSend = () => toast.success('OTP Send Successfully');
-   const notify_Registred = () => toast.success('Registration Successful');
 
    const handleResendOTP = () => {
       setOTP(OtpGenerator())
@@ -83,10 +70,9 @@ function OneTimePassword() {
             "individual": {
                "name": name,
                "email": email,
-               "call": call,
+               "call": mobile,
             }
          }
-
 
          if (isVerifyEmail.success) {
             dispatch(createUser(registerUser));
@@ -99,7 +85,6 @@ function OneTimePassword() {
          setshowTimer(false);
       }
    };
-
 
    const btnDisable = () => {
       if (refElm_BtnOTP.current) {
@@ -118,9 +103,7 @@ function OneTimePassword() {
          refElm_BtnOTP.current.innerText = "Resend OTP";
       }
 
-
    }, [showTimer]);
-
 
    useEffect(() => {
       if (otp != '') {

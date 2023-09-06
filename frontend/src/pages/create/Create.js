@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react';
-import './Create.scss'
+import { useState } from 'react';
 
 import Individual from './Individual';
 import Business from './Business';
 import Configuration from './Configuration';
+import './Create.scss'
+
 
 function Create({ user }) {
-
    const [currentStep, setCurrentStep] = useState(1);
    const [individualStep, setIndividualStep] = useState(false);
    const [businessStep, setBusinessStep] = useState(false);
    const [configurationStep, setConfigurationStep] = useState(false);
+
+
 
    const nextStep = () => {
       setCurrentStep((nextStep) => nextStep + 1);
@@ -35,7 +37,6 @@ function Create({ user }) {
 
    return (
       <div className='page-section small-page '>
-         <h2 className='page-header'>SmartIDy</h2>
          <div className='page-body'>
             <div className='form-statusbar'>
                <div className={`progress ${individualStep ? 'complete' : ''}`}>

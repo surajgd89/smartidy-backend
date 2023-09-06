@@ -1,9 +1,9 @@
-import './ChangePassword.scss'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateUser } from '../../features/idyUser/userSlice';
 import bcrypt from "bcryptjs";
 import { useDispatch } from 'react-redux';
+import { updateUser } from '../../features/idyUser/userSlice';
+import './ChangePassword.scss'
 
 function ChangePassword({ user }) {
    const navigate = useNavigate();
@@ -64,7 +64,6 @@ function ChangePassword({ user }) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
       if (validateForm()) {
          const hashedPassword = bcrypt.hashSync(formData.newPassword, 10);
          const updateData = { ...user, "password": hashedPassword }
@@ -119,7 +118,6 @@ function ChangePassword({ user }) {
             </div>
 
          </div>
-
       </div>
    );
 }

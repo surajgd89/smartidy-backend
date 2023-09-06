@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from "./features/idyUser/userSlice";
+
 import Header from './components/header/Header';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -9,26 +13,19 @@ import ChangePassword from './pages/change-password/ChangePassword';
 import Create from './pages/create/Create';
 import OneTimePassCode from './pages/otp/OneTimePassword';
 import Footer from './components/footer/Footer';
-import Protected from './components/protected/Protected'
-import IsSession from './components/is-session/IsSession'
+import Protected from './components/protected/Protected';
+import IsSession from './components/is-session/IsSession';
+
 import './App.scss';
-
-import { ToastContainer } from 'react-toastify';
-import { getUser } from "./features/idyUser/userSlice";
-import { useDispatch, useSelector } from 'react-redux';
-
-
-
 
 
 function App() {
   const user = useSelector(state => state.idyUser.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sendOTP, setSendOTP] = useState(false);
-
+  const { state, pathname } = useLocation();
 
   const logIn = (pathname, id) => {
     dispatch(getUser(id));
@@ -42,8 +39,6 @@ function App() {
     navigate("/login");
   }
 
-
-
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     if (token) {
@@ -51,8 +46,6 @@ function App() {
     }
 
   }, []);
-
-
 
   return (
 
