@@ -76,50 +76,51 @@ function ChangePassword() {
    };
 
    return (
+      <form onSubmit={handleSubmit}>
+         <div className='page-section small-page'>
+            <div className='page-body'>
+               <div className="panel">
+                  <div className="panel-header"> Change Password</div>
+                  <div className="panel-body">
 
-      <div className='page-section small-page'>
-         <div className='page-body'>
-            <div className="panel">
-               <div className="panel-header"> Change Password</div>
-               <div className="panel-body">
-
-                  <div className="row">
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>
-                              Current Password
-                           </label>
-                           <input type="password" value={formData.currentPassword} name='currentPassword' className='form-control' onChange={handleChange} />
-                           {errors.currentPassword && <div className="control-error">{errors.currentPassword}</div>}
+                     <div className="row">
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>
+                                 Current Password
+                              </label>
+                              <input type="password" value={formData.currentPassword} name='currentPassword' className='form-control' onChange={handleChange} />
+                              {errors.currentPassword && <div className="control-error">{errors.currentPassword}</div>}
+                           </div>
                         </div>
-                     </div>
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>
-                              New Password
-                           </label>
-                           <input type="password" value={formData.newPassword} name='newPassword' className='form-control' onChange={handleChange} />
-                           {errors.newPassword && <div className="control-error">{errors.newPassword}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>
+                                 New Password
+                              </label>
+                              <input type="password" value={formData.newPassword} name='newPassword' className='form-control' onChange={handleChange} />
+                              {errors.newPassword && <div className="control-error">{errors.newPassword}</div>}
+                           </div>
                         </div>
-                     </div>
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>
-                              Confirm New Password
-                           </label>
-                           <input type="password" value={formData.confirmNewPassword} name='confirmNewPassword' className='form-control' onChange={handleChange} />
-                           {errors.confirmNewPassword && <div className="control-error">{errors.confirmNewPassword}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>
+                                 Confirm New Password
+                              </label>
+                              <input type="password" value={formData.confirmNewPassword} name='confirmNewPassword' className='form-control' onChange={handleChange} />
+                              {errors.confirmNewPassword && <div className="control-error">{errors.confirmNewPassword}</div>}
+                           </div>
                         </div>
                      </div>
                   </div>
+                  <div className="panel-footer">
+                     <button type="submit" className='btn btn-primary btn-block'>Update Password</button>
+                  </div>
                </div>
-               <div className="panel-footer">
-                  <button type="button" className='btn btn-primary btn-block' onClick={handleSubmit}>Update Password</button>
-               </div>
-            </div>
 
+            </div>
          </div>
-      </div>
+      </form>
    );
 }
 

@@ -109,94 +109,95 @@ function Individual({ nextStep, setIndividualStep }) {
    }, [individual]);
 
    return (
-      <div className="panel step step-1">
-         <div className="panel-header">Individual Information</div>
-         <div className="panel-body">
-            <div className="row">
-               <div className="col-12">
-                  <div className='values-grouping'>
-                     <div className='form-group'>
-                        <div className='heading' >Profile Picture</div>
-                        <div className='add-values-sec'>
-                           <div className='form-group'>
-                              <label className="drop-container">
-                                 <span className="drop-title">Upload Profile Picture</span>
-                                 <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept="image/*" />
-                              </label>
-                              {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
+         <div className="panel step step-1">
+            <div className="panel-header">Individual Information</div>
+            <div className="panel-body">
+               <div className="row">
+                  <div className="col-12">
+                     <div className='values-grouping'>
+                        <div className='form-group'>
+                           <div className='heading' >Profile Picture</div>
+                           <div className='add-values-sec'>
+                              <div className='form-group'>
+                                 <label className="drop-container">
+                                    <span className="drop-title">Upload Profile Picture</span>
+                                    <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept="image/*" />
+                                 </label>
+                                 {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
+                              </div>
+                              <div className="action">
+                                 <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
+                              </div>
                            </div>
-                           <div className="action">
-                              <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
-                           </div>
+                           <ul className='list-values-sec'>
+                              <li>
+                                 <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
+                                 <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
+                              </li>
+                           </ul>
                         </div>
-                        <ul className='list-values-sec'>
-                           <li>
-                              <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
-                              <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
-                           </li>
-                        </ul>
                      </div>
                   </div>
-               </div>
-               <div className="col-12">
-                  <div className='form-group'>
-                     <label className='control-label' >Name</label>
-                     <input type="text" name='name' className='form-control' value={name} onChange={handleChange_Name} />
-                     {errors.name && <div className="control-error">{errors.name}</div>}
-                  </div>
-               </div>
-               <div className="col-12">
-                  <div className='form-group'>
-                     <label className='control-label' >Experties</label>
-                     <input type="text" name='experties' className='form-control' value={experties} onChange={handleChange_Experties} />
-                     {errors.experties && <div className="control-error">{errors.experties}</div>}
-                  </div>
-               </div>
-               <div className="col-12">
-                  <div className='form-group'>
-                     <label className='control-label' >Call</label>
-                     <input type="tel" name='call' className='form-control' value={call} onChange={handleChange_Call} />
-                     {errors.call && <div className="control-error">{errors.call}</div>}
-                  </div>
-               </div>
-               <div className="col-12">
-                  <div className='form-group'>
-                     <label className='control-label' >Email</label>
-                     <input type="email" name='email' className='form-control' value={email} onChange={handleChange_Email} disabled />
-                     {errors.email && <div className="control-error">{errors.email}</div>}
-                  </div>
-               </div>
-               <div className="col-12">
-                  <div className='form-group'>
-                     <label className='control-label' >SMS</label>
-                     <input type="tel" name='sms' className='form-control' value={sms} onChange={handleChange_Sms} />
-                     {errors.sms && <div className="control-error">{errors.sms}</div>}
-                  </div>
-               </div>
-               <div className="col-12">
-                  <div className='values-grouping'>
+                  <div className="col-12">
                      <div className='form-group'>
-                        <div className='heading' >Chat</div>
-                        <div className='add-values-sec'>
-                           <div className='form-group'>
-                              <label className='control-label' >Network</label>
-                              <select name="title" className='form-control'>
-                                 <option value="whatsapp">WhatsApp</option>
-                                 <option value="telegram">Telegram</option>
-                              </select>
-                              <span className='control-error'>Error Message</span>
+                        <label className='control-label' >Name</label>
+                        <input type="text" name='name' className='form-control' value={name} onChange={handleChange_Name} />
+                        {errors.name && <div className="control-error">{errors.name}</div>}
+                     </div>
+                  </div>
+                  <div className="col-12">
+                     <div className='form-group'>
+                        <label className='control-label' >Experties</label>
+                        <input type="text" name='experties' className='form-control' value={experties} onChange={handleChange_Experties} />
+                        {errors.experties && <div className="control-error">{errors.experties}</div>}
+                     </div>
+                  </div>
+                  <div className="col-12">
+                     <div className='form-group'>
+                        <label className='control-label' >Call</label>
+                        <input type="tel" name='call' className='form-control' value={call} onChange={handleChange_Call} />
+                        {errors.call && <div className="control-error">{errors.call}</div>}
+                     </div>
+                  </div>
+                  <div className="col-12">
+                     <div className='form-group'>
+                        <label className='control-label' >Email</label>
+                        <input type="email" name='email' className='form-control' value={email} onChange={handleChange_Email} disabled />
+                        {errors.email && <div className="control-error">{errors.email}</div>}
+                     </div>
+                  </div>
+                  <div className="col-12">
+                     <div className='form-group'>
+                        <label className='control-label' >SMS</label>
+                        <input type="tel" name='sms' className='form-control' value={sms} onChange={handleChange_Sms} />
+                        {errors.sms && <div className="control-error">{errors.sms}</div>}
+                     </div>
+                  </div>
+                  <div className="col-12">
+                     <div className='values-grouping'>
+                        <div className='form-group'>
+                           <div className='heading' >Chat</div>
+                           <div className='add-values-sec'>
+                              <div className='form-group'>
+                                 <label className='control-label' >Network</label>
+                                 <select name="title" className='form-control'>
+                                    <option value="whatsapp">WhatsApp</option>
+                                    <option value="telegram">Telegram</option>
+                                 </select>
+                                 <span className='control-error'>Error Message</span>
+                              </div>
+                              <div className='form-group'>
+                                 <label className='control-label' >Telegram ID / WhatsApp Number</label>
+                                 <input type='text' name="value" className='form-control' />
+                                 <span className='control-error'>Error Message</span>
+                              </div>
+                              <div className="action">
+                                 <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Chat</button>
+                              </div>
                            </div>
-                           <div className='form-group'>
-                              <label className='control-label' >Telegram ID / WhatsApp Number</label>
-                              <input type='text' name="value" className='form-control' />
-                              <span className='control-error'>Error Message</span>
-                           </div>
-                           <div className="action">
-                              <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Chat</button>
-                           </div>
-                        </div>
-                        <ul className='list-values-sec'>
-                           {/* <li>
+                           <ul className='list-values-sec'>
+                              {/* <li>
                               <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li>
@@ -204,16 +205,17 @@ function Individual({ nextStep, setIndividualStep }) {
                               <span className='title'>Telegram</span>:<span className='value'>surajpatil@1989</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li> */}
-                        </ul>
+                           </ul>
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
+            <div className="panel-footer">
+               <button type="submit" className='btn btn-primary'>Save & Proceed </button>
+            </div>
          </div>
-         <div className="panel-footer">
-            <button type="submit" className='btn btn-primary' onClick={handleSubmit}>Save & Proceed </button>
-         </div>
-      </div>
+      </form>
    )
 }
 

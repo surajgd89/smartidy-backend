@@ -43,7 +43,8 @@ function ForgotPassword() {
       return isValid;
    };
 
-   const handleSubmit = () => {
+   const handleSubmit = (e) => {
+      e.preventDefault();
       if (validateForm()) {
          dispatch(resetPassword({ "email": formData.email }));
          setFormData({ email: '' });
@@ -64,30 +65,32 @@ function ForgotPassword() {
    }, [dispatch, isResetPassword])
 
    return (
-      <div className='page-section small-page '>
-         <div className='page-body'>
-            <div className="panel">
-               <div className="panel-header"> Forgot Password</div>
-               <div className="panel-body">
-                  <div className="row">
+      <form onSubmit={handleSubmit}>
+         <div className='page-section small-page '>
+            <div className='page-body'>
+               <div className="panel">
+                  <div className="panel-header"> Forgot Password</div>
+                  <div className="panel-body">
+                     <div className="row">
 
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Email</label>
-                           <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
-                           {errors.email && <div className="control-error">{errors.email}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Email</label>
+                              <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
+                              {errors.email && <div className="control-error">{errors.email}</div>}
+                           </div>
                         </div>
-                     </div>
 
+                     </div>
                   </div>
-               </div>
-               <div className="panel-footer">
-                  <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Reset Password</button>
-                  <Link to="/login" className='link'>Back to Login</Link>
+                  <div className="panel-footer">
+                     <button type="submit" className='btn btn-primary btn-block'>Reset Password</button>
+                     <Link to="/login" className='link'>Back to Login</Link>
+                  </div>
                </div>
             </div>
          </div>
-      </div>
+      </form>
    )
 }
 

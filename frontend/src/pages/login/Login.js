@@ -49,7 +49,9 @@ function Login({ logIn }) {
       return isValid;
    };
 
-   const handleSubmit = () => {
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
       if (validateForm()) {
          navigate("/create")
          sessionStorage.setItem('token', token);
@@ -65,40 +67,43 @@ function Login({ logIn }) {
    }, [formData])
 
    return (
-      <div className='page-section small-page'>
-         <div className='page-body'>
-            <div className="panel">
-               <div className="panel-header">Login to Your Account</div>
+      <form onSubmit={handleSubmit}>
+         <div className='page-section small-page'>
+            <div className='page-body'>
+               <div className="panel">
+                  <div className="panel-header">Login to Your Account</div>
 
-               <div className="panel-body">
-                  {errors.isUser && <div className="panel-error">{errors.isUser}</div>}
-                  <div className="row">
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Email</label>
-                           <input type="text" value={formData.email} name='email' onChange={handleChange} className='form-control' />
-                           {errors.email && <div className="control-error">{errors.email}</div>}
+                  <div className="panel-body">
+
+                     {errors.isUser && <div className="panel-error">{errors.isUser}</div>}
+                     <div className="row">
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Email</label>
+                              <input type="text" value={formData.email} name='email' onChange={handleChange} className='form-control' />
+                              {errors.email && <div className="control-error">{errors.email}</div>}
+                           </div>
                         </div>
-                     </div>
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Password</label>
-                           <input type="password" value={formData.password} name='password' onChange={handleChange} className='form-control' />
-                           {errors.password && <div className="control-error">{errors.password}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Password</label>
+                              <input type="password" value={formData.password} name='password' onChange={handleChange} className='form-control' />
+                              {errors.password && <div className="control-error">{errors.password}</div>}
+                           </div>
                         </div>
                      </div>
                   </div>
 
+                  <div className="panel-footer">
+                     <button type="submit" className='btn btn-primary btn-block'>Login</button>
+                     <Link to="/forgot-password" className='link'>Forgot Password</Link>
+                  </div>
                </div>
-               <div className="panel-footer">
-                  <button type="button" onClick={handleSubmit} className='btn btn-primary btn-block'>Login</button>
-                  <Link to="/forgot-password" className='link'>Forgot Password</Link>
-               </div>
-            </div>
-            <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
+               <div className='page-link'>Don't have an account ? <Link to="/register" className='link'>Register</Link></div>
 
-         </div>
-      </div >
+            </div>
+         </div >
+      </form>
    );
 }
 export default Login;

@@ -90,7 +90,8 @@ function Register({ setSendOTP }) {
 
    };
 
-   const handleSubmit = () => {
+   const handleSubmit = (e) => {
+      e.preventDefault();
       if (validateForm()) {
          const hashed = bcrypt.hashSync(formData.password, 10);
          navigate('/otp', { state: { ...formData, "password": hashed } });
@@ -106,70 +107,72 @@ function Register({ setSendOTP }) {
    }, [formData])
 
    return (
-      <div className='page-section small-page '>
-         <div className='page-body'>
-            <div className="panel">
-               <div className="panel-header">Create Your Account</div>
-               <div className="panel-body">
-                  <div className="row">
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Name</label>
-                           <input type="text" value={formData.name} className='form-control' name='name' onChange={handleChange} />
-                           {errors.name && <div className="control-error">{errors.name}</div>}
+      <form onSubmit={handleSubmit}>
+         <div className='page-section small-page '>
+            <div className='page-body'>
+               <div className="panel">
+                  <div className="panel-header">Create Your Account</div>
+                  <div className="panel-body">
+                     <div className="row">
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Name</label>
+                              <input type="text" value={formData.name} className='form-control' name='name' onChange={handleChange} />
+                              {errors.name && <div className="control-error">{errors.name}</div>}
+                           </div>
                         </div>
-                     </div>
 
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Email</label>
-                           <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
-                           {errors.email && <div className="control-error">{errors.email}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Email</label>
+                              <input type="text" value={formData.email} className='form-control' name='email' onChange={handleChange} />
+                              {errors.email && <div className="control-error">{errors.email}</div>}
+                           </div>
                         </div>
-                     </div>
 
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Mobile</label>
-                           <input type="text" value={formData.mobile} className='form-control' name='mobile' onChange={handleChange} />
-                           {errors.mobile && <div className="control-error">{errors.mobile}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Mobile</label>
+                              <input type="text" value={formData.mobile} className='form-control' name='mobile' onChange={handleChange} />
+                              {errors.mobile && <div className="control-error">{errors.mobile}</div>}
+                           </div>
                         </div>
-                     </div>
 
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Password</label>
-                           <input type="password" className='form-control' value={formData.password} name='password' onChange={handleChange} />
-                           {errors.password && <div className="control-error">{errors.password}</div>}
-                           <ul className='password-rules'>
-                              <li><i className="far fa-check"></i><span>At least 8 characters long</span></li>
-                              <li><i className="far fa-check"></i><span>Contains at least one lowercase letter</span></li>
-                              <li><i className="far fa-check"></i><span>Contains at least one uppercase letter</span></li>
-                              <li><i className="far fa-check"></i><span>Contains at least one numeric digit</span></li>
-                              <li><i className="far fa-check"></i><span>Contains at least one special character from <strong>@$!%*?&</strong></span></li>
-                           </ul>
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Password</label>
+                              <input type="password" className='form-control' value={formData.password} name='password' onChange={handleChange} />
+                              {errors.password && <div className="control-error">{errors.password}</div>}
+                              <ul className='password-rules'>
+                                 <li><i className="far fa-check"></i><span>At least 8 characters long</span></li>
+                                 <li><i className="far fa-check"></i><span>Contains at least one lowercase letter</span></li>
+                                 <li><i className="far fa-check"></i><span>Contains at least one uppercase letter</span></li>
+                                 <li><i className="far fa-check"></i><span>Contains at least one numeric digit</span></li>
+                                 <li><i className="far fa-check"></i><span>Contains at least one special character from <strong>@$!%*?&</strong></span></li>
+                              </ul>
+                           </div>
                         </div>
-                     </div>
 
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Confirm Password</label>
-                           <input type="password" className='form-control' value={formData.confirmPassword} name='confirmPassword' onChange={handleChange} />
-                           {errors.confirmPassword && <div className="control-error">{errors.confirmPassword}</div>}
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Confirm Password</label>
+                              <input type="password" className='form-control' value={formData.confirmPassword} name='confirmPassword' onChange={handleChange} />
+                              {errors.confirmPassword && <div className="control-error">{errors.confirmPassword}</div>}
+                           </div>
                         </div>
-                     </div>
 
+                     </div>
                   </div>
-               </div>
-               <div className="panel-footer">
-                  <button onClick={handleSubmit} type="button" className='btn btn-primary btn-block'>Register</button>
-               </div>
+                  <div className="panel-footer">
+                     <button type="submit" className='btn btn-primary btn-block'>Register</button>
+                  </div>
 
+               </div>
+               <div className='page-link'>Already have an account ? <Link to="/login" className='link'>Login</Link></div>
             </div>
-            <div className='page-link'>Already have an account ? <Link to="/login" className='link'>Login</Link></div>
-         </div>
 
-      </div>
+         </div>
+      </form >
    )
 }
 export default Register;

@@ -112,33 +112,35 @@ function OneTimePassword() {
    }, [otp]);
 
    return (
-      <div className='page-section small-page'>
-         <div className='page-body'>
-            <div className="panel">
-               <div className="panel-header">
-                  <div>One Time Password</div>
-                  {showTimer && <small>A OTP has been sent to your email <strong>{email}</strong></small>}
-               </div>
-               <div className="panel-body">
-                  <div className="row">
-                     <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label'>Enter OTP</label>
-                           <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
-                           {errors.otp && <div className="control-error">{errors.otp}</div>}
-                           {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
+      <form onSubmit={handleSubmit}>
+         <div className='page-section small-page'>
+            <div className='page-body'>
+               <div className="panel">
+                  <div className="panel-header">
+                     <div>One Time Password</div>
+                     {showTimer && <small>A OTP has been sent to your email <strong>{email}</strong></small>}
+                  </div>
+                  <div className="panel-body">
+                     <div className="row">
+                        <div className="col-12">
+                           <div className='form-group'>
+                              <label className='control-label'>Enter OTP</label>
+                              <input type="text" className='form-control' name='otp' onChange={handleChange} value={formData.otp} />
+                              {errors.otp && <div className="control-error">{errors.otp}</div>}
+                              {showTimer && <div className='control-note'>The OTP will expire in&nbsp;&nbsp;<strong><Timer duration={300} onTimerEnd={handleTimerEnd} /></strong></div>}
+                           </div>
                         </div>
                      </div>
                   </div>
-               </div>
-               <div className="panel-footer">
-                  <button onClick={handleResendOTP} ref={refElm_BtnOTP} type="button" className='btn btn-secondary'>Send OTP</button>
-                  <button onClick={handleSubmit} ref={refElm_BtnVerify} type="button" className='btn btn-primary'>Verify</button>
+                  <div className="panel-footer">
+                     <button onClick={handleResendOTP} ref={refElm_BtnOTP} type="button" className='btn btn-secondary'>Send OTP</button>
+                     <button ref={refElm_BtnVerify} type="submit" className='btn btn-primary'>Verify</button>
+                  </div>
                </div>
             </div>
-         </div>
 
-      </div>
+         </div>
+      </form>
    )
 }
 export default OneTimePassword;
