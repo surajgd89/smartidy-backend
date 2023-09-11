@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-function Individual({ nextStep, setIndividualStep, user }) {
-
+function Individual({ nextStep, setIndividualStep }) {
+   const user = useSelector(state => state.idyUser.data);
    const { individual } = user;
 
    //Individual=============================================
@@ -32,6 +33,8 @@ function Individual({ nextStep, setIndividualStep, user }) {
    const handleChange_Sms = (e) => {
       setSms(e.target.value);
    };
+
+   console.log(profilePic)
 
    const validateForm = () => {
       let isValid = true;
@@ -77,7 +80,8 @@ function Individual({ nextStep, setIndividualStep, user }) {
       if (validateForm()) {
          nextStep()
          setIndividualStep(true);
-         const formIndividual = {
+
+         const individual_data = {
             "individual": {
                "profilePic": profilePic,
                "name": name,
@@ -87,13 +91,15 @@ function Individual({ nextStep, setIndividualStep, user }) {
                "sms": sms,
             }
          }
-         sessionStorage.setItem('formIndividual', JSON.stringify(formIndividual));
+
+         console.log(individual_data);
+
       }
    };
 
    useEffect(() => {
       if (individual) {
-         //setProfilePic(individual.profilePic);
+         setProfilePic(individual.profilePic);
          setName(individual.name);
          setExperties(individual.experties);
          setCall(individual.call);
@@ -123,12 +129,12 @@ function Individual({ nextStep, setIndividualStep, user }) {
                               <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
                            </div>
                         </div>
-                        {/* <ul className='list-values-sec'>
+                        <ul className='list-values-sec'>
                            <li>
                               <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li>
-                        </ul> */}
+                        </ul>
                      </div>
                   </div>
                </div>

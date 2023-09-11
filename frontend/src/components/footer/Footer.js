@@ -4,7 +4,7 @@ import './Footer.scss'
 export default function Footer() {
    return (
       <div className="footer-sec">
-         <div className="footer-hd">Connect With Us</div>
+         <div className="footer-hd">Contact Us</div>
          <div className="contact-info"><a
             href="mailto:smartidy.app@gmail.com">smartidy.app@gmail.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;+91
             9594415153

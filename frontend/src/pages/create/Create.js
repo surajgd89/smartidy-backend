@@ -6,7 +6,7 @@ import Configuration from './Configuration';
 import './Create.scss'
 
 
-function Create({ user }) {
+function Create() {
    const [currentStep, setCurrentStep] = useState(1);
    const [individualStep, setIndividualStep] = useState(false);
    const [businessStep, setBusinessStep] = useState(false);
@@ -25,7 +25,7 @@ function Create({ user }) {
    const renderStep = () => {
       switch (currentStep) {
          case 1:
-            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} user={user} />;
+            return <Individual nextStep={nextStep} setIndividualStep={setIndividualStep} />;
          case 2:
             return <Business nextStep={nextStep} prevStep={prevStep} setBusinessStep={setBusinessStep} />;
          case 3:

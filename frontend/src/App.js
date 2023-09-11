@@ -3,7 +3,6 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from "./features/idyUser/userSlice";
-
 import Header from './components/header/Header';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
@@ -25,32 +24,31 @@ function App() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sendOTP, setSendOTP] = useState(false);
-  const { state, pathname } = useLocation();
+  const { pathname } = useLocation();
+  const token = sessionStorage.getItem('token');
 
-  const logIn = (pathname, id) => {
+  const logIn = (id) => {
     dispatch(getUser(id));
     setIsLoggedIn(true);
     navigate(pathname);
   }
 
   const logOut = () => {
-    sessionStorage.clear();
     setIsLoggedIn(false);
     navigate("/login");
+    sessionStorage.clear();
   }
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-      logIn(pathname, user._id);
+    if (token != null) {
+      logIn(user._id);
     }
-
   }, []);
 
   return (
 
     <div className="wrapper">
-      <Header isLoggedIn={isLoggedIn} logOut={logOut} user={user} />
+      <Header isLoggedIn={isLoggedIn} logOut={logOut} />
       <div className='content-sec'>
         <div className="container-fluid">
           <div className="container">
@@ -58,13 +56,13 @@ function App() {
 
               <Route path="/change-password" element={
                 <Protected isLoggedIn={isLoggedIn}>
-                  <ChangePassword user={user} />
+                  <ChangePassword />
                 </Protected>
               } />
 
               <Route path="/create" element={
                 <Protected isLoggedIn={isLoggedIn}>
-                  <Create user={user} />
+                  <Create />
                 </Protected>
               } />
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginRequest } from '../../features/idyUser/loginSlice';
 import './Login.scss'
@@ -51,10 +51,9 @@ function Login({ logIn }) {
 
    const handleSubmit = () => {
       if (validateForm()) {
-         navigate("/create", { state: { id: id, token: token } })
+         navigate("/create")
          sessionStorage.setItem('token', token);
-         const pathname = "/create"
-         logIn(pathname, id);
+         logIn(id);
          setFormData({ email: '', password: '' });
       }
    }

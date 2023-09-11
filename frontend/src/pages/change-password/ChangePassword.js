@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../features/idyUser/userSlice';
 import './ChangePassword.scss'
 
-function ChangePassword({ user }) {
-   const navigate = useNavigate();
+function ChangePassword() {
+   const user = useSelector(state => state.idyUser.data);
    const dispatch = useDispatch();
+   const navigate = useNavigate();
    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
 
