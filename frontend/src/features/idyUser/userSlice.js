@@ -46,6 +46,7 @@ export const updateUser = createAsyncThunk('updateUser', async (req) => {
    const id = req._id;
    try {
       const res = await axios.put(`${API_USER_URL}/${id}`, req);
+      console.log(req)
       return res.data;
    } catch (err) {
       throw new Error('Failed to updateUser');

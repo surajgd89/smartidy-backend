@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../features/idyUser/userSlice';
 
 function Individual({ nextStep, setIndividualStep }) {
    const user = useSelector(state => state.idyUser.data);
    const { individual } = user;
+   const dispatch = useDispatch();
 
-   //Individual=============================================
    const [errors, setErrors] = useState({});
    const [profilePic, setProfilePic] = useState('');
    const [name, setName] = useState('');
@@ -16,7 +17,7 @@ function Individual({ nextStep, setIndividualStep }) {
 
 
    const handleChange_ProfilePic = (e) => {
-      setProfilePic(e.target.files[0]);
+      setProfilePic(e.target.value);
    };
    const handleChange_Name = (e) => {
       setName(e.target.value);
@@ -34,7 +35,6 @@ function Individual({ nextStep, setIndividualStep }) {
       setSms(e.target.value);
    };
 
-   console.log(profilePic)
 
    const validateForm = () => {
       let isValid = true;
@@ -81,7 +81,8 @@ function Individual({ nextStep, setIndividualStep }) {
          nextStep()
          setIndividualStep(true);
 
-         const individual_data = {
+         const updateData = {
+            ...user,
             "individual": {
                "profilePic": profilePic,
                "name": name,
@@ -92,8 +93,9 @@ function Individual({ nextStep, setIndividualStep }) {
             }
          }
 
-         console.log(individual_data);
+         console.log(updateData);
 
+         dispatch(updateUser(updateData));
       }
    };
 

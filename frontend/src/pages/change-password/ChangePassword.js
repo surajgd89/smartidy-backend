@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import bcrypt from "bcryptjs";
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../features/idyUser/userSlice';
 import './ChangePassword.scss'
@@ -9,8 +10,10 @@ function ChangePassword() {
    const user = useSelector(state => state.idyUser.data);
    const dispatch = useDispatch();
    const navigate = useNavigate();
+   const notify_passwordChanged = () => toast.success('Password Changed Successfully');
    const [formData, setFormData] = useState({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
    const [errors, setErrors] = useState({});
+
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,7 +73,7 @@ function ChangePassword() {
          const updateData = { ...user, "password": hashedPassword }
          dispatch(updateUser(updateData));
          setFormData({ currentPassword: '', newPassword: '', confirmNewPassword: '' });
-         alert('Change Password Successfully');
+         notify_passwordChanged();
          navigate('/create');
       }
    };

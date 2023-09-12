@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { useSelector } from 'react-redux';
 
 function Business({ nextStep, prevStep, setBusinessStep }) {
-   const { business, social } = useSelector(state => state.idyUser.data);
+   const user = useSelector(state => state.idyUser.data);
 
    //Business=============================================
    const [errors, setErrors] = useState({});

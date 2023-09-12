@@ -5,8 +5,51 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
+const path = require('path');
+const multer = require('multer');
 const handlebars = require('nodemailer-express-handlebars');
-require('dotenv/config')
+require('dotenv/config');
+
+// ======================================UPLOADING FILES ==========================================//
+
+const storageEngine = multer.diskStorage({
+   destination: './public/uploads/',
+   filename: function (req, file, callback) {
+      console.log('first')
+      callback(
+         null,
+         file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+      );
+   },
+});
+
+const fileFilter = (req, file, callback) => {
+   let pattern = /jpg|png|svg/;
+   if (pattern.test(path.extname(file.originalname))) {
+      callback(null, true);
+   } else {
+      callback('Error: not a valid file');
+   }
+};
+
+const upload = multer({
+   storage: storageEngine,
+   fileFilter: fileFilter
+});
+
+// const uploadFiles = upload.fields([
+//    { name: 'profilePic', maxCount: 1 },
+//    { name: 'BusinessLogo', maxCount: 1 },
+//    { name: 'paymentGatewayLogo', maxCount: 1 },
+//    { name: 'efile', maxCount: 4 },
+//    { name: 'galleryImg', maxCount: 6 }
+// ]);
+
+
+
+
+// ======================================ROUTER==========================================//
+
 
 
 //FORGOT PASSWORD
@@ -204,14 +247,18 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', async (req, res) => {
+router.put('/idyUser/:id', upload.single('profilePic'), async (req, res) => {
    try {
       const id = req.body._id;
+      console.log(req.files)
+      console.log(req.file)
       const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       if (!data) {
          return res.status(404).send('User not found');
       }
+
       res.send(data)
+
    } catch (err) {
       res.status(500).send(err);
    }
@@ -229,6 +276,6 @@ router.delete('/idyUser/:id', async (req, res) => {
    } catch (err) {
       res.status(500).send(err);
    }
-}); 
+});
 
 module.exports = router

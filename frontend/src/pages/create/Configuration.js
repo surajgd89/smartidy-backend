@@ -3,7 +3,7 @@ import { TwitterPicker } from 'react-color';
 import { useSelector } from 'react-redux';
 
 function Configuration({ prevStep, setConfigurationStep }) {
-   const { config } = useSelector(state => state.idyUser.data);
+   const user = useSelector(state => state.idyUser.data);
    //Configuration=============================================
    const [errors, setErrors] = useState({});
    const [PrimaryColor, setPrimaryColor] = useState('#ff6600');
