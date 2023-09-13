@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
-const { v4: uuidv4 } = require('uuid');
-let path = require('path');
 const handlebars = require('nodemailer-express-handlebars');
 require('dotenv/config');
 
@@ -17,7 +15,8 @@ const storage = multer.diskStorage({
       cb(null, './public/uploads/');
    },
    filename: function (req, file, cb) {
-      cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
+      console.log(req)
+      cb(null, Date.now() + '-' + file.originalname)
    }
 });
 
@@ -32,18 +31,7 @@ const fileFilter = (req, file, cb) => {
 
 let upload = multer({ storage, fileFilter });
 
-const uploadFiles = upload.fields([
-   { name: 'profilePic', maxCount: 1 },
-   { name: 'BusinessLogo', maxCount: 1 },
-   { name: 'paymentGatewayLogo', maxCount: 1 },
-   { name: 'efile', maxCount: 4 },
-   { name: 'galleryImg', maxCount: 6 }
-]);
-
-
 // ======================================ROUTER==========================================//
-
-
 
 //FORGOT PASSWORD
 router.post('/idyUser/resetPassword', async (req, res) => {
@@ -156,7 +144,6 @@ router.post('/idyUser/verifyEmail', async (req, res) => {
    }
 });
 
-
 //REGISTER REQUEST
 router.get('/idyUser/registerRequest', async (req, res) => {
    const query = req.query;
@@ -240,13 +227,19 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', uploadFiles, async (req, res) => {
+router.put('/idyUser/:id', upload.any(), async (req, res) => {
    try {
       const id = req.body._id;
+      const files = req.files;
       const body = req.body;
-      //const profilePic = req.file.filename;
 
-      console.log(body);
+      //const profilePic = req.files.filename;
+      //const  = req.files.filename;
+      // const body = { ...req.body, "individual": { "profilePic": profilePic } };
+      console.log(files)
+      console.log(body)
+
+
 
       const data = await schema.User.findByIdAndUpdate(id, body, { new: true });
 

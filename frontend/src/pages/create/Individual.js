@@ -7,66 +7,48 @@ function Individual({ nextStep, setIndividualStep }) {
    const dispatch = useDispatch();
    const { individual } = user;
 
+   const [formData, setFormData] = useState({});
    const [errors, setErrors] = useState({});
-   const [profilePic, setProfilePic] = useState('');
-   const [name, setName] = useState('');
-   const [experties, setExperties] = useState('');
-   const [call, setCall] = useState('');
-   const [email, setEmail] = useState('');
-   const [sms, setSms] = useState('');
 
-
-   const handleChange_ProfilePic = (e) => {
-      setProfilePic(e.target.files[0]);
+   const handleChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
    };
 
-   const handleChange_Name = (e) => {
-      setName(e.target.value);
-   };
-   const handleChange_Experties = (e) => {
-      setExperties(e.target.value);
-   };
-   const handleChange_Call = (e) => {
-      setCall(e.target.value);
-   };
-   const handleChange_Email = (e) => {
-      setEmail(e.target.value);
-   };
-   const handleChange_Sms = (e) => {
-      setSms(e.target.value);
-   };
+   const handleFileChange = (e) => {
+      setFormData({ ...formData, [e.target.name]: e.target.files[0] });
 
+   };
 
    const validateForm = () => {
       let isValid = true;
       let errors = {};
 
-      if (profilePic === "" || profilePic === undefined) {
+      if (formData.profilePic === "" || formData.profilePic === undefined) {
          errors.profilePic = 'Profile Picture is required';
          isValid = false;
       }
 
-      if (name === "" || name === undefined) {
+      if (formData.name === "" || formData.name === undefined) {
          errors.name = 'Name is required';
          isValid = false;
       }
 
-      if (experties === "" || experties === undefined) {
+      if (formData.experties === "" || formData.experties === undefined) {
          errors.experties = 'Experties is required';
          isValid = false;
       }
 
-      if (call === "" || call === undefined) {
+      if (formData.call === "" || formData.call === undefined) {
          errors.call = 'Call is required';
          isValid = false;
       }
 
-      if (email === "" || email === undefined) {
+      if (formData.email === "" || formData.email === undefined) {
          errors.email = 'Email is required';
          isValid = false;
       }
 
-      if (sms === "" || sms === undefined) {
+      if (formData.sms === "" || formData.sms === undefined) {
          errors.sms = 'Sms is required';
          isValid = false;
       }
@@ -81,35 +63,20 @@ function Individual({ nextStep, setIndividualStep }) {
       if (validateForm()) {
          nextStep()
          setIndividualStep(true);
-         const updateData = {
-            ...user,
-            "individual": {
-               "profilePic": profilePic,
-               "name": name,
-               "experties": experties,
-               "call": call,
-               "email": email,
-               "sms": sms,
-            }
-         }
-         console.log(updateData);
+         const updateData = { ...user, "individual": { ...formData } }
          dispatch(updateUser(updateData));
       }
    };
 
    useEffect(() => {
       if (individual) {
-         setProfilePic(individual.profilePic);
-         setName(individual.name);
-         setExperties(individual.experties);
-         setCall(individual.call);
-         setEmail(individual.email);
-         setSms(individual.sms);
+         setFormData({ ...individual });
       }
    }, [individual]);
 
+
    return (
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit}>
          <div className="panel step step-1">
             <div className="panel-header">Individual Information</div>
             <div className="panel-body">
@@ -122,7 +89,7 @@ function Individual({ nextStep, setIndividualStep }) {
                               <div className='form-group'>
                                  <label className="drop-container">
                                     <span className="drop-title">Upload Profile Picture</span>
-                                    <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept=".png,.jpg,.jpeg" />
+                                    <input type="file" name='profilePic' onChange={handleFileChange} accept=".png,.jpg,.jpeg" />
                                  </label>
                                  {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
                               </div>
@@ -142,39 +109,39 @@ function Individual({ nextStep, setIndividualStep }) {
                   <div className="col-12">
                      <div className='form-group'>
                         <label className='control-label' >Name</label>
-                        <input type="text" name='name' className='form-control' value={name} onChange={handleChange_Name} />
+                        <input type="text" name='name' className='form-control' defaultValue={formData.name} onChange={handleChange} />
                         {errors.name && <div className="control-error">{errors.name}</div>}
                      </div>
                   </div>
                   <div className="col-12">
                      <div className='form-group'>
                         <label className='control-label' >Experties</label>
-                        <input type="text" name='experties' className='form-control' value={experties} onChange={handleChange_Experties} />
+                        <input type="text" name='experties' className='form-control' defaultValue={formData.experties} onChange={handleChange} />
                         {errors.experties && <div className="control-error">{errors.experties}</div>}
                      </div>
                   </div>
                   <div className="col-12">
                      <div className='form-group'>
                         <label className='control-label' >Call</label>
-                        <input type="tel" name='call' className='form-control' value={call} onChange={handleChange_Call} />
+                        <input type="tel" name='call' className='form-control' defaultValue={formData.call} onChange={handleChange} />
                         {errors.call && <div className="control-error">{errors.call}</div>}
                      </div>
                   </div>
                   <div className="col-12">
                      <div className='form-group'>
                         <label className='control-label' >Email</label>
-                        <input type="email" name='email' className='form-control' value={email} onChange={handleChange_Email} disabled />
+                        <input type="email" name='email' className='form-control' defaultValue={formData.email} onChange={handleChange} disabled />
                         {errors.email && <div className="control-error">{errors.email}</div>}
                      </div>
                   </div>
                   <div className="col-12">
                      <div className='form-group'>
                         <label className='control-label' >SMS</label>
-                        <input type="tel" name='sms' className='form-control' value={sms} onChange={handleChange_Sms} />
+                        <input type="tel" name='sms' className='form-control' defaultValue={formData.sms} onChange={handleChange} />
                         {errors.sms && <div className="control-error">{errors.sms}</div>}
                      </div>
                   </div>
-                  <div className="col-12">
+                  {/* <div className="col-12">
                      <div className='values-grouping'>
                         <div className='form-group'>
                            <div className='heading' >Chat</div>
@@ -197,18 +164,18 @@ function Individual({ nextStep, setIndividualStep }) {
                               </div>
                            </div>
                            <ul className='list-values-sec'>
-                              {/* <li>
+                              <li>
                               <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                            </li>
                            <li>
                               <span className='title'>Telegram</span>:<span className='value'>surajpatil@1989</span>
                               <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
-                           </li> */}
+                           </li>
                            </ul>
                         </div>
                      </div>
-                  </div>
+                  </div> */}
                </div>
             </div>
             <div className="panel-footer">

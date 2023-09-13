@@ -13,7 +13,6 @@ export const getUsers = createAsyncThunk('getUsers', async (query) => {
    }
 });
 
-
 //CREATE USER
 export const createUser = createAsyncThunk('createUser', async (req) => {
    try {
@@ -41,12 +40,12 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
 });
 
 //UPDATE USER
+
 export const updateUser = createAsyncThunk('updateUser', async (req) => {
    try {
-      const res = await axios.put(`${API_USER_URL}/${req._id}`, req);
+      const res = await axios.put(`${API_USER_URL}/${req._id}`, req, { headers: { 'content-type': 'multipart/form-data' } });
       return res.data;
    } catch (err) {
-      console.log(err)
       throw new Error('Failed to updateUser');
    }
 });
@@ -60,7 +59,6 @@ export const deleteUser = createAsyncThunk('deleteUser', async (id) => {
       throw new Error('Failed to deleteUser');
    }
 });
-
 
 const userSlice = createSlice({
    name: 'idyUser',
