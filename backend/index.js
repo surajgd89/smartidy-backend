@@ -17,15 +17,12 @@ const corsOptions = {
 }
 app.use(cors(corsOptions))
 
-
 app.use('/', router)
-
 
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.connect(process.env.DB_URI, dbOptions)
    .then(() => console.log(`SmartIDyDB Connected = ${process.env.DB_URI}`))
    .catch(err => console.log(err))
-
 
 
 const port = process.env.PORT || 4000;

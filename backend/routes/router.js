@@ -231,15 +231,9 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
    try {
       const id = req.body._id;
       const files = req.files;
-      const body = req.body;
-
-      //const profilePic = req.files.filename;
-      //const  = req.files.filename;
-      // const body = { ...req.body, "individual": { "profilePic": profilePic } };
-      console.log(files)
-      console.log(body)
-
-
+      const profilePic = files[0].path;
+      const individual = { ...req.body.individual, profilePic }
+      const body = { ...req.body, individual }
 
       const data = await schema.User.findByIdAndUpdate(id, body, { new: true });
 

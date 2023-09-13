@@ -99,6 +99,7 @@ function Individual({ nextStep, setIndividualStep }) {
                            </div>
                            <ul className='list-values-sec'>
                               <li>
+                                 <img src={formData.profilePic} alt="" className='profile-pic' />
                                  <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />
                                  <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                               </li>
