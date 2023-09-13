@@ -1,51 +1,44 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
 const schema = require('../models/schema');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
-const path = require('path');
 const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+let path = require('path');
 const handlebars = require('nodemailer-express-handlebars');
 require('dotenv/config');
 
 // ======================================UPLOADING FILES ==========================================//
 
-const storageEngine = multer.diskStorage({
-   destination: './public/uploads/',
-   filename: function (req, file, callback) {
-      console.log('first')
-      callback(
-         null,
-         file.fieldname + '-' + Date.now() + path.extname(file.originalname)
-      );
+const storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, './public/uploads/');
    },
-});
-
-const fileFilter = (req, file, callback) => {
-   let pattern = /jpg|png|svg/;
-   if (pattern.test(path.extname(file.originalname))) {
-      callback(null, true);
-   } else {
-      callback('Error: not a valid file');
+   filename: function (req, file, cb) {
+      cb(null, uuidv4() + '-' + Date.now() + path.extname(file.originalname));
    }
-};
-
-const upload = multer({
-   storage: storageEngine,
-   fileFilter: fileFilter
 });
 
-// const uploadFiles = upload.fields([
-//    { name: 'profilePic', maxCount: 1 },
-//    { name: 'BusinessLogo', maxCount: 1 },
-//    { name: 'paymentGatewayLogo', maxCount: 1 },
-//    { name: 'efile', maxCount: 4 },
-//    { name: 'galleryImg', maxCount: 6 }
-// ]);
+const fileFilter = (req, file, cb) => {
+   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+   if (allowedFileTypes.includes(file.mimetype)) {
+      cb(null, true);
+   } else {
+      cb(null, false);
+   }
+}
 
+let upload = multer({ storage, fileFilter });
 
+const uploadFiles = upload.fields([
+   { name: 'profilePic', maxCount: 1 },
+   { name: 'BusinessLogo', maxCount: 1 },
+   { name: 'paymentGatewayLogo', maxCount: 1 },
+   { name: 'efile', maxCount: 4 },
+   { name: 'galleryImg', maxCount: 6 }
+]);
 
 
 // ======================================ROUTER==========================================//
@@ -247,12 +240,16 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', upload.single('profilePic'), async (req, res) => {
+router.put('/idyUser/:id', uploadFiles, async (req, res) => {
    try {
       const id = req.body._id;
-      console.log(req.files)
-      console.log(req.file)
-      const data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
+      const body = req.body;
+      //const profilePic = req.file.filename;
+
+      console.log(body);
+
+      const data = await schema.User.findByIdAndUpdate(id, body, { new: true });
+
       if (!data) {
          return res.status(404).send('User not found');
       }

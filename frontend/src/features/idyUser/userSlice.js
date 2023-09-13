@@ -34,7 +34,6 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
    }
    try {
       const res = await axios.get(`${API_USER_URL}/${id}`, { headers: headers });
-
       return res.data;
    } catch (err) {
       throw new Error('Failed to idUser');
@@ -43,12 +42,11 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
 
 //UPDATE USER
 export const updateUser = createAsyncThunk('updateUser', async (req) => {
-   const id = req._id;
    try {
-      const res = await axios.put(`${API_USER_URL}/${id}`, req);
-      console.log(req)
+      const res = await axios.put(`${API_USER_URL}/${req._id}`, req);
       return res.data;
    } catch (err) {
+      console.log(err)
       throw new Error('Failed to updateUser');
    }
 });

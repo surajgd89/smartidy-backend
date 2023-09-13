@@ -4,8 +4,8 @@ import { updateUser } from '../../features/idyUser/userSlice';
 
 function Individual({ nextStep, setIndividualStep }) {
    const user = useSelector(state => state.idyUser.data);
-   const { individual } = user;
    const dispatch = useDispatch();
+   const { individual } = user;
 
    const [errors, setErrors] = useState({});
    const [profilePic, setProfilePic] = useState('');
@@ -17,8 +17,9 @@ function Individual({ nextStep, setIndividualStep }) {
 
 
    const handleChange_ProfilePic = (e) => {
-      setProfilePic(e.target.value);
+      setProfilePic(e.target.files[0]);
    };
+
    const handleChange_Name = (e) => {
       setName(e.target.value);
    };
@@ -40,12 +41,12 @@ function Individual({ nextStep, setIndividualStep }) {
       let isValid = true;
       let errors = {};
 
-      if (profilePic === "" || experties === undefined) {
+      if (profilePic === "" || profilePic === undefined) {
          errors.profilePic = 'Profile Picture is required';
          isValid = false;
       }
 
-      if (name === "" || experties === undefined) {
+      if (name === "" || name === undefined) {
          errors.name = 'Name is required';
          isValid = false;
       }
@@ -55,17 +56,17 @@ function Individual({ nextStep, setIndividualStep }) {
          isValid = false;
       }
 
-      if (call === "" || experties === undefined) {
+      if (call === "" || call === undefined) {
          errors.call = 'Call is required';
          isValid = false;
       }
 
-      if (email === "" || experties === undefined) {
+      if (email === "" || email === undefined) {
          errors.email = 'Email is required';
          isValid = false;
       }
 
-      if (sms === "" || experties === undefined) {
+      if (sms === "" || sms === undefined) {
          errors.sms = 'Sms is required';
          isValid = false;
       }
@@ -80,7 +81,6 @@ function Individual({ nextStep, setIndividualStep }) {
       if (validateForm()) {
          nextStep()
          setIndividualStep(true);
-
          const updateData = {
             ...user,
             "individual": {
@@ -92,9 +92,7 @@ function Individual({ nextStep, setIndividualStep }) {
                "sms": sms,
             }
          }
-
          console.log(updateData);
-
          dispatch(updateUser(updateData));
       }
    };
@@ -124,7 +122,7 @@ function Individual({ nextStep, setIndividualStep }) {
                               <div className='form-group'>
                                  <label className="drop-container">
                                     <span className="drop-title">Upload Profile Picture</span>
-                                    <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept="image/*" />
+                                    <input type="file" name='profilePic' onChange={handleChange_ProfilePic} accept=".png,.jpg,.jpeg" />
                                  </label>
                                  {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
                               </div>
