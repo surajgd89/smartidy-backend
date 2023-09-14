@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const verifyUser = require('./authVerify');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
+
 const handlebars = require('nodemailer-express-handlebars');
 require('dotenv/config');
 
@@ -21,7 +22,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+   const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf', 'application/vnd.ms-excel', 'application/msword', 'application/vnd.ms-powerpoint'];
    if (allowedFileTypes.includes(file.mimetype)) {
       cb(null, true);
    } else {
@@ -29,7 +30,43 @@ const fileFilter = (req, file, cb) => {
    }
 }
 
-let upload = multer({ storage, fileFilter });
+const upload = multer({ storage, fileFilter });
+
+const uploadFiles = upload.fields([
+   { name: 'individual[profilePic]', maxCount: 1 },
+   { name: 'business[businessLogo]', maxCount: 1 },
+   { name: 'business[paymentGatewayLogo]', maxCount: 1 },
+   { name: 'business[mediaImg]', maxCount: 1 },
+   { name: 'business[galleryImg]', maxCount: 6 },
+])
+
+const storeFiles = (files) => {
+   const profilePic_Obj = files['individual[profilePic]'][0];
+   const businessLogo_Obj = files['business[businessLogo]'][0];
+   const paymentGatewayLogo_Obj = files['business[paymentGatewayLogo]'][0];
+   const mediaImg_Obj = files['business[mediaImg]'][0];
+   const galleryImg_Obj = files['business[galleryImg]'];
+
+   const profilePic = profilePic_Obj.path;
+   const businessLogo = businessLogo_Obj.path;
+   const paymentGatewayLogo = paymentGatewayLogo_Obj.path;
+   const mediaImg = mediaImg_Obj.path;
+
+   const individual = { ...req.body.individual, profilePic }
+   const business = {
+      ...req.body.business,
+      "logo": businessLogo,
+      "paymentGateway": {
+         "logo": paymentGatewayLogo,
+      },
+      "gallery": galleryImg_Obj,
+      "media": {
+         "src": mediaImg,
+      },
+   }
+
+   return { individual, business }
+}
 
 // ======================================ROUTER==========================================//
 
@@ -227,15 +264,16 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', upload.any(), async (req, res) => {
+router.put('/idyUser/:id', uploadFiles, async (req, res) => {
    try {
       const id = req.body._id;
       const files = req.files;
-      const profilePic = files[0].path;
-      const individual = { ...req.body.individual, profilePic }
-      const body = { ...req.body, individual }
 
-      const data = await schema.User.findByIdAndUpdate(id, body, { new: true });
+      const { individual, business } = storeFiles(files);
+
+      const newData = { ...req.body, individual, business }
+
+      const data = await schema.User.findByIdAndUpdate(id, newData, { new: true });
 
       if (!data) {
          return res.status(404).send('User not found');

@@ -32,6 +32,9 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
    const [adFlag, setAdFlag] = useState(false);
    const handle_adFlag = () => { setAdFlag(!adFlag) };
 
+   const [mediaFlag, setMediaFlag] = useState(false);
+   const handle_mediaFlag = () => { setMediaFlag(!mediaFlag) };
+
    const [servicesFlag, setServicesFlag] = useState(false);
    const handle_servicesFlag = () => { setServicesFlag(!servicesFlag) };
 
@@ -73,10 +76,9 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
                            <div className='add-values-sec'>
                               <div className='form-group'>
 
-                                 <label htmlFor="BusinessLogo" className="drop-container">
+                                 <label htmlFor="businessLogo" className="drop-container">
                                     <span className="drop-title">Upload Business Logo</span>
-
-                                    <input type="file" id="BusinessLogo" name='BusinessLogo' accept="image/*" required />
+                                    <input type="file" id="businessLogo" name='businessLogo' accept=".png,.jpg,.jpeg" required />
                                  </label>
                                  <span className='control-error'>Error Message</span>
                               </div>
@@ -324,7 +326,7 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
 
                                  <label htmlFor="paymentGatewayLogo" className="drop-container">
                                     <span className="drop-title">Upload Payment Gateway Logo</span>
-                                    <input type="file" id="paymentGatewayLogo" name='paymentGatewayLogo' accept="image/*" required />
+                                    <input type="file" id="paymentGatewayLogo" name='paymentGatewayLogo' accept=".png,.jpg,.jpeg" required />
                                  </label>
                                  <span className='control-error'>Error Message</span>
                               </div>
@@ -341,12 +343,6 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
                         </div>
                      </div>
                   </div>
-
-
-
-
-
-
 
                   <div className="col-12">
                      <div className="values-grouping">
@@ -436,7 +432,7 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
                               <div className='form-group'>
                                  <label htmlFor="galleryImg" className="drop-container">
                                     <span className="drop-title">Upload Gallery Images</span>
-                                    <input type="file" id="galleryImg" name='galleryImg' accept="image/*" required />
+                                    <input type="file" id="galleryImg" name='galleryImg' accept=".png,.jpg,.jpeg" multiple="multiple" required />
                                  </label>
                                  <span className='control-error'>Error Message</span>
                               </div>
@@ -512,14 +508,8 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
                               </div>
 
                               <div className='form-group'>
-
-                                 <label className="drop-container">
-                                    <span className="drop-title">Enter URL</span>
-                                    <input type='text' name="url" className='form-control' />
-                                    <div className='divider-or'><strong>OR</strong></div>
-                                    <span className="drop-title">Upload File</span>
-                                    <input type="file" name='efile' required />
-                                 </label>
+                                 <label className='control-label' >URL</label>
+                                 <input type='url' name="url" className='form-control' />
                                  <span className='control-error'>Error Message</span>
                               </div>
 
@@ -725,10 +715,41 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
 
                   </div>
 
-
-
-
-
+                  <div className="col-12">
+                     <div className="values-grouping">
+                        <div className='form-group'>
+                           <div className='heading' >
+                              <span>News, Events, PR, Media, Offer .etc</span>
+                              <label className="custom-switch"><input type="checkbox" checked={mediaFlag} onChange={handle_mediaFlag} /><span className="checkmark"></span></label>
+                           </div>
+                           <div className={`add-values-sec toggle-sec ${mediaFlag ? 'slide-down' : 'slide-up'}`}>
+                              <div className='form-group'>
+                                 <label className='control-label' >Title</label>
+                                 <input type="text" name='mediaTitle' className='form-control' />
+                              </div>
+                              <div className='form-group'>
+                                 <label className='control-label' >Description</label>
+                                 <textarea name="mediaDesc" className='form-control' id="" rows="3"></textarea>
+                              </div>
+                              <div className='form-group'>
+                                 <label className='control-label' >URL</label>
+                                 <input type="url" name='mediaUrl' className='form-control' />
+                              </div>
+                              <div className='form-group'>
+                                 <label htmlFor="mediaImg" className="drop-container">
+                                    <span className="drop-title">Upload Media Image</span>
+                                    <input type="file" id="mediaImg" name='mediaImg' accept=".png,.jpg,.jpeg" required />
+                                 </label>
+                                 <span className='control-error'>Error Message</span>
+                              </div>
+                              <div className="action">
+                                 <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Media Image
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
             <div className="panel-footer">
