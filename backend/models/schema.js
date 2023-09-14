@@ -89,7 +89,7 @@ const userSchema = new Schema({
       media: {
          src: { type: String },
          title: { type: String },
-         data: { type: String },
+         desc: { type: String },
          url: { type: String },
       }
    },

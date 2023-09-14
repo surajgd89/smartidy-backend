@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
       cb(null, './public/uploads/');
    },
    filename: function (req, file, cb) {
-      console.log(req)
       cb(null, Date.now() + '-' + file.originalname)
    }
 });
@@ -40,33 +39,12 @@ const uploadFiles = upload.fields([
    { name: 'business[galleryImg]', maxCount: 6 },
 ])
 
-const storeFiles = (files) => {
-   const profilePic_Obj = files['individual[profilePic]'][0];
-   const businessLogo_Obj = files['business[businessLogo]'][0];
-   const paymentGatewayLogo_Obj = files['business[paymentGatewayLogo]'][0];
-   const mediaImg_Obj = files['business[mediaImg]'][0];
-   const galleryImg_Obj = files['business[galleryImg]'];
+// const storeFiles = (files) => {
 
-   const profilePic = profilePic_Obj.path;
-   const businessLogo = businessLogo_Obj.path;
-   const paymentGatewayLogo = paymentGatewayLogo_Obj.path;
-   const mediaImg = mediaImg_Obj.path;
+//    console.log({ individual, business })
 
-   const individual = { ...req.body.individual, profilePic }
-   const business = {
-      ...req.body.business,
-      "logo": businessLogo,
-      "paymentGateway": {
-         "logo": paymentGatewayLogo,
-      },
-      "gallery": galleryImg_Obj,
-      "media": {
-         "src": mediaImg,
-      },
-   }
-
-   return { individual, business }
-}
+//    return { individual, business }
+// }
 
 // ======================================ROUTER==========================================//
 
@@ -269,11 +247,46 @@ router.put('/idyUser/:id', uploadFiles, async (req, res) => {
       const id = req.body._id;
       const files = req.files;
 
-      const { individual, business } = storeFiles(files);
+      // for (const file of files) {
 
-      const newData = { ...req.body, individual, business }
+      //    {[file.fieldname]: file.path }
+      // }
 
-      const data = await schema.User.findByIdAndUpdate(id, newData, { new: true });
+      const profilePic_Obj = files['individual[profilePic]'][0];
+      const businessLogo_Obj = files['business[businessLogo]'][0];
+      const paymentGatewayLogo_Obj = files['business[paymentGatewayLogo]'][0];
+      const mediaImg_Obj = files['business[mediaImg]'][0];
+      const galleryImg_Array = files['business[galleryImg]'];
+
+      const profilePic = profilePic_Obj.path;
+      const businessLogo = businessLogo_Obj.path;
+      const paymentGatewayLogo = paymentGatewayLogo_Obj.path;
+      const mediaImg = mediaImg_Obj.path;
+      const galleryImg = galleryImg_Array.map(file => file.path);
+
+      const individual = {
+         ...req.body.individual,
+         "profilePic": profilePic
+      }
+
+      const business = {
+         ...req.body.business,
+         "logo": businessLogo,
+         "paymentGateway": {
+            "logo": paymentGatewayLogo,
+         },
+         "gallery": galleryImg,
+         "media": {
+            "src": mediaImg,
+         },
+      }
+
+      const updatedData = { ...req.body, individual }
+
+
+      console.log(updatedData)
+
+      const data = await schema.User.findByIdAndUpdate(id, updatedData, { new: true });
 
       if (!data) {
          return res.status(404).send('User not found');
