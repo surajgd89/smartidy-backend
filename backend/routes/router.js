@@ -31,20 +31,6 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage, fileFilter });
 
-const uploadFiles = upload.fields([
-   { name: 'individual[profilePic]', maxCount: 1 },
-   { name: 'business[businessLogo]', maxCount: 1 },
-   { name: 'business[paymentGatewayLogo]', maxCount: 1 },
-   { name: 'business[mediaImg]', maxCount: 1 },
-   { name: 'business[galleryImg]', maxCount: 6 },
-])
-
-// const storeFiles = (files) => {
-
-//    console.log({ individual, business })
-
-//    return { individual, business }
-// }
 
 // ======================================ROUTER==========================================//
 
@@ -242,55 +228,69 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', uploadFiles, async (req, res) => {
+router.put('/idyUser/:id', upload.any(), async (req, res) => {
    try {
       const id = req.body._id;
       const files = req.files;
 
-      // for (const file of files) {
+      console.log(req.body)
 
-      //    {[file.fieldname]: file.path }
-      // }
+      const fieldnameToPathMap = {};
+      files.forEach((file) => {
+         fieldnameToPathMap[file.fieldname] = file.path;
+      });
 
-      const profilePic_Obj = files['individual[profilePic]'][0];
-      const businessLogo_Obj = files['business[businessLogo]'][0];
-      const paymentGatewayLogo_Obj = files['business[paymentGatewayLogo]'][0];
-      const mediaImg_Obj = files['business[mediaImg]'][0];
-      const galleryImg_Array = files['business[galleryImg]'];
 
-      const profilePic = profilePic_Obj.path;
-      const businessLogo = businessLogo_Obj.path;
-      const paymentGatewayLogo = paymentGatewayLogo_Obj.path;
-      const mediaImg = mediaImg_Obj.path;
-      const galleryImg = galleryImg_Array.map(file => file.path);
+      let profilePic, businessLogo, paymentGatewayLogo, mediaImg, galleryImg;
 
-      const individual = {
-         ...req.body.individual,
-         "profilePic": profilePic
+      for (const key in fieldnameToPathMap) {
+
+         if (fieldnameToPathMap.hasOwnProperty('individual[profilePic]')) {
+            profilePic = fieldnameToPathMap[key];
+         }
+
+         if (fieldnameToPathMap.hasOwnProperty('business[businessLogo]')) {
+            businessLogo = fieldnameToPathMap[key];
+         }
+
+         if (fieldnameToPathMap.hasOwnProperty('business[paymentGatewayLogo]')) {
+            paymentGatewayLogo = fieldnameToPathMap[key];
+         }
+
+         if (fieldnameToPathMap.hasOwnProperty('business[mediaImg]')) {
+            mediaImg = fieldnameToPathMap[key];
+         }
+
+         if (fieldnameToPathMap.hasOwnProperty('business[galleryImg]')) {
+            galleryImg = fieldnameToPathMap[key].map(item => item.path)
+         }
+
       }
 
-      const business = {
-         ...req.body.business,
-         "logo": businessLogo,
-         "paymentGateway": {
-            "logo": paymentGatewayLogo,
+
+      const updatedData = {
+         ...req.body,
+         "individual": {
+            "profilePic": profilePic
          },
-         "gallery": galleryImg,
-         "media": {
-            "src": mediaImg,
-         },
+         "business": {
+            "logo": businessLogo,
+            "paymentGateway": {
+               "logo": paymentGatewayLogo,
+            },
+            "gallery": galleryImg,
+            "media": {
+               "src": mediaImg,
+            },
+         }
       }
-
-      const updatedData = { ...req.body, individual }
-
-
-      console.log(updatedData)
 
       const data = await schema.User.findByIdAndUpdate(id, updatedData, { new: true });
 
       if (!data) {
          return res.status(404).send('User not found');
       }
+
 
       res.send(data)
 

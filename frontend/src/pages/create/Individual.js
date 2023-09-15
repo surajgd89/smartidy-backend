@@ -4,8 +4,8 @@ import { updateUser } from '../../features/idyUser/userSlice';
 
 function Individual({ nextStep, setIndividualStep }) {
    const user = useSelector(state => state.idyUser.data);
-   const dispatch = useDispatch();
    const { individual } = user;
+   const dispatch = useDispatch();
 
    const [formData, setFormData] = useState({});
    const [errors, setErrors] = useState({});
@@ -16,7 +16,6 @@ function Individual({ nextStep, setIndividualStep }) {
 
    const handleFileChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.files[0] });
-
    };
 
    const validateForm = () => {
@@ -64,6 +63,7 @@ function Individual({ nextStep, setIndividualStep }) {
          nextStep()
          setIndividualStep(true);
          const updateData = { ...user, "individual": { ...formData } }
+         console.log(updateData)
          dispatch(updateUser(updateData));
       }
    };
@@ -103,7 +103,7 @@ function Individual({ nextStep, setIndividualStep }) {
                                  <img src={formData.profilePic} alt="" className='profile-pic' />
 
                                  {/* <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' /> */}
-                                 
+
                                  <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                               </li>
                            </ul>
