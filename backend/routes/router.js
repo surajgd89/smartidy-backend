@@ -267,7 +267,6 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
 
       }
 
-
       const updatedData = {
          ...req.body,
          "individual": {
@@ -290,7 +289,6 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
       if (!data) {
          return res.status(404).send('User not found');
       }
-
 
       res.send(data)
 
