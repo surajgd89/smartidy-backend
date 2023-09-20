@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../features/idyUser/userSlice';
 
@@ -8,13 +8,16 @@ function Individual({ nextStep, setIndividualStep }) {
    const dispatch = useDispatch();
 
    const [formData, setFormData] = useState({});
+   const [selectedImage, setSelectedImage] = useState(null);
    const [errors, setErrors] = useState({});
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
+
    };
 
    const handleFileChange = (e) => {
+      setSelectedImage(URL.createObjectURL(e.target.files[0]))
       setFormData({ ...formData, [e.target.name]: e.target.files[0] });
    };
 
@@ -74,7 +77,6 @@ function Individual({ nextStep, setIndividualStep }) {
       }
    }, [individual]);
 
-
    return (
       <form onSubmit={handleSubmit}>
          <div className="panel step step-1">
@@ -93,17 +95,16 @@ function Individual({ nextStep, setIndividualStep }) {
                                  </label>
                                  {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
                               </div>
-                              <div className="action">
+                              <div className="action" >
                                  <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
                               </div>
                            </div>
                            <ul className='list-values-sec'>
                               <li>
 
-                                 <img src={formData.profilePic} alt="" className='profile-pic' />
+                                 {formData.profilePic !== null ? <img src={formData.profilePic} alt="" className='profile-pic' /> : <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />}
 
-                                 {/* <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' /> */}
-
+                                 {selectedImage && <img src={selectedImage} alt="" className='profile-pic' />}
                                  <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                               </li>
                            </ul>
@@ -145,7 +146,7 @@ function Individual({ nextStep, setIndividualStep }) {
                         {errors.sms && <div className="control-error">{errors.sms}</div>}
                      </div>
                   </div>
-                  {/* <div className="col-12">
+                  <div className="col-12">
                      <div className='values-grouping'>
                         <div className='form-group'>
                            <div className='heading' >Chat</div>
@@ -169,24 +170,24 @@ function Individual({ nextStep, setIndividualStep }) {
                            </div>
                            <ul className='list-values-sec'>
                               <li>
-                              <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
-                              <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
-                           </li>
-                           <li>
-                              <span className='title'>Telegram</span>:<span className='value'>surajpatil@1989</span>
-                              <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
-                           </li>
+                                 <span className='title'>WhatsApp</span>:<span className='value'>9594415153</span>
+                                 <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
+                              </li>
+                              <li>
+                                 <span className='title'>Telegram</span>:<span className='value'>surajpatil@1989</span>
+                                 <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
+                              </li>
                            </ul>
                         </div>
                      </div>
-                  </div> */}
+                  </div>
                </div>
             </div>
             <div className="panel-footer">
                <button type="submit" className='btn btn-primary'>Save & Proceed </button>
             </div>
          </div>
-      </form>
+      </form >
    )
 }
 

@@ -233,8 +233,6 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
       const id = req.body._id;
       const files = req.files;
 
-      console.log(req.body)
-
       const fieldnameToPathMap = {};
       files.forEach((file) => {
          fieldnameToPathMap[file.fieldname] = file.path;
@@ -270,21 +268,27 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
       const updatedData = {
          ...req.body,
          "individual": {
-            "profilePic": profilePic
+            ...req.body.individual,
+            "profilePic": profilePic,
          },
          "business": {
+            ...req.body.business,
             "logo": businessLogo,
             "paymentGateway": {
+               ...req.body.business.paymentGateway,
                "logo": paymentGatewayLogo,
             },
             "gallery": galleryImg,
             "media": {
+               ...req.body.business.media,
                "src": mediaImg,
             },
          }
       }
 
       const data = await schema.User.findByIdAndUpdate(id, updatedData, { new: true });
+
+      console.log(data)
 
       if (!data) {
          return res.status(404).send('User not found');
