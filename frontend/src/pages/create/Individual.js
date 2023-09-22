@@ -8,7 +8,6 @@ function Individual({ nextStep, setIndividualStep }) {
    const dispatch = useDispatch();
 
    const [formData, setFormData] = useState({});
-   const [selectedImage, setSelectedImage] = useState(null);
    const [errors, setErrors] = useState({});
 
    const handleChange = (e) => {
@@ -17,7 +16,6 @@ function Individual({ nextStep, setIndividualStep }) {
    };
 
    const handleFileChange = (e) => {
-      setSelectedImage(URL.createObjectURL(e.target.files[0]))
       setFormData({ ...formData, [e.target.name]: e.target.files[0] });
    };
 
@@ -61,7 +59,6 @@ function Individual({ nextStep, setIndividualStep }) {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
       if (validateForm()) {
          nextStep()
          setIndividualStep(true);
@@ -95,16 +92,10 @@ function Individual({ nextStep, setIndividualStep }) {
                                  </label>
                                  {errors.profilePic && <div className="control-error">{errors.profilePic}</div>}
                               </div>
-                              <div className="action" >
-                                 <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Upload Profile Picture</button>
-                              </div>
                            </div>
                            <ul className='list-values-sec'>
                               <li>
-
-                                 {formData.profilePic !== null ? <img src={formData.profilePic} alt="" className='profile-pic' /> : <img src="https://fakeimg.pl/150x150/" alt="" className='profile-pic' />}
-
-                                 {selectedImage && <img src={selectedImage} alt="" className='profile-pic' />}
+                                 <img src={formData.profilePic !== "" ? URL.createObjectURL(formData.profilePic) : "https://fakeimg.pl/150x150/"} alt="" className='profile-pic' />
                                  <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                               </li>
                            </ul>
@@ -157,12 +148,12 @@ function Individual({ nextStep, setIndividualStep }) {
                                     <option value="whatsapp">WhatsApp</option>
                                     <option value="telegram">Telegram</option>
                                  </select>
-                                 <span className='control-error'>Error Message</span>
+                                 <span className='control-error'></span>
                               </div>
                               <div className='form-group'>
                                  <label className='control-label' >Telegram ID / WhatsApp Number</label>
                                  <input type='text' name="value" className='form-control' />
-                                 <span className='control-error'>Error Message</span>
+                                 <span className='control-error'></span>
                               </div>
                               <div className="action">
                                  <button type='button' className='btn btn-primary'><i className='fal fa-plus'></i> Add Chat</button>

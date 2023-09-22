@@ -238,7 +238,6 @@ router.put('/idyUser/:id', upload.any(), async (req, res) => {
          fieldnameToPathMap[file.fieldname] = file.path;
       });
 
-
       let profilePic, businessLogo, paymentGatewayLogo, mediaImg, galleryImg;
 
       for (const key in fieldnameToPathMap) {
