@@ -8,7 +8,9 @@ require('dotenv/config')
 
 const app = express()
 app.use(bodyParser.json())
+
 app.use(bodyParser.urlencoded({ extended: false }))
+
 const corsOptions = {
    origin: '*',
    credentials: true,
@@ -22,6 +24,7 @@ app.use(cors(corsOptions))
 app.use('/', router)
 
 const dbOptions = { useNewUrlParser: true, useUnifiedTopology: true }
+
 mongoose.connect(process.env.DB_URI, dbOptions)
    .then(() => console.log(`SmartIDyDB Connected = ${process.env.DB_URI}`))
    .catch(err => console.log(err))

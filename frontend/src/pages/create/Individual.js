@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../features/idyUser/userSlice';
 
@@ -9,13 +9,14 @@ function Individual({ nextStep, setIndividualStep }) {
 
    const [formData, setFormData] = useState({});
    const [errors, setErrors] = useState({});
+   const [selectedProfilePic, setSelectedProfilePic] = useState("");
 
    const handleChange = (e) => {
       setFormData({ ...formData, [e.target.name]: e.target.value });
-
    };
 
    const handleFileChange = (e) => {
+      setSelectedProfilePic(URL.createObjectURL(e.target.files[0]))
       setFormData({ ...formData, [e.target.name]: e.target.files[0] });
    };
 
@@ -64,6 +65,7 @@ function Individual({ nextStep, setIndividualStep }) {
          setIndividualStep(true);
          const updateData = { ...user, "individual": { ...formData } }
          console.log(updateData)
+         console.log(selectedProfilePic)
          dispatch(updateUser(updateData));
       }
    };
@@ -71,11 +73,12 @@ function Individual({ nextStep, setIndividualStep }) {
    useEffect(() => {
       if (individual) {
          setFormData({ ...individual });
+         setSelectedProfilePic(individual.profilePic);
       }
    }, [individual]);
 
    return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
          <div className="panel step step-1">
             <div className="panel-header">Individual Information</div>
             <div className="panel-body">
@@ -95,7 +98,7 @@ function Individual({ nextStep, setIndividualStep }) {
                            </div>
                            <ul className='list-values-sec'>
                               <li>
-                                 <img src={formData.profilePic !== "" ? URL.createObjectURL(formData.profilePic) : "https://fakeimg.pl/150x150/"} alt="" className='profile-pic' />
+                                 <img src={selectedProfilePic !== '' ? selectedProfilePic : "https://fakeimg.pl/150x150/"} alt="" className='profile-pic' />
                                  <button type='button' title='Delete' className='btn btn-primary'><i className='fal fa-trash'></i></button>
                               </li>
                            </ul>
@@ -137,7 +140,7 @@ function Individual({ nextStep, setIndividualStep }) {
                         {errors.sms && <div className="control-error">{errors.sms}</div>}
                      </div>
                   </div>
-                  <div className="col-12">
+                  {/* <div className="col-12">
                      <div className='values-grouping'>
                         <div className='form-group'>
                            <div className='heading' >Chat</div>
@@ -171,11 +174,11 @@ function Individual({ nextStep, setIndividualStep }) {
                            </ul>
                         </div>
                      </div>
-                  </div>
+                  </div> */}
                </div>
             </div>
             <div className="panel-footer">
-               <button type="submit" className='btn btn-primary'>Save & Proceed </button>
+               <button type="submit" className='btn btn-primary'>Save & Proceed</button>
             </div>
          </div>
       </form >

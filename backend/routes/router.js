@@ -228,17 +228,19 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', upload.any(), async (req, res) => {
+router.put('/idyUser/:id', verifyUser, upload.any(), async (req, res) => {
    try {
       const id = req.body._id;
       const files = req.files;
 
+      let profilePic, businessLogo, paymentGatewayLogo, mediaImg, galleryImg;
+
       const fieldnameToPathMap = {};
+
       files.forEach((file) => {
          fieldnameToPathMap[file.fieldname] = file.path;
       });
 
-      let profilePic, businessLogo, paymentGatewayLogo, mediaImg, galleryImg;
 
       for (const key in fieldnameToPathMap) {
 

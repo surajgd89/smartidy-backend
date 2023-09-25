@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import DatePicker from "react-datepicker";
-import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 
 function Business({ nextStep, prevStep, setBusinessStep }) {
-   const user = useSelector(state => state.idyUser.data);
+   //  const user = useSelector(state => state.idyUser.data);
 
    //Business=============================================
-   const [errors, setErrors] = useState({});
+   //const [errors, setErrors] = useState({});
    const [establishedDate, setEstablishedDate] = useState(new Date());
    const [openAtTime, setOpenAtTime] = useState();
    const [closeAtTime, setCloseAtTime] = useState();

@@ -40,10 +40,15 @@ export const getUser = createAsyncThunk('getUser', async (id) => {
 });
 
 //UPDATE USER
-
 export const updateUser = createAsyncThunk('updateUser', async (req) => {
+   const token = sessionStorage.getItem('token');
+   const headers = {
+      "Auth-Token": token,
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+   }
    try {
-      const res = await axios.put(`${API_USER_URL}/${req._id}`, req, { headers: { 'content-type': 'multipart/form-data' } });
+      const res = await axios.put(`${API_USER_URL}/${req._id}`, { req }, { headers: headers });
       return res.data;
    } catch (err) {
       throw new Error('Failed to updateUser');
