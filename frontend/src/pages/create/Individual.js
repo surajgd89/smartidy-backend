@@ -56,6 +56,7 @@ function Individual({ nextStep, setIndividualStep }) {
 
       setErrors(errors);
       return isValid;
+      
    };
 
    const handleSubmit = (e) => {
@@ -181,7 +182,7 @@ function Individual({ nextStep, setIndividualStep }) {
                <button type="submit" className='btn btn-primary'>Save & Proceed</button>
             </div>
          </div>
-      </form >
+      </form>
    )
 }
 

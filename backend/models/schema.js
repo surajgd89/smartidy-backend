@@ -7,7 +7,6 @@ const userSchema = new Schema({
       default: Date.now
    },
    userId: { type: String, },
-   status: { type: String },
    password: { type: String },
    individual: {
       name: { type: String },

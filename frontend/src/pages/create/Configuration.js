@@ -40,7 +40,7 @@ function Configuration({ prevStep, setConfigurationStep }) {
    return (
       <form onSubmit={handleSubmit}>
          <div className="panel step step-3">
-            <div className="panel-header">SmartIDy Configuration</div>
+            <div className="panel-header">Configuration</div>
             <div className="panel-body">
                <div className="row">
                   <div className="col-12">
@@ -101,17 +101,6 @@ function Configuration({ prevStep, setConfigurationStep }) {
                         <TwitterPicker onChange={handleTitleColorChange} color={TitleColor} colors={['#411F85']} />
                      </div>
                   </div>
-                  {/* <div className="col-12">
-                        <div className='form-group'>
-                           <label className='control-label' >SmartIDy Status</label>
-                           <select name="language" className='form-control'>
-                              <option value="A">Active</option>
-                              <option value="H">Hold</option>
-                              <option value="I">Inactive</option>
-                              <option value="P">Inprocess</option>
-                           </select>
-                        </div>
-                     </div> */}
                </div>
             </div>
             <div className="panel-footer">

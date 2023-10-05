@@ -228,7 +228,7 @@ router.get('/idyUser/:id', verifyUser, async (req, res) => {
 });
 
 //UPDATE USER
-router.put('/idyUser/:id', verifyUser, upload.any(), async (req, res) => {
+router.put('/idyUser/:id', upload.any(), async (req, res) => {
    try {
       const id = req.body._id;
       const files = req.files;
@@ -240,7 +240,6 @@ router.put('/idyUser/:id', verifyUser, upload.any(), async (req, res) => {
       files.forEach((file) => {
          fieldnameToPathMap[file.fieldname] = file.path;
       });
-
 
       for (const key in fieldnameToPathMap) {
 
@@ -287,12 +286,16 @@ router.put('/idyUser/:id', verifyUser, upload.any(), async (req, res) => {
          }
       }
 
-      const data = await schema.User.findByIdAndUpdate(id, updatedData, { new: true });
-
-      console.log(data)
+      let data;
 
       if (!data) {
          return res.status(404).send('User not found');
+      }
+
+      if (files.length) {
+         data = await schema.User.findByIdAndUpdate(id, updatedData, { new: true });
+      } else {
+         data = await schema.User.findByIdAndUpdate(id, req.body, { new: true });
       }
 
       res.send(data)
@@ -300,6 +303,7 @@ router.put('/idyUser/:id', verifyUser, upload.any(), async (req, res) => {
    } catch (err) {
       res.status(500).send(err);
    }
+
 });
 
 //DELETE USER

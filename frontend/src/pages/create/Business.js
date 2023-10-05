@@ -69,7 +69,7 @@ function Business({ nextStep, prevStep, setBusinessStep }) {
             <div className="panel-header">Business Information</div>
             <div className="panel-body">
                <div className="row">
-
+                  
                   <div className="col-12">
                      <div className='values-grouping'>
                         <div className='form-group'>
